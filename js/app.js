@@ -207,13 +207,30 @@ class SvoyaIgraApp {
             if (!groupMap.has(question.rotationGroup)) groupMap.set(question.rotationGroup, []);
             groupMap.get(question.rotationGroup).push(question);
           }
-          const groups = [...groupMap.values()];
-          if (groups.length >= count) {
-            selectedQuestions = groups.map((group) => {
+          const groupKeys = [...groupMap.keys()];
+          if (groupKeys.length >= count) {
+            let chosenGroupKeys;
+            if (groupMap.has('kitten') && groupKeys.length > count) {
+              const optionalKeys = groupKeys.filter((key) => key !== 'kitten');
+              for (let i = optionalKeys.length - 1; i > 0; i -= 1) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [optionalKeys[i], optionalKeys[j]] = [optionalKeys[j], optionalKeys[i]];
+              }
+              chosenGroupKeys = ['kitten', ...optionalKeys.slice(0, count - 1)];
+            } else {
+              chosenGroupKeys = groupKeys.slice();
+              for (let i = chosenGroupKeys.length - 1; i > 0; i -= 1) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [chosenGroupKeys[i], chosenGroupKeys[j]] = [chosenGroupKeys[j], chosenGroupKeys[i]];
+              }
+              chosenGroupKeys = chosenGroupKeys.slice(0, count);
+            }
+            selectedQuestions = chosenGroupKeys.map((key) => {
+              const group = groupMap.get(key);
               const freshInGroup = group.filter((question) => !previousIds.includes(getId(question)));
               const choices = freshInGroup.length ? freshInGroup : group;
               return choices[Math.floor(Math.random() * choices.length)];
-            }).slice(0, count);
+            });
             hadEnoughFreshQuestions = selectedQuestions.every((question) => !previousIds.includes(getId(question)));
           }
         }
