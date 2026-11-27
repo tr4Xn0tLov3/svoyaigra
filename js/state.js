@@ -1,6 +1,19 @@
 // Авторитетный игровой движок «Своей игры» (работает на стороне Ведущего)
 
-export const AVATARS = ['👩🏻‍🦰', '👨🏽‍🦱', '👩🏾‍🦱', '👨🏻‍🦲', '👩🏼‍🦳', '👨🏿‍🦰', '🧑🏻‍🦱', '👩🏽‍🎤', '👨🏻‍🎤', '👩🏿‍🎓', '👨🏽‍🎓', '🧑🏼‍💻', '👩🏻‍🦲', '👨🏾‍🦳', '👩🏽‍🦰', '👨🏼‍🦱', '🧑🏿‍🦲', '👩🏼‍🎤', '👩🏻‍⚕️', '👨🏽‍🍳', '👩🏿‍🚀', '👨🏻‍🚒', '👩🏼‍🌾', '👨🏾‍🔧', '👮🏻‍♀️', '👮🏿‍♂️', '🕵🏼‍♀️', '🕵🏽‍♂️', '👷🏻‍♀️', '👷🏾‍♂️', '👩🏼‍💼', '👨🏿‍💼', '🥷🏻', '🤠', '🧑‍🎨', '👩🏻‍🏫', '👨🏽‍🏫', '👳🏾‍♂️', '👳🏻‍♀️', '👲🏽', '🤓', '🥸'];
+export const AVATARS = [
+  './packs/media/avatars/animal-cat.jpg',
+  './packs/media/avatars/animal-fox.jpg',
+  './packs/media/avatars/animal-hyena.jpg',
+  './packs/media/avatars/animal-gorilla.jpg',
+  './packs/media/avatars/animal-eagle.jpg',
+  './packs/media/avatars/animal-monkey.jpg',
+  './packs/media/avatars/animal-goat.jpg',
+  './packs/media/avatars/animal-pig.jpg',
+  './packs/media/avatars/animal-elephant.jpg',
+  './packs/media/avatars/animal-rabbit.jpg',
+  './packs/media/avatars/animal-penguin.jpg',
+  './packs/media/avatars/animal-shark.jpg'
+];
 export const COLORS = ['#f5c451', '#ef4444', '#22c55e', '#ea580c', '#ec4899', '#a855f7', '#eab308', '#84cc16'];
 
 // Базовый шаг цены вопроса по уровням (Уровень 1 = от 100, Уровень 2 = от 500, Уровень 3 = от 1000)
@@ -613,7 +626,6 @@ export class GameEngine {
         victim.stats.wasZeroed = (victim.stats.wasZeroed || 0) + 1;
         if (actor) actor.stats.zeroedOthers = (actor.stats.zeroedOthers || 0) + 1;
         this.state.lastZeroedPlayerId = victim.id;
-        this._sound('zeroedOut');
         this._banner(`🕶️ Ничего личного! ${actorName} обнулил счёт ${victim.name} (было ${oldScore} → 0)!`, 'red');
       } else if (kind === 'score_steal') {
         const minSteal = Math.max(100, Math.round((this.state.activeCell?.nominalCost || 200) * 0.4 / 50) * 50);
@@ -626,7 +638,6 @@ export class GameEngine {
           actor.score += actualTaken;
         }
         this.state.lastZeroedPlayerId = victim.id;
-        this._sound('steal');
         this._banner(`🧛 Грабёж! ${actorName} утащил ${actualTaken} очков у игрока ${victim.name}!`, 'red');
       } else if (kind === 'mute_player') {
         this.state.activeCurse = {
@@ -636,7 +647,6 @@ export class GameEngine {
           actorId,
           actorName
         };
-        this._sound('sabotage');
         this._banner(`🤐 Кляп! ${actorName} отключил кнопку игроку ${victim.name} на этот вопрос!`, 'purple');
       } else if (kind === 'upside_down') {
         this.state.activeCurse = {
@@ -646,7 +656,6 @@ export class GameEngine {
           actorId,
           actorName
         };
-        this._sound('sabotage');
         this._banner(`🙃 Вверх дном! У игрока ${victim.name} перевернулся экран на 180°!`, 'gold');
       } else if (kind === 'mud_screen') {
         this.state.activeCurse = {
@@ -657,7 +666,6 @@ export class GameEngine {
           actorName,
           wipesRequired: 8
         };
-        this._sound('sabotage');
         this._banner(`🧽 Грязь в экран! Игроку ${victim.name} придётся оттирать экран 8 раз!`, 'emerald');
       } else if (kind === 'runaway_buzzer') {
         this.state.activeCurse = {
@@ -668,7 +676,6 @@ export class GameEngine {
           actorName,
           dodgesCount: 3
         };
-        this._sound('sabotage');
         this._banner(`🤡 Убегающая кнопка! У игрока ${victim.name} кнопка ответа пустилась в бега!`, 'purple');
       } else if (kind === 'cursed_mark') {
         this.state.activeCurse = {
@@ -678,13 +685,15 @@ export class GameEngine {
           actorId,
           actorName
         };
-        this._sound('sabotage');
         const whoText = victim.id === actorId ? `рискнул сам` : `повесил Чёрную метку на ${victim.name}`;
         this._banner(`💣 ${actorName} ${whoText}: +2× за верный ответ, −2× за ошибку!`, 'red');
       }
 
       this.state.modifierState = null;
       this._proceedToCellQuestion(true);
+      // Play the user's reaction clip after the target and next question are synced.
+      this._sound('effectApplied');
+      this._emit();
       return;
     }
 

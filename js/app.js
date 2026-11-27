@@ -13,6 +13,33 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+const AVATAR_META = {
+  './packs/media/avatars/animal-cat.jpg': { name: 'Кошка', glyph: '🐱' },
+  './packs/media/avatars/animal-fox.jpg': { name: 'Лиса', glyph: '🦊' },
+  './packs/media/avatars/animal-hyena.jpg': { name: 'Гиена', glyph: '🐾' },
+  './packs/media/avatars/animal-gorilla.jpg': { name: 'Горилла', glyph: '🦍' },
+  './packs/media/avatars/animal-eagle.jpg': { name: 'Орёл', glyph: '🦅' },
+  './packs/media/avatars/animal-monkey.jpg': { name: 'Обезьяна', glyph: '🐒' },
+  './packs/media/avatars/animal-goat.jpg': { name: 'Коза', glyph: '🐐' },
+  './packs/media/avatars/animal-pig.jpg': { name: 'Свинка', glyph: '🐷' },
+  './packs/media/avatars/animal-elephant.jpg': { name: 'Слон', glyph: '🐘' },
+  './packs/media/avatars/animal-rabbit.jpg': { name: 'Кролик', glyph: '🐰' },
+  './packs/media/avatars/animal-penguin.jpg': { name: 'Пингвин', glyph: '🐧' },
+  './packs/media/avatars/animal-shark.jpg': { name: 'Акула', glyph: '🦈' }
+};
+
+function avatarGlyph(avatar) {
+  return AVATAR_META[avatar]?.glyph || String(avatar || '');
+}
+
+function avatarMarkup(avatar, className = '') {
+  const meta = AVATAR_META[avatar];
+  if (meta) {
+    return `<img src="${escapeHtml(avatar)}" alt="${meta.name}" title="${meta.name}" class="animal-avatar ${className}">`;
+  }
+  return `<span class="avatar-emoji ${className}">${escapeHtml(avatar || '')}</span>`;
+}
+
 function formatScore(num) {
   const n = Number(num) || 0;
   return n.toLocaleString('ru-RU');
@@ -81,6 +108,13 @@ class SvoyaIgraApp {
     // Зум картинки по клику
     this.zoomedImageUrl = null;
 
+    // VFX попадания по категории: одноразовый взрыв на клиенте после синхронизации выстрела.
+    this.categoryShotTracker = null;
+    this.categoryExplosions = new Map();
+    this.categoryExplosionTimers = new Map();
+    this.categoryExplosionAsset = new Image();
+    this.categoryExplosionAsset.src = './packs/media/vfx/category-explosion.png';
+
     // Локальное состояние пакостей у жертвы (оттирание грязи и увороты убегающей кнопки)
     this.curseQuestionKey = null;
     this.localWipesDone = 0;
@@ -101,8 +135,12 @@ class SvoyaIgraApp {
       onUsePack: (packObj) => this._applyCustomPackObject(packObj)
     });
 
-    // Keep a same-device recovery copy so a host refresh can resume the room.
+    // Keep a same-device recovery copy so a host refresh or mobile tab suspension can resume the room.
     window.addEventListener('pagehide', () => this._saveHostBackup());
+    window.addEventListener('offline', () => this._saveHostBackup());
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') this._saveHostBackup();
+    });
     this._init();
   }
 
@@ -117,19 +155,24 @@ class SvoyaIgraApp {
 
     // Refreshing the host tab restores its last engine snapshot and reconnects
     // with the same room code instead of silently starting a new game.
-    if (!roomParam && sessionStorage.getItem('si_host_room_active') === '1') {
+    if (sessionStorage.getItem('si_host_room_active') === '1') {
       try {
         const backup = JSON.parse(localStorage.getItem('si_host_room_backup') || 'null');
-        if (backup?.roomCode && backup?.hostToken && backup?.pack && backup?.state && Date.now() - backup.savedAt < 12 * 60 * 60 * 1000) {
+        const backupIsFresh = backup?.roomCode && backup?.hostToken && backup?.pack && backup?.state
+          && Date.now() - backup.savedAt < 12 * 60 * 60 * 1000;
+        const roomMatches = !roomParam || roomParam === backup?.roomCode;
+        if (backupIsFresh && roomMatches) {
           await this._createHostRoom(backup);
           this._startSmoothTimerLoop();
           this._bindGlobalKeys();
           return;
         }
+        // Do not hijack a different room invite; keep the backup for manual recovery.
+        if (!backupIsFresh || !roomMatches) sessionStorage.removeItem('si_host_room_active');
       } catch (err) {
         console.warn('Не удалось восстановить комнату ведущего:', err);
+        sessionStorage.removeItem('si_host_room_active');
       }
-      sessionStorage.removeItem('si_host_room_active');
     }
 
     const savedSession = sessionStorage.getItem('si_active_player_session');
@@ -184,6 +227,25 @@ class SvoyaIgraApp {
   _preparePackForGame(rawPack) {
     const pack = JSON.parse(JSON.stringify(rawPack));
     const packId = pack.id || 'custom-pack';
+    const musicHistoryKey = `bb_music_rotation:${packId}:all-rounds`;
+    const usedMusicThisGame = new Set();
+    const getMusicId = (question) => String(question.rotationId || question.musicId || question.audio || question.text || '');
+    const musicThemes = (pack.rounds || []).flatMap((round) => (round.themes || []).filter((theme) => {
+      const pool = theme.questionPool;
+      return Array.isArray(pool) && pool.length > (theme.questions?.length || 5) && pool.every((question) => Boolean(question.audio));
+    }));
+    const musicCycleIds = new Set(musicThemes.flatMap((theme) => theme.questionPool.map(getMusicId)));
+    const musicTargetCount = musicThemes.reduce((sum, theme) => sum + (theme.questions?.length || 5), 0);
+    let previousMusicIds = [];
+    try {
+      const savedMusic = JSON.parse(localStorage.getItem(musicHistoryKey) || '{}');
+      previousMusicIds = Array.isArray(savedMusic.ids) ? savedMusic.ids : [];
+    } catch (_) {}
+    // Start a fresh music cycle only after there are too few unused tracks to
+    // fill every music board in this game. This prevents repeats until the pool cycles.
+    if ([...musicCycleIds].filter((id) => !previousMusicIds.includes(id)).length < musicTargetCount) {
+      previousMusicIds = [];
+    }
     pack.rounds?.forEach((round, roundIndex) => {
       round.themes?.forEach((theme, themeIndex) => {
         const pool = theme.questionPool;
@@ -192,11 +254,16 @@ class SvoyaIgraApp {
         const storageKey = `bb_question_rotation:${packId}:${roundIndex}:${themeIndex}`;
         const legacyMusicStorageKey = `bb_music_rotation:${packId}:${roundIndex}:${themeIndex}`;
         const getId = (question) => String(question.rotationId || question.musicId || question.audio || question.text || '');
+        const isMusicPool = pool.length > count && pool.every((question) => Boolean(question.audio));
         let previousIds = [];
-        try {
-          const saved = JSON.parse(localStorage.getItem(storageKey) || localStorage.getItem(legacyMusicStorageKey) || '{}');
-          previousIds = Array.isArray(saved.ids) ? saved.ids : [];
-        } catch (_) {}
+        if (isMusicPool) {
+          previousIds = previousMusicIds;
+        } else {
+          try {
+            const saved = JSON.parse(localStorage.getItem(storageKey) || localStorage.getItem(legacyMusicStorageKey) || '{}');
+            previousIds = Array.isArray(saved.ids) ? saved.ids : [];
+          } catch (_) {}
+        }
 
         const groupedPool = pool.every((question) => typeof question.rotationGroup === 'string' && question.rotationGroup);
         let selectedQuestions = [];
@@ -235,9 +302,20 @@ class SvoyaIgraApp {
           }
         }
         if (selectedQuestions.length !== count) {
-          let candidates = pool.filter((question) => !previousIds.includes(getId(question)));
-          hadEnoughFreshQuestions = candidates.length >= count;
-          if (!hadEnoughFreshQuestions) candidates = pool.slice();
+          let candidates;
+          if (isMusicPool) {
+            const excludedIds = new Set([...previousIds, ...usedMusicThisGame]);
+            candidates = pool.filter((question) => !excludedIds.has(getId(question)));
+            hadEnoughFreshQuestions = candidates.length >= count;
+            if (!hadEnoughFreshQuestions) {
+              candidates = pool.filter((question) => !usedMusicThisGame.has(getId(question)));
+            }
+            if (candidates.length < count) candidates = pool.slice();
+          } else {
+            candidates = pool.filter((question) => !previousIds.includes(getId(question)));
+            hadEnoughFreshQuestions = candidates.length >= count;
+            if (!hadEnoughFreshQuestions) candidates = pool.slice();
+          }
           for (let i = candidates.length - 1; i > 0; i -= 1) {
             const j = Math.floor(Math.random() * (i + 1));
             [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
@@ -248,7 +326,7 @@ class SvoyaIgraApp {
           const j = Math.floor(Math.random() * (i + 1));
           [selectedQuestions[i], selectedQuestions[j]] = [selectedQuestions[j], selectedQuestions[i]];
         }
-        if (!hadEnoughFreshQuestions && pool.length > count && previousIds.length) {
+        if (!isMusicPool && !hadEnoughFreshQuestions && pool.length > count && previousIds.length) {
           const previousSet = [...previousIds].sort().join('|');
           const selectedSet = selectedQuestions.map(getId).sort().join('|');
           if (selectedSet === previousSet) {
@@ -271,6 +349,12 @@ class SvoyaIgraApp {
         }));
         try {
           localStorage.setItem(storageKey, JSON.stringify({ ids: theme.questions.map(getId), updatedAt: Date.now() }));
+          if (isMusicPool) {
+            for (const question of selectedQuestions) usedMusicThisGame.add(getId(question));
+            // The same music pool is shared across rounds: remember this whole game's
+            // selections so later rounds cannot draw the same tracks again.
+            localStorage.setItem(musicHistoryKey, JSON.stringify({ ids: [...new Set([...previousMusicIds, ...usedMusicThisGame])], updatedAt: Date.now() }));
+          }
         } catch (_) {}
         delete theme.questionPool;
       });
@@ -774,6 +858,7 @@ class SvoyaIgraApp {
       nothingPersonal: () => sound.playNothingPersonal(),
       zeroedOut: () => sound.playZeroedOut(),
       sabotage: () => sound.playSabotage(),
+      effectApplied: () => sound.playEffectApplied(),
       steal: () => sound.playSteal(),
       strikeTheme: () => sound.playStrikeTheme(),
       hint: () => sound.playHint(),
@@ -1000,7 +1085,7 @@ class SvoyaIgraApp {
                 <span class="field-label">Выберите аватарку</span>
                 <div class="avatar-picker">
                   ${AVATARS.map((av) => `
-                    <button type="button" class="avatar-btn ${this.profile.avatar === av ? 'selected' : ''}" data-pick-avatar="${av}">${av}</button>
+                    <button type="button" class="avatar-btn ${this.profile.avatar === av ? 'selected' : ''}" data-pick-avatar="${escapeHtml(av)}" aria-label="${AVATAR_META[av]?.name || 'Аватар'}" title="${AVATAR_META[av]?.name || 'Аватар'}">${avatarMarkup(av, 'avatar-picker-image')}</button>
                   `).join('')}
                 </div>
               </div>
@@ -1432,6 +1517,7 @@ class SvoyaIgraApp {
   _renderCategorySelectionStage(v) {
     const selection = v.categorySelection;
     if (!selection) return '';
+    this._syncCategoryExplosion(selection);
     const isHost = this.role === 'host';
     const count = selection.selectedThemeIndexes.length;
     const required = selection.requiredCount;
@@ -1440,14 +1526,14 @@ class SvoyaIgraApp {
     const isMyShot = this.role === 'player' && !this.isSpectator && currentTurnId === this.playerId;
     const isHostShot = isHost && currentTurnId === '__host__';
     const canUndo = isHost && count > 0;
-    const canConfirm = isHost && count === required;
+    const canConfirm = isHost && count === required && this.categoryExplosions.size === 0;
     const turnCandidates = (selection.turnPlayerIds || []).map((id) => id === '__host__'
       ? { id, avatar: '🎙️', name: 'Ведущий' }
       : v.players.find((p) => p.id === id)).filter(Boolean);
     const turnCaption = currentTurnId === '__host__'
       ? `Ход ведущего${isHostShot ? ' — стреляй!' : ''}`
       : currentTurn
-        ? `Ход игрока: ${escapeHtml(currentTurn.avatar)} ${escapeHtml(currentTurn.name)}${isMyShot ? ' — стреляй!' : ''}`
+        ? `Ход игрока: ${avatarMarkup(currentTurn.avatar, 'turn-avatar')} ${escapeHtml(currentTurn.name)}${isMyShot ? ' — стреляй!' : ''}`
         : 'Ведущий выбирает первого стрелка';
 
     return `
@@ -1461,7 +1547,7 @@ class SvoyaIgraApp {
               <div class="category-starter-picker">
                 <label for="sel-category-starter">Первый стрелок:</label>
                 <select id="sel-category-starter" ${count > 0 ? 'disabled' : ''}>
-                  ${turnCandidates.map((p) => `<option value="${escapeHtml(p.id)}" ${selection.starterPlayerId === p.id ? 'selected' : ''}>${escapeHtml(p.avatar)} ${escapeHtml(p.name)}</option>`).join('')}
+                  ${turnCandidates.map((p) => `<option value="${escapeHtml(p.id)}" ${selection.starterPlayerId === p.id ? 'selected' : ''}>${escapeHtml(avatarGlyph(p.avatar))} ${escapeHtml(p.name)}</option>`).join('')}
                 </select>
                 <button type="button" class="btn btn-secondary" id="btn-set-category-starter" ${count > 0 || !turnCandidates.length ? 'disabled' : ''}>Назначить</button>
               </div>
@@ -1483,20 +1569,29 @@ class SvoyaIgraApp {
               const left = 50 + Math.cos(angle) * 37;
               const top = 50 + Math.sin(angle) * 37;
               const hit = theme.selected;
-              const lastShot = selection.lastShotThemeIndex === theme.themeIndex;
-              const canShoot = (isMyShot || isHostShot) && !hit && count < required;
+              const activeExplosion = this.categoryExplosions.get(theme.themeIndex);
+              const exploding = hit && activeExplosion && activeExplosion.roundIndex === selection.roundIndex;
+              const targetPosition = `--target-left:${left.toFixed(2)}%;--target-top:${top.toFixed(2)}%`;
+              if (hit && !exploding) return '';
+              const canShoot = !hit && (isMyShot || isHostShot) && count < required;
               return `
-                <button type="button" class="category-target ${hit ? 'target-hit' : ''} ${lastShot ? 'target-last-shot' : ''}"
-                  style="--target-left:${left.toFixed(2)}%;--target-top:${top.toFixed(2)}%"
+                <button type="button" class="category-target ${hit ? 'target-hit target-exploding' : ''}"
+                  style="${targetPosition}"
                   data-shoot-theme="${theme.themeIndex}" ${canShoot ? '' : 'disabled'}
                   aria-label="${hit ? 'Попадание: ' : 'Выбрать категорию: '}${escapeHtml(theme.name)}">
-                  <span class="target-art" aria-hidden="true">
-                    <span class="target-rings">◎</span>
-                    ${hit ? '<span class="target-bullet-hole">●</span>' : '<span class="target-crosshair">＋</span>'}
-                    ${lastShot ? '<span class="target-impact">✦</span>' : ''}
+                  <span class="category-target-content">
+                    <span class="target-art" aria-hidden="true">
+                      <span class="target-rings">◎</span>
+                      ${hit ? '<span class="target-bullet-hole">●</span>' : '<span class="target-crosshair">＋</span>'}
+                    </span>
+                    <span class="target-label">${escapeHtml(theme.name)}</span>
+                    <span class="target-state">${hit ? 'ПОПАДАНИЕ' : 'МИШЕНЬ'}</span>
                   </span>
-                  <span class="target-label">${escapeHtml(theme.name)}</span>
-                  <span class="target-state">${hit ? 'ПОПАДАНИЕ' : 'МИШЕНЬ'}</span>
+                  ${exploding ? `
+                    <span class="category-vfx-overlay" aria-hidden="true">
+                      <img src="./packs/media/vfx/category-explosion.png" alt="" class="category-explosion-vfx">
+                    </span>
+                  ` : ''}
                 </button>
               `;
             }).join('')}
@@ -1516,6 +1611,56 @@ class SvoyaIgraApp {
     `;
   }
 
+  _syncCategoryExplosion(selection) {
+    const roundIndex = Number(selection.roundIndex) || 0;
+    const shotSeq = Number(selection.shotSeq) || 0;
+    const selected = selection.selectedThemeIndexes || [];
+    const selectedCount = selected.length;
+    const previous = this.categoryShotTracker;
+
+    const clearExplosions = () => {
+      for (const timer of this.categoryExplosionTimers.values()) clearTimeout(timer);
+      this.categoryExplosionTimers.clear();
+      this.categoryExplosions.clear();
+    };
+
+    if (!previous || previous.roundIndex !== roundIndex || shotSeq < previous.shotSeq) {
+      clearExplosions();
+      this.categoryShotTracker = { roundIndex, shotSeq, selectedCount };
+      return;
+    }
+
+    const newHit = shotSeq > previous.shotSeq
+      && selectedCount > previous.selectedCount
+      && selection.lastShotThemeIndex !== null
+      && selection.lastShotThemeIndex !== undefined;
+
+    if (newHit) {
+      const themeIndex = selection.lastShotThemeIndex;
+      clearTimeout(this.categoryExplosionTimers.get(themeIndex));
+      const explosion = { roundIndex, shotSeq, themeIndex };
+      this.categoryExplosions.set(themeIndex, explosion);
+      const timer = setTimeout(() => {
+        if (this.categoryExplosions.get(themeIndex) !== explosion) return;
+        this.categoryExplosions.delete(themeIndex);
+        this.categoryExplosionTimers.delete(themeIndex);
+        this.render();
+      }, 980);
+      this.categoryExplosionTimers.set(themeIndex, timer);
+    } else if (selectedCount < previous.selectedCount) {
+      // Если ведущий отменил последний выстрел, остановить только взрыв снятой мишени.
+      for (const [themeIndex, explosion] of this.categoryExplosions) {
+        if (explosion.roundIndex === roundIndex && !selected.includes(themeIndex)) {
+          clearTimeout(this.categoryExplosionTimers.get(themeIndex));
+          this.categoryExplosionTimers.delete(themeIndex);
+          this.categoryExplosions.delete(themeIndex);
+        }
+      }
+    }
+
+    this.categoryShotTracker = { roundIndex, shotSeq, selectedCount };
+  }
+
   _renderBoardStage(v) {
     const b = v.board;
     if (!b) return '';
@@ -1532,7 +1677,7 @@ class SvoyaIgraApp {
           ${chooser
             ? (isMyChooseTurn
                 ? `<span class="turn-highlight mine">👑 ВАШ ВЫБОР! Нажмите на любую ячейку с очками</span>`
-                : `<span>Выбирает вопрос: <strong class="gold-text">👑 ${escapeHtml(chooser.avatar)} ${escapeHtml(chooser.name)}</strong></span>`)
+                : `<span>Выбирает вопрос: <strong class="gold-text">👑 ${avatarMarkup(chooser.avatar, 'inline-player-avatar')} ${escapeHtml(chooser.name)}</strong></span>`)
             : `<span>Ведущий выбирает вопрос на табло</span>`
           }
           ${isHost ? `<button class="btn btn-tiny-outline" id="btn-skip-round">Следующий этап →</button>` : ''}
@@ -1618,7 +1763,7 @@ class SvoyaIgraApp {
         <h2>${escapeHtml(meta.title)}</h2>
         <p class="special-sub">
           ${actor
-            ? `Игрок <strong class="gold-text">${escapeHtml(actor.avatar)} ${escapeHtml(actor.name)}</strong> вытянул пакость перед вопросом <b>«${escapeHtml(v.questionView?.themeName || '')}» (${formatScore(v.questionView?.nominalCost || 0)})</b>!<br>${escapeHtml(meta.desc)}`
+            ? `Игрок <strong class="gold-text">${avatarMarkup(actor.avatar, 'inline-player-avatar')} ${escapeHtml(actor.name)}</strong> вытянул пакость перед вопросом <b>«${escapeHtml(v.questionView?.themeName || '')}» (${formatScore(v.questionView?.nominalCost || 0)})</b>!<br>${escapeHtml(meta.desc)}`
             : escapeHtml(meta.desc)}
         </p>
 
@@ -1626,7 +1771,7 @@ class SvoyaIgraApp {
           <div class="target-players-grid">
             ${targetList.map((p) => `
               <button type="button" class="target-player-btn np-victim-btn" data-np-target="${escapeHtml(p.id)}">
-                <span class="tp-avatar">${escapeHtml(p.avatar)}</span>
+                <span class="tp-avatar">${avatarMarkup(p.avatar, 'target-avatar-image')}</span>
                 <span class="tp-name">${escapeHtml(p.name)}${p.id === ms.actorId ? ' (Вы!)' : ''}</span>
                 <span class="np-score-preview">${renderTargetPreview(p)}</span>
                 <span class="np-kill-cta">${escapeHtml(meta.cta)}</span>
@@ -1686,7 +1831,7 @@ class SvoyaIgraApp {
           <div class="target-players-grid">
             ${eligibleTargets.length > 0 ? eligibleTargets.map((p) => `
               <button class="target-player-btn" data-cat-target="${escapeHtml(p.id)}">
-                <span class="tp-avatar">${escapeHtml(p.avatar)}</span>
+                <span class="tp-avatar">${avatarMarkup(p.avatar, 'target-avatar-image')}</span>
                 <span class="tp-name">${escapeHtml(p.name)}</span>
                 <span class="tp-score">${formatScore(p.score)}</span>
               </button>
@@ -1733,7 +1878,7 @@ class SvoyaIgraApp {
           </div>
           <div class="auc-stat">
             <span>Лидер торгов</span>
-            <strong>${highBidder ? `${escapeHtml(highBidder.avatar)} ${escapeHtml(highBidder.name)}` : '—'}</strong>
+            <strong>${highBidder ? `${avatarMarkup(highBidder.avatar, 'inline-player-avatar')} ${escapeHtml(highBidder.name)}` : '—'}</strong>
           </div>
         </div>
 
@@ -1749,7 +1894,7 @@ class SvoyaIgraApp {
         ` : (isMyTurn || isHost) && turnPlayer ? `
           <div class="auction-controls-box">
             <div class="turn-banner">
-              Ход в торгах: <strong>${escapeHtml(turnPlayer.avatar)} ${escapeHtml(turnPlayer.name)}</strong> (в банке: ${formatScore(turnPlayer.score)})
+              Ход в торгах: <strong>${avatarMarkup(turnPlayer.avatar, 'inline-player-avatar')} ${escapeHtml(turnPlayer.name)}</strong> (в банке: ${formatScore(turnPlayer.score)})
             </div>
             <div class="bid-input-row">
               ${!auc.isAllIn && minBid < maxBid ? `
@@ -1840,8 +1985,9 @@ class SvoyaIgraApp {
             <div class="question-body ${isUpsideDownMe ? 'cursed-upside-down' : ''}"
               ${mudWipesLeft > 0 ? `style="filter: blur(${(mudWipesLeft * 2.4).toFixed(1)}px); user-select: none;"` : ''}>
               ${qv.image ? `
-                <div class="q-media-box">
+                <div class="q-media-box q-image-box">
                   <img src="${escapeHtml(qv.image)}" alt="Кадр к вопросу" class="q-image zoomable" id="btn-zoom-q-img" title="Нажмите, чтобы развернуть картинку на весь экран">
+                  ${qv.videoCredit ? `<a class="audio-credit" href="${escapeHtml(qv.videoSourceUrl || '#')}" target="_blank" rel="noopener">Источник кадра: ${escapeHtml(qv.videoCredit)} ↗</a>` : ''}
                 </div>
               ` : ''}
 
@@ -1852,7 +1998,7 @@ class SvoyaIgraApp {
                   </div>
                   <div class="audio-card-info">
                     <div class="audio-card-head-row">
-                      <strong>${qv.audioType === 'sfx' ? '🔊 Звуковая загадка — угадайте чемпиона!' : (/только мелодия/i.test(qv.themeName) || qv.audio.includes('melody-') ? '🎹 Только мелодия (без слов) — угадайте хит!' : '🎵 Музыкальный вопрос — угадайте трек!')}</strong>
+                      <strong>${qv.audioType === 'voice' ? '🎙️ Голосовая загадка — кто говорит?' : (qv.audioType === 'sfx' ? '🔊 Звуковая загадка — угадайте чемпиона!' : (/только мелодия/i.test(qv.themeName) || qv.audio.includes('melody-') ? '🎹 Только мелодия (без слов) — угадайте хит!' : '🎵 Музыкальный вопрос — угадайте трек!'))}</strong>
                       <span class="audio-time-label" id="q-audio-time-label">${this._formatAudioTime(this._audioElapsedForUi())} / ${this._formatAudioTime(this._audioDurationForUi())}</span>
                     </div>
                     <div class="audio-progress-track">
@@ -1863,7 +2009,7 @@ class SvoyaIgraApp {
                   </div>
                   <div class="audio-card-btns">
                     <button type="button" class="btn btn-gold" id="btn-toggle-q-audio">
-                      ${this.qAudioPlaying ? '⏸️ Пауза' : '▶️ Включить трек'}
+                      ${this.qAudioPlaying ? '⏸️ Пауза' : (qv.audioType === 'voice' ? '▶️ Прослушать реплику' : '▶️ Включить трек')}
                     </button>
                     <button type="button" class="btn btn-secondary" id="btn-replay-q-audio" title="Включить отрывок сначала">
                       🔁 Сначала
@@ -1876,12 +2022,12 @@ class SvoyaIgraApp {
                 </div>
               ` : ''}
 
-              ${qv.videoEmbedUrl ? `
+              ${qv.videoEmbedUrl && !qv.image ? `
                 <div class="q-media-box q-video-embed-box">
                   <iframe class="q-video-embed" src="${escapeHtml(qv.videoEmbedUrl)}" title="Видеофрагмент вопроса" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                   ${qv.videoCredit ? `<a class="audio-credit" href="${escapeHtml(qv.videoSourceUrl || qv.videoEmbedUrl)}" target="_blank" rel="noopener">${escapeHtml(qv.videoCredit)} ↗</a>` : ''}
                 </div>
-              ` : qv.video ? `
+              ` : qv.video && !qv.image ? `
                 <div class="q-media-box">
                   <video controls autoplay playsinline preload="metadata" src="${escapeHtml(qv.video)}" class="q-video"></video>
                   ${qv.videoCredit ? `<a class="audio-credit" href="${escapeHtml(qv.videoSourceUrl || '#')}" target="_blank" rel="noopener">Видео: ${escapeHtml(qv.videoCredit)} ↗</a>` : ''}
@@ -2051,7 +2197,7 @@ class SvoyaIgraApp {
       return `
         <div class="responder-spotlight">
           <div class="resp-main">
-            <span class="resp-avatar">${escapeHtml(responder.avatar)}</span>
+            <span class="resp-avatar">${avatarMarkup(responder.avatar, 'responder-avatar-image')}</span>
             <div>
               <div class="resp-title">Отвечает: <strong>${escapeHtml(responder.name)}</strong>
                 ${respHasShield ? `<span class="reaction-chip">🛡️ Страховка 0−</span>` : ''}
@@ -2238,7 +2384,7 @@ class SvoyaIgraApp {
         <p class="special-sub">
           ${isMyEliminate
             ? `<strong class="gold-text">👉 ВАША ОЧЕРЕДЬ! Нажмите на тему, которую хотите вычеркнуть</strong>`
-            : `Сейчас тему убирает: <strong>${escapeHtml(eliminator ? `${eliminator.avatar} ${eliminator.name}` : 'Ведущий')}</strong>`}
+            : `Сейчас тему убирает: <strong>${eliminator ? `${avatarMarkup(eliminator.avatar, 'inline-player-avatar')} ${escapeHtml(eliminator.name)}` : 'Ведущий'}</strong>`}
         </p>
 
         <div class="final-themes-grid">
@@ -2275,7 +2421,7 @@ class SvoyaIgraApp {
             const done = fv.betStatusByPlayer?.[id];
             return `
               <div class="fin-status-chip ${done ? 'done' : ''}">
-                <span>${escapeHtml(p?.avatar || '')} ${escapeHtml(p?.name || '')}</span>
+                <span>${avatarMarkup(p?.avatar || '', 'inline-player-avatar')} ${escapeHtml(p?.name || '')}</span>
                 <strong>${done ? '🔒 Ставка принята' : '⏳ Ставит…'}</strong>
               </div>
             `;
@@ -2347,7 +2493,7 @@ class SvoyaIgraApp {
             const done = fv.answerStatusByPlayer?.[id];
             return `
               <div class="fin-status-chip ${done ? 'done' : ''}">
-                <span>${escapeHtml(p?.avatar || '')} ${escapeHtml(p?.name || '')}</span>
+                <span>${avatarMarkup(p?.avatar || '', 'inline-player-avatar')} ${escapeHtml(p?.name || '')}</span>
                 <strong>${done ? '✍️ Сдал ответ' : '✍️ Думает (60 сек)…'}</strong>
               </div>
             `;
@@ -2415,7 +2561,7 @@ class SvoyaIgraApp {
             return `
               <div class="reveal-player-card ${isCurrent ? 'spotlight' : ''} ${rd.judged ? (rd.correct ? 'judged-ok' : 'judged-bad') : ''}">
                 <div class="rpc-head">
-                  <span>${escapeHtml(p?.avatar || '')} <strong>${escapeHtml(p?.name || '')}</strong></span>
+                  <span>${avatarMarkup(p?.avatar || '', 'inline-player-avatar')} <strong>${escapeHtml(p?.name || '')}</strong></span>
                   <span class="rpc-score">${formatScore(p?.score || 0)}</span>
                 </div>
                 <div class="rpc-answer">
@@ -2490,7 +2636,7 @@ class SvoyaIgraApp {
         ${winner ? `
           <div class="champion-hero">
             <div class="champ-crown">👑</div>
-            <div class="champ-avatar">${escapeHtml(winner.avatar)}</div>
+            <div class="champ-avatar">${avatarMarkup(winner.avatar, 'champion-avatar-image')}</div>
             <h2>Победитель: ${escapeHtml(winner.name)}!</h2>
             <div class="champ-score">${formatScore(winner.score)} очков</div>
           </div>
@@ -2502,7 +2648,7 @@ class SvoyaIgraApp {
             return `
               <div class="leader-row ${idx === 0 ? 'first' : ''}">
                 <span class="leader-rank">${medal}</span>
-                <span class="leader-name">${escapeHtml(p.avatar)} ${escapeHtml(p.name)}</span>
+                <span class="leader-name">${avatarMarkup(p.avatar, 'leader-avatar-image')} ${escapeHtml(p.name)}</span>
                 <span class="leader-stats">✅ ${p.stats?.correct || 0} · ❌ ${p.stats?.wrong || 0} · 💡 ${p.stats?.hintsUsed || 0}</span>
                 <strong class="leader-points">${formatScore(p.score)}</strong>
               </div>
@@ -2511,7 +2657,7 @@ class SvoyaIgraApp {
         </div>
 
         ${awardWinners.length ? `<div class="awards-row">
-          ${awardWinners.map((award) => `<div class="award-chip"><span>${award.icon} ${award.title}:</span> <strong>${award.winners.map((p) => `${escapeHtml(p.avatar || '')} ${escapeHtml(p.name)}`).join(' / ')}</strong> <small>(${award.formatted})</small></div>`).join('')}
+          ${awardWinners.map((award) => `<div class="award-chip"><span>${award.icon} ${award.title}:</span> <strong>${award.winners.map((p) => `${avatarMarkup(p.avatar || '', 'award-avatar-image')} ${escapeHtml(p.name)}`).join(' / ')}</strong> <small>(${award.formatted})</small></div>`).join('')}
         </div>` : ''}
 
         ${this.role === 'host' ? `
@@ -2552,7 +2698,7 @@ class SvoyaIgraApp {
             <div class="player-podium ${isAnswering ? 'answering' : ''} ${isChooser ? 'choosing' : ''} ${wasJustZeroed || activeCurseOnPlayer ? 'zeroed-flash' : ''} ${isMe ? 'me' : ''} ${!p.online ? 'offline' : ''}"
               style="--p-color: ${escapeHtml(p.color || '#f5c451')}">
               <div class="podium-left-avatar">
-                <span class="podium-avatar">${escapeHtml(p.avatar)}</span>
+                <span class="podium-avatar">${avatarMarkup(p.avatar, 'podium-avatar-image')}</span>
                 <span class="online-dot ${p.online ? 'on' : 'off'}" title="${p.online ? 'Онлайн' : 'Оффлайн'}"></span>
               </div>
               <div class="podium-mid-info">
@@ -2591,7 +2737,7 @@ class SvoyaIgraApp {
             <div class="host-players-table">
               ${v.players.map((p) => `
                 <div class="hp-row">
-                  <span class="hp-title">${escapeHtml(p.avatar)} <strong>${escapeHtml(p.name)}</strong></span>
+                  <span class="hp-title">${avatarMarkup(p.avatar, 'inline-player-avatar')} <strong>${escapeHtml(p.name)}</strong></span>
                   <div class="hp-controls">
                     <button class="btn-tiny" data-adj-score="${escapeHtml(p.id)}:-100">−100</button>
                     <input type="number" step="100" class="hp-score-inp" data-exact-score="${escapeHtml(p.id)}" value="${p.score}">

@@ -5,6 +5,9 @@ class StudioAudio {
     this.ctx = null;
     this.muted = localStorage.getItem('si_muted') === '1';
     this.volume = 0.45;
+    this.effectAppliedAudio = null;
+    this.categoryShotAudioPool = [];
+    if (typeof Audio !== 'undefined') this.categoryShotAudioPool.push(this._createCategoryShotAudio());
   }
 
   init() {
@@ -62,10 +65,45 @@ class StudioAudio {
     this._tone(783.99, 0.14, 0.26, 'sine', 0.35);     // G5
   }
 
-  playTargetShot() {
-    // Короткий стилизованный звук попадания по мишени на колесе категорий
+  _createCategoryShotAudio() {
+    const url = new URL('../packs/media/audio/effects/category-hit.wav', import.meta.url).href;
+    const audio = new Audio(url);
+    audio.preload = 'auto';
+    audio.load();
+    return audio;
+  }
+
+  _playTargetShotToneFallback() {
     this._tone(185, 0, 0.055, 'square', 0.22, 70);
     this._tone(90, 0.035, 0.09, 'sawtooth', 0.14, 42);
+  }
+
+  playTargetShot() {
+    // Небольшая кинематографичная задержка: вспышка сначала видна, затем приходит резкий звук.
+    if (this.muted) return;
+    setTimeout(() => {
+      if (this.muted) return;
+      // Короткий impact из локального SFX-пула, чтобы быстрые выстрелы не обрывали друг друга.
+      if (typeof Audio === 'undefined') {
+        this._playTargetShotToneFallback();
+        return;
+      }
+
+      let audio = this.categoryShotAudioPool.find((clip) => clip.paused || clip.ended);
+      if (!audio) {
+        audio = this._createCategoryShotAudio();
+        this.categoryShotAudioPool.push(audio);
+      }
+
+      try {
+        audio.currentTime = 0;
+        audio.volume = Math.min(1, this.volume * 1.35);
+        const playback = audio.play();
+        if (playback?.catch) playback.catch(() => this._playTargetShotToneFallback());
+      } catch (_) {
+        this._playTargetShotToneFallback();
+      }
+    }, 110);
   }
 
   playBuzzReady() {
@@ -135,6 +173,21 @@ class StudioAudio {
     this._tone(369.99, 0.11, 0.13, 'square', 0.22);
     this._tone(415.3, 0.22, 0.15, 'square', 0.24);
     this._tone(622.25, 0.35, 0.35, 'triangle', 0.32, 466.16);
+  }
+
+  playEffectApplied() {
+    if (this.muted || typeof Audio === 'undefined') return;
+    if (!this.effectAppliedAudio) {
+      const url = new URL('../packs/media/audio/effects/faaah.mp3', import.meta.url).href;
+      this.effectAppliedAudio = new Audio(url);
+      this.effectAppliedAudio.preload = 'auto';
+    }
+    try {
+      this.effectAppliedAudio.pause();
+      this.effectAppliedAudio.currentTime = 0;
+      this.effectAppliedAudio.volume = this.volume;
+      this.effectAppliedAudio.play().catch(() => {});
+    } catch (_) {}
   }
 
   playClownDodge() {

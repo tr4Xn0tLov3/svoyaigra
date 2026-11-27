@@ -45,6 +45,10 @@ export class HostNetwork {
     this.heartbeatTimer = null;
     this.lastBroadcast = null;
     this.onlinePlayers = new Set();
+    this._onNetworkOffline = () => this.onStatusChange({ mode: 'reconnecting', text: 'Нет интернета — жду восстановления связи…' });
+    this._onNetworkOnline = () => this._reconnectNow();
+    window.addEventListener('offline', this._onNetworkOffline);
+    window.addEventListener('online', this._onNetworkOnline);
   }
 
   start() {
@@ -52,6 +56,18 @@ export class HostNetwork {
     this.heartbeatTimer = setInterval(() => {
       if (this.socket?.readyState === WebSocket.OPEN) this._send({ type: 'HEARTBEAT' });
     }, 20_000);
+  }
+
+  _reconnectNow() {
+    if (this.destroyed) return;
+    clearTimeout(this.reconnectTimer);
+    this.reconnectTimer = null;
+    this.reconnectDelay = 1000;
+    if (this.socket && (this.socket.readyState === WebSocket.OPEN || this.socket.readyState === WebSocket.CONNECTING)) {
+      try { this.socket.close(4000, 'Network restored; reconnect now'); } catch { /* retry below if needed */ }
+    } else {
+      this._connect();
+    }
   }
 
   _connect() {
@@ -153,6 +169,8 @@ export class HostNetwork {
 
   destroy() {
     this.destroyed = true;
+    window.removeEventListener('offline', this._onNetworkOffline);
+    window.removeEventListener('online', this._onNetworkOnline);
     clearInterval(this.heartbeatTimer);
     clearTimeout(this.reconnectTimer);
     if (this.socket) {
@@ -177,6 +195,13 @@ export class PlayerNetwork {
     this.pingTimer = null;
     this.helloPayload = null;
     this.isSpectator = false;
+    this._onNetworkOffline = () => {
+      this.connected = false;
+      this.onStatusChange({ connected: false, text: 'Нет интернета — жду восстановления связи…' });
+    };
+    this._onNetworkOnline = () => this._reconnectNow();
+    window.addEventListener('offline', this._onNetworkOffline);
+    window.addEventListener('online', this._onNetworkOnline);
   }
 
   start() {
@@ -184,6 +209,18 @@ export class PlayerNetwork {
     this.pingTimer = setInterval(() => {
       this._sendRaw({ type: 'PING', ts: Date.now() });
     }, 5000);
+  }
+
+  _reconnectNow() {
+    if (this.destroyed) return;
+    clearTimeout(this.reconnectTimer);
+    this.reconnectTimer = null;
+    this.reconnectDelay = 1000;
+    if (this.socket && (this.socket.readyState === WebSocket.OPEN || this.socket.readyState === WebSocket.CONNECTING)) {
+      try { this.socket.close(4000, 'Network restored; reconnect now'); } catch { /* retry below if needed */ }
+    } else {
+      this._connect();
+    }
   }
 
   _connect() {
@@ -275,6 +312,8 @@ export class PlayerNetwork {
 
   destroy() {
     this.destroyed = true;
+    window.removeEventListener('offline', this._onNetworkOffline);
+    window.removeEventListener('online', this._onNetworkOnline);
     clearInterval(this.pingTimer);
     clearTimeout(this.reconnectTimer);
     if (this.socket) {

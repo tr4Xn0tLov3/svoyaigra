@@ -58,95 +58,6 @@
               "comment": "Фотограф Антонио Гильем снял эту сцену в испанской Жироне в 2015 году.",
               "rotationId": "r0-t0-base-4"
             }
-          ],
-          "questionPool": [
-            {
-              "cost": 100,
-              "text": "Какую легендарную английскую фразу из трёх слов невозмутимо произносит этот пёсик в шляпе, сидя посреди горящей комнаты с чашкой кофе?",
-              "image": "./packs/media/images/meme-this-is-fine.png",
-              "hint": "Дословно по-английски: «Это в порядке» — три коротких слова про полное принятие хаоса.",
-              "answer": "This is fine («Всё в порядке» / «Это нормально»)",
-              "comment": "Кадр из веб-комикса художника Кей-Си Грина (2013) — главный символ спокойствия во время горящих дедлайнов.",
-              "rotationId": "r0-t0-base-0"
-            },
-            {
-              "cost": 200,
-              "modifier": "mud_screen",
-              "text": "Перед вами классический двойной мем. Какое блюдо лежит на тарелке перед озадаченным белым котом по кличке Смадж (Smudge)?",
-              "image": "./packs/media/images/meme-woman-cat.jpg",
-              "hint": "Полезное зелёное блюдо из листьев и овощей, которое коты обычно терпеть не могут.",
-              "answer": "Овощной салат (зелёный салат)",
-              "comment": "В реальной жизни кот Смадж из Канады прославился тем, что люто ненавидел овощи на обеденном столе.",
-              "rotationId": "r0-t0-base-1"
-            },
-            {
-              "cost": 300,
-              "text": "Как в рунете прозвали этого серого безмятежного персонажа со сложенными на животе руками (скульптуру нидерландской художницы Маргрит ван Бреворт)?",
-              "image": "./packs/media/images/meme-zhdun.webp",
-              "hint": "Короткое прозвище из 4 букв от глагола «ждать» — символ бесконечной очереди в поликлинике.",
-              "answer": "Ждун",
-              "comment": "Оригинальная скульптура Homunculus loxodontus установлена в Лейденском медицинском центре.",
-              "rotationId": "r0-t0-base-2"
-            },
-            {
-              "cost": 400,
-              "modifier": "upside_down",
-              "text": "Как называется этот вирусный персонаж в сером свитере, подвёрнутых джинсах и красных кедах, которому абсолютно всё нипочём?",
-              "image": "./packs/media/images/meme-chill-guy.gif",
-              "hint": "Он никуда не спешит и просто ловит расслабленный вайб («чилл»).",
-              "answer": "Чиловый парень (Chill Guy / «Просто чилловый парень»)",
-              "comment": "Персонажа нарисовал художник Филип Бэнкс с подписью «Его главная фишка в том, что он просто чилловый парень».",
-              "rotationId": "r0-t0-base-3"
-            },
-            {
-              "cost": 500,
-              "text": "Как в интернете называется этот легендарный стоковый мем с оглянувшимся парнем в клетчатой рубашке и возмущённой девушкой справа?",
-              "image": "./packs/media/images/meme-distracted-boyfriend.jpg",
-              "hint": "Два слова: молодой человек, который засмотрелся на другую мимо своей второй половинки.",
-              "answer": "«Неверный парень» (Distracted Boyfriend)",
-              "comment": "Фотограф Антонио Гильем снял эту сцену в испанской Жироне в 2015 году.",
-              "rotationId": "r0-t0-base-4"
-            },
-            {
-              "rotationId": "r0-t0-alt-1",
-              "text": "Как называется мемный пёс сиба-ину, чьи подписи обычно начинаются с «such wow»?",
-              "answer": "Doge",
-              "hint": "Подсказка: японская порода собаки и намеренно неправильный английский.",
-              "comment": "Мем появился из фотографии собаки Кабосу.",
-              "cost": 100
-            },
-            {
-              "rotationId": "r0-t0-alt-2",
-              "text": "Как зовут мальчика с поднятым вверх кулачком на популярном фото победного ликования?",
-              "answer": "Success Kid («Успешный малыш»)",
-              "hint": "Подсказка: английское слово success.",
-              "comment": "Фотография Сэма Гринера стала универсальным шаблоном маленькой победы.",
-              "cost": 200
-            },
-            {
-              "rotationId": "r0-t0-alt-3",
-              "text": "Как называется зелёная лягушка, ставшая одним из самых узнаваемых интернет-персонажей?",
-              "answer": "Пепе (Pepe the Frog)",
-              "hint": "Подсказка: имя короткое, четыре буквы.",
-              "comment": "Персонаж создан художником Мэттом Фьюри.",
-              "cost": 300
-            },
-            {
-              "rotationId": "r0-t0-alt-4",
-              "text": "Как зовут мемного кота, который летит по космосу с радугой за хвостом?",
-              "answer": "Nyan Cat",
-              "hint": "Подсказка: звукоподражание «нян» плюс английское слово cat.",
-              "comment": "Вирусная анимация появилась в 2011 году.",
-              "cost": 400
-            },
-            {
-              "rotationId": "r0-t0-alt-5",
-              "text": "Как называется мем-лицо с широкой зубастой улыбкой, часто используемое для троллинга?",
-              "answer": "Trollface",
-              "hint": "Подсказка: английское слово для провокации плюс face.",
-              "comment": "Рисунок стал классическим образом интернет-троллинга.",
-              "cost": 500
-            }
           ]
         },
         {
@@ -218,7 +129,7 @@
               "rotationId": "r0-user-hit-max-korzh-zakat",
               "musicId": "r0-user-hit-max-korzh-zakat",
               "cost": 200,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
+              "text": "Что за композиция звучит? Назовите исполнителя и название.",
               "answer": "Макс Корж — «Закат»",
               "audio": "./packs/media/audio/tracks/hit-max-korzh-zakat.m4a",
               "audioStartSeconds": 0,
@@ -228,7 +139,7 @@
               "rotationId": "r0-user-hu-been-to-hell",
               "musicId": "r0-user-hu-been-to-hell",
               "cost": 300,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
+              "text": "Определите трек по этому отрывку: кто его исполняет?",
               "answer": "Hollywood Undead — «Been to Hell»",
               "audio": "./packs/media/audio/tracks/hu-been-to-hell.m4a",
               "audioStartSeconds": 0,
@@ -238,7 +149,7 @@
               "rotationId": "r0-user-hu-bullet",
               "musicId": "r0-user-hu-bullet",
               "cost": 400,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
+              "text": "Как называется песня, которую вы сейчас слышите?",
               "answer": "Hollywood Undead — «Bullet»",
               "audio": "./packs/media/audio/tracks/hu-bullet.m4a",
               "audioStartSeconds": 0,
@@ -248,7 +159,7 @@
               "rotationId": "r0-user-hu-everywhere-i-go",
               "musicId": "r0-user-hu-everywhere-i-go",
               "cost": 500,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
+              "text": "Назовите артиста и композицию по звучащему фрагменту.",
               "answer": "Hollywood Undead — «Everywhere I Go»",
               "audio": "./packs/media/audio/tracks/hu-everywhere-i-go.m4a",
               "audioStartSeconds": 0,
@@ -258,7 +169,7 @@
               "rotationId": "r0-user-hu-hear-me-now",
               "musicId": "r0-user-hu-hear-me-now",
               "cost": 100,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
+              "text": "Узнайте мелодию и вспомните, какой песне она принадлежит.",
               "answer": "Hollywood Undead — «Hear Me Now»",
               "audio": "./packs/media/audio/tracks/hu-hear-me-now.m4a",
               "audioStartSeconds": 0,
@@ -268,7 +179,7 @@
               "rotationId": "r0-user-hu-undead",
               "musicId": "r0-user-hu-undead",
               "cost": 200,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
+              "text": "Какой музыкальный трек скрывается за этим аудио?",
               "answer": "Hollywood Undead — «Undead»",
               "audio": "./packs/media/audio/tracks/hu-undead.m4a",
               "audioStartSeconds": 0,
@@ -278,7 +189,7 @@
               "rotationId": "r0-user-hu-we-are",
               "musicId": "r0-user-hu-we-are",
               "cost": 300,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
+              "text": "Прослушайте фрагмент и назовите песню.",
               "answer": "Hollywood Undead — «We Are»",
               "audio": "./packs/media/audio/tracks/hu-we-are.m4a",
               "audioStartSeconds": 0,
@@ -288,7 +199,7 @@
               "rotationId": "r0-user-melody-bad-guy",
               "musicId": "r0-user-melody-bad-guy",
               "cost": 400,
-              "text": "Угадайте песню по инструментальной мелодии.",
+              "text": "Кто исполняет эту композицию и как она называется?",
               "answer": "Billie Eilish — «Bad Guy» (мелодия)",
               "audio": "./packs/media/audio/tracks/melody-bad-guy.m4a",
               "audioStartSeconds": 0,
@@ -298,79 +209,9 @@
               "rotationId": "r0-user-melody-feel-good",
               "musicId": "r0-user-melody-feel-good",
               "cost": 500,
-              "text": "Угадайте песню по инструментальной мелодии.",
+              "text": "Вспомните название песни по нескольким секундам звучания.",
               "answer": "Gorillaz — «Feel Good Inc.» (мелодия)",
               "audio": "./packs/media/audio/tracks/melody-feel-good.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r0-user-melody-kukla-kolduna",
-              "musicId": "r0-user-melody-kukla-kolduna",
-              "cost": 100,
-              "text": "Угадайте песню по инструментальной мелодии.",
-              "answer": "«Кукла колдуна» — «Король и Шут» (мелодия)",
-              "audio": "./packs/media/audio/tracks/melody-kukla-kolduna.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r0-user-melody-lose-yourself",
-              "musicId": "r0-user-melody-lose-yourself",
-              "cost": 200,
-              "text": "Угадайте песню по инструментальной мелодии.",
-              "answer": "Eminem — «Lose Yourself» (мелодия)",
-              "audio": "./packs/media/audio/tracks/melody-lose-yourself.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r0-user-melody-numb",
-              "musicId": "r0-user-melody-numb",
-              "cost": 300,
-              "text": "Угадайте песню по инструментальной мелодии.",
-              "answer": "Linkin Park — «Numb» (мелодия)",
-              "audio": "./packs/media/audio/tracks/melody-numb.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r0-user-melody-teen-spirit",
-              "musicId": "r0-user-melody-teen-spirit",
-              "cost": 400,
-              "text": "Угадайте песню по инструментальной мелодии.",
-              "answer": "Nirvana — «Smells Like Teen Spirit» (мелодия)",
-              "audio": "./packs/media/audio/tracks/melody-teen-spirit.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r0-user-rap-miyagi-i-got-love",
-              "musicId": "r0-user-rap-miyagi-i-got-love",
-              "cost": 500,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "Miyagi & Эндшпиль feat. Рем Дигга — «I Got Love»",
-              "audio": "./packs/media/audio/tracks/rap-miyagi-i-got-love.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r0-user-rock-korol-i-shut-kukla",
-              "musicId": "r0-user-rock-korol-i-shut-kukla",
-              "cost": 100,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "«Кукла колдуна» — «Король и Шут» (рок-версия)",
-              "audio": "./packs/media/audio/tracks/rock-korol-i-shut-kukla.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r0-user-rock-tri-dnya-dozhdya-otpuskai",
-              "musicId": "r0-user-rock-tri-dnya-dozhdya-otpuskai",
-              "cost": 200,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "«Отпускай» — «Три дня дождя»",
-              "audio": "./packs/media/audio/tracks/rock-tri-dnya-dozhdya-otpuskai.m4a",
               "audioStartSeconds": 0,
               "audioClipSeconds": 12
             }
@@ -485,8 +326,8 @@
             },
             {
               "rotationId": "r0-t2-alt-2",
-              "text": "Какой чемпион использует катану и может создавать стену, блокирующую вражеские снаряды?",
-              "answer": "Ясуо",
+              "text": "Как зовут древнего даркина, запечатанного внутри огромного двуручного клинка?",
+              "answer": "Атрокс (Aatrox)",
               "hint": "Подсказка: мечник с ветром в способностях.",
               "comment": "Его «Стена ветра» — одна из самых известных защитных способностей.",
               "cost": 200
@@ -501,16 +342,16 @@
             },
             {
               "rotationId": "r0-t2-alt-4",
-              "text": "Какой предмет в League of Legends сочетает три компонента и в английском называется Trinity Force?",
-              "answer": "Тройственный Союз (Трифорс)",
+              "text": "Как называется главное сооружение базы, уничтожение которого приносит команде победу?",
+              "answer": "Нексус (Nexus)",
               "hint": "Подсказка: сила трёх.",
               "comment": "Это классический предмет для бойцов.",
               "cost": 400
             },
             {
               "rotationId": "r0-t2-alt-5",
-              "text": "Как называется родной город Джинкс и Экко, расположенный под Пилтовером?",
-              "answer": "Заун",
+              "text": "Кем приходятся друг другу Джинкс и Вай в истории Wild Rift?",
+              "answer": "Сёстры",
               "hint": "Подсказка: город показан в сериале «Аркейн».",
               "comment": "Заун и Пилтовер разделены не только высотой, но и социальным неравенством.",
               "cost": 500
@@ -518,11 +359,35 @@
             {
               "rotationId": "r0-t2-quote-jinx-alt",
               "cost": 300,
-              "text": "Узнайте чемпионку по реплике: «Правила созданы, чтобы их нарушать… как здания! Или людей!»",
-              "answer": "Джинкс",
+              "text": "Какой чемпион носит Z-Drive и умеет перематывать ход времени?",
+              "answer": "Экко (Ekko)",
               "answerImage": "./packs/media/images/wr-jinx-generated.jpg",
               "hint": "Она живёт в Зауне и любит превращать всё вокруг в хаос.",
               "comment": "Реплика Джинкс подчёркивает её любовь к разрушениям."
+            },
+            {
+              "rotationId": "r0-wr-extra-12",
+              "cost": 1200,
+              "text": "Какого чемпиона называют «Лучницей льда» и узнают по ледяному луку?",
+              "answer": "Эш (Ashe)"
+            },
+            {
+              "rotationId": "r0-wr-extra-13",
+              "cost": 1300,
+              "text": "Как зовут Стража Света, который сражается парными реликтовыми пистолетами?",
+              "answer": "Люциан (Lucian)"
+            },
+            {
+              "rotationId": "r0-wr-extra-14",
+              "cost": 1400,
+              "text": "Какой чемпион известен как «Изгнанница» и носит сломанный рунический меч?",
+              "answer": "Ривен (Riven)"
+            },
+            {
+              "rotationId": "r0-wr-extra-15",
+              "cost": 1500,
+              "text": "Как называются два героя-близнеца, сражающиеся вместе и управляющие снежным комом?",
+              "answer": "Нуну и Виллумп (Nunu & Willump)"
             }
           ]
         },
@@ -768,43 +633,48 @@
             },
             {
               "rotationId": "r0-t4-alt-1",
-              "text": "В каком мультфильме зелёный огр живёт на болоте и отправляется спасать принцессу Фиону?",
-              "answer": "«Шрек»",
+              "text": "Как зовут осла, который становится спутником Шрека?",
+              "answer": "Осёл (Donkey)",
               "hint": "Подсказка: осёл — его громкий спутник.",
               "comment": "Фильм DreamWorks вышел в 2001 году.",
-              "cost": 100
+              "cost": 100,
+              "image": "./packs/media/images/frame-shrek-swamp.jpg"
             },
             {
               "rotationId": "r0-t4-alt-2",
-              "text": "В каком фильме мальчик Кевин остаётся один дома на Рождество и защищает дом от грабителей?",
-              "answer": "«Один дома»",
+              "text": "Как зовут мальчика, оставшегося дома одного на Рождество?",
+              "answer": "Кевин Маккаллистер (Kevin McCallister)",
               "hint": "Подсказка: фамилия семьи — Маккаллистер.",
               "comment": "Комедия Криса Коламбуса вышла в 1990 году.",
-              "cost": 200
+              "cost": 200,
+              "image": "./packs/media/images/frame-home-alone.png"
             },
             {
               "rotationId": "r0-t4-alt-3",
-              "text": "В каком мультфильме львёнок Симба возвращается, чтобы занять место короля саванны?",
-              "answer": "«Король Лев»",
+              "text": "Как зовут отца Симбы?",
+              "answer": "Муфаса (Mufasa)",
               "hint": "Подсказка: его отец — Муфаса.",
               "comment": "Анимационный фильм Disney вышел в 1994 году.",
-              "cost": 300
+              "cost": 300,
+              "image": "./packs/media/images/frame-lion-king.jpg"
             },
             {
               "rotationId": "r0-t4-alt-4",
-              "text": "В каком сериале живёт жёлтая морская губка в ананасе на дне океана?",
-              "answer": "«Губка Боб Квадратные Штаны»",
+              "text": "Как называется подводный город, где живёт Губка Боб?",
+              "answer": "Бикини-Боттом (Bikini Bottom)",
               "hint": "Подсказка: его сосед — осьминог Сквидвард.",
               "comment": "Сериал Nickelodeon стартовал в 1999 году.",
-              "cost": 400
+              "cost": 400,
+              "image": "./packs/media/images/frame-spongebob.jpg"
             },
             {
               "rotationId": "r0-t4-alt-5",
-              "text": "Как называется корабль, на котором Джек и Роуз отправляются через Атлантику в фильме Джеймса Кэмерона?",
-              "answer": "«Титаник»",
+              "text": "Как зовут героя Леонардо Ди Каприо в «Титанике»?",
+              "answer": "Джек Доусон (Jack Dawson)",
               "hint": "Подсказка: это название реального лайнера.",
               "comment": "Фильм вышел в 1997 году.",
-              "cost": 500
+              "cost": 500,
+              "image": "./packs/media/images/frame-titanic.jpg"
             }
           ]
         },
@@ -948,6 +818,208 @@
               "cost": 500
             }
           ]
+        },
+        {
+          "name": "Кто говорит? Wild Rift",
+          "questions": [
+            {
+              "rotationId": "wr-voice-1",
+              "cost": 100,
+              "text": "Какая чемпионка спрашивает: “Don’t you trust me?”",
+              "answer": "Ahri",
+              "audio": "./packs/media/audio/wild-rift/ahri-dont-you-trust-me.mp3",
+              "audioType": "voice",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 0,
+              "audioCredit": "MyInstants · Ahri voice clip",
+              "audioCreditUrl": "https://www.myinstants.com/en/instant/dont-you-trust-me-ahri-70472/",
+              "audioLicense": "Права на публичное использование подтверждены пользователем"
+            },
+            {
+              "rotationId": "wr-voice-2",
+              "cost": 200,
+              "text": "Узнайте чемпиона по его короткому театральному смеху.",
+              "answer": "Jhin",
+              "audio": "./packs/media/audio/wild-rift/jhin-laugh.mp3",
+              "audioType": "voice",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 0,
+              "audioCredit": "MyInstants · Jhin voice clip",
+              "audioCreditUrl": "https://myinstants.com/instant/jhins-laugh-13709",
+              "audioLicense": "Права на публичное использование подтверждены пользователем"
+            },
+            {
+              "rotationId": "wr-voice-3",
+              "cost": 300,
+              "text": "Кто произносит: “I will swallow your soul”?",
+              "answer": "Veigar",
+              "audio": "./packs/media/audio/wild-rift/veigar-swallow-soul.mp3",
+              "audioType": "voice",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 0,
+              "audioCredit": "MyInstants · Veigar voice clip",
+              "audioCreditUrl": "https://www.myinstants.com/en/instant/veigar-i-will-swallow-your-soul-66539/",
+              "audioLicense": "Права на публичное использование подтверждены пользователем"
+            },
+            {
+              "rotationId": "wr-voice-4",
+              "cost": 400,
+              "text": "Какой чемпион смеётся в этом аудиофрагменте?",
+              "answer": "Lux",
+              "audio": "./packs/media/audio/wild-rift/lux-laugh.mp3",
+              "audioType": "voice",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 0,
+              "audioCredit": "MyInstants · Lux voice clip",
+              "audioCreditUrl": "https://myinstants.com/instant/lux-laugh",
+              "audioLicense": "Права на публичное использование подтверждены пользователем"
+            },
+            {
+              "rotationId": "wr-voice-5",
+              "cost": 500,
+              "text": "Узнайте йордла по голосу и смеху.",
+              "answer": "Lulu",
+              "audio": "./packs/media/audio/wild-rift/lulu-laugh.mp3",
+              "audioType": "voice",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 0,
+              "audioCredit": "MyInstants · Lulu voice clip",
+              "audioCreditUrl": "https://myinstants.com/instant/league-of-legends-lulu-laugh-4",
+              "audioLicense": "Права на публичное использование подтверждены пользователем"
+            }
+          ],
+          "questionPool": [
+            {
+              "rotationId": "wr-voice-1",
+              "cost": 100,
+              "text": "Какая чемпионка спрашивает: “Don’t you trust me?”",
+              "answer": "Ahri",
+              "audio": "./packs/media/audio/wild-rift/ahri-dont-you-trust-me.mp3",
+              "audioType": "voice",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 0,
+              "audioCredit": "MyInstants · Ahri voice clip",
+              "audioCreditUrl": "https://www.myinstants.com/en/instant/dont-you-trust-me-ahri-70472/",
+              "audioLicense": "Права на публичное использование подтверждены пользователем"
+            },
+            {
+              "rotationId": "wr-voice-2",
+              "cost": 200,
+              "text": "Узнайте чемпиона по его короткому театральному смеху.",
+              "answer": "Jhin",
+              "audio": "./packs/media/audio/wild-rift/jhin-laugh.mp3",
+              "audioType": "voice",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 0,
+              "audioCredit": "MyInstants · Jhin voice clip",
+              "audioCreditUrl": "https://myinstants.com/instant/jhins-laugh-13709",
+              "audioLicense": "Права на публичное использование подтверждены пользователем"
+            },
+            {
+              "rotationId": "wr-voice-3",
+              "cost": 300,
+              "text": "Кто произносит: “I will swallow your soul”?",
+              "answer": "Veigar",
+              "audio": "./packs/media/audio/wild-rift/veigar-swallow-soul.mp3",
+              "audioType": "voice",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 0,
+              "audioCredit": "MyInstants · Veigar voice clip",
+              "audioCreditUrl": "https://www.myinstants.com/en/instant/veigar-i-will-swallow-your-soul-66539/",
+              "audioLicense": "Права на публичное использование подтверждены пользователем"
+            },
+            {
+              "rotationId": "wr-voice-4",
+              "cost": 400,
+              "text": "Какой чемпион смеётся в этом аудиофрагменте?",
+              "answer": "Lux",
+              "audio": "./packs/media/audio/wild-rift/lux-laugh.mp3",
+              "audioType": "voice",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 0,
+              "audioCredit": "MyInstants · Lux voice clip",
+              "audioCreditUrl": "https://myinstants.com/instant/lux-laugh",
+              "audioLicense": "Права на публичное использование подтверждены пользователем"
+            },
+            {
+              "rotationId": "wr-voice-5",
+              "cost": 500,
+              "text": "Узнайте йордла по голосу и смеху.",
+              "answer": "Lulu",
+              "audio": "./packs/media/audio/wild-rift/lulu-laugh.mp3",
+              "audioType": "voice",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 0,
+              "audioCredit": "MyInstants · Lulu voice clip",
+              "audioCreditUrl": "https://myinstants.com/instant/league-of-legends-lulu-laugh-4",
+              "audioLicense": "Права на публичное использование подтверждены пользователем"
+            },
+            {
+              "rotationId": "wr-voice-6",
+              "cost": 600,
+              "text": "Кто говорит: “Sometimes you’re the catch, sometimes you’re the bait”?",
+              "answer": "Nami",
+              "audio": "./packs/media/audio/wild-rift/nami-catch-or-bait.mp3",
+              "audioType": "voice",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 0,
+              "audioCredit": "MyInstants · Nami voice clip",
+              "audioCreditUrl": "https://myinstants.com/instant/nami-league-of-legends-39442",
+              "audioLicense": "Права на публичное использование подтверждены пользователем"
+            },
+            {
+              "rotationId": "wr-voice-7",
+              "cost": 700,
+              "text": "Кто объявляет: “Welcome to the League of Draven!”?",
+              "answer": "Draven",
+              "audio": "./packs/media/audio/wild-rift/draven-welcome.mp3",
+              "audioType": "voice",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 0,
+              "audioCredit": "MyInstants · Draven voice clip",
+              "audioCreditUrl": "https://myinstants.com/instant/when-im-draven",
+              "audioLicense": "Права на публичное использование подтверждены пользователем"
+            },
+            {
+              "rotationId": "wr-voice-8",
+              "cost": 800,
+              "text": "Какой чемпион отвечает: “Why? Because I can”?",
+              "answer": "Katarina",
+              "audio": "./packs/media/audio/wild-rift/katarina-why.mp3",
+              "audioType": "voice",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 0,
+              "audioCredit": "MyInstants · Katarina voice clip",
+              "audioCreditUrl": "https://www.myinstants.com/en/instant/lol-katarina-why-because-i-can-39573/",
+              "audioLicense": "Права на публичное использование подтверждены пользователем"
+            },
+            {
+              "rotationId": "wr-voice-9",
+              "cost": 900,
+              "text": "Кто спрашивает: “Is it the moustache?”",
+              "answer": "Braum",
+              "audio": "./packs/media/audio/wild-rift/braum-is-it-moustache.mp3",
+              "audioType": "voice",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 0,
+              "audioCredit": "MyInstants · Braum voice clip",
+              "audioCreditUrl": "https://myinstants.com/instant/braum-is-it-the-moustache-2828/",
+              "audioLicense": "Права на публичное использование подтверждены пользователем"
+            },
+            {
+              "rotationId": "wr-voice-zed",
+              "cost": 1000,
+              "text": "Узнайте чемпиона по его спокойному, слегка насмешливому смеху.",
+              "answer": "Zed",
+              "audio": "./packs/media/audio/wild-rift/zed-laugh.mp3",
+              "audioType": "voice",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 0,
+              "audioCredit": "MyInstants · Zed laugh (LoL)",
+              "audioCreditUrl": "https://myinstants.com/instant/zed-laugh-lol",
+              "audioLicense": "Права на публичное использование подтверждены пользователем"
+            }
+          ]
         }
       ]
     },
@@ -996,102 +1068,11 @@
               "rotationId": "r1-t0-base-3"
             },
             {
+              "rotationId": "r1-t0-new-trollface",
               "cost": 2500,
-              "text": "Как прозвали героиню этого легендарного фото 2005 года — четырёхлетнюю Зои Рот, загадочно улыбающуюся на фоне горящего дома?",
-              "image": "./packs/media/images/meme-disaster-girl.webp",
-              "hint": "Два слова: маленькая героиня кадра + синоним слова «бедствие / крушение».",
-              "answer": "Девочка-катастрофа (Disaster Girl)",
-              "comment": "Пожарные проводили контролируемую учебную тренировку, но улыбка Зои вошла в историю!",
-              "rotationId": "r1-t0-base-4"
-            }
-          ],
-          "questionPool": [
-            {
-              "cost": 500,
-              "text": "Под каким мемным именем и прозвищем весь интернет знает этого улыбающегося сквозь страдания венгерского инженера Андраша Арато?",
-              "image": "./packs/media/images/meme-harold.jpg",
-              "hint": "Седой мужчина с чашкой кофе, который отчаянно «скрывает боль» за вежливой улыбкой.",
-              "answer": "Гарольд, скрывающий боль (Hide the Pain Harold)",
-              "comment": "Андраш стал настоящей звездой и даже выступал с лекцией на TEDx.",
-              "rotationId": "r1-t0-base-0"
-            },
-            {
-              "cost": 1000,
-              "modifier": "score_steal",
-              "text": "Перед вами шаблон мема про «былое величие и нынешнюю слабость». Назовите имена этих двух псов-мемов (или их японскую породу)!",
-              "image": "./packs/media/images/meme-swole-cheems.jpg",
-              "hint": "Слева накачанный пёс из классического мема 2013 года, справа — маленький плачущий любитель чизбургеров.",
-              "answer": "Качок Доге и Чимс (порода сиба-ину)",
-              "comment": "Слева — могучий Swole Doge, справа — маленький грустный Cheems.",
-              "rotationId": "r1-t0-base-1"
-            },
-            {
-              "cost": 1500,
-              "modifier": "nothing_personal",
-              "text": "Как в интернет-культуре называют этого чёрно-белого гипермускулистого красавца с квадратной челюстью — символ ультимативной уверенности?",
-              "image": "./packs/media/images/meme-gigachad.jpg",
-              "hint": "Приставка «Гига-» (миллиард!) плюс сленговое имя альфа-красавчика.",
-              "answer": "Гигачад (GigaChad)",
-              "comment": "Образ возник из арт-проекта Sleek'N'Tears с моделью Эрнестом Халимовым.",
-              "rotationId": "r1-t0-base-2"
-            },
-            {
-              "cost": 2000,
-              "text": "Как называется этот классический мем с хитро улыбающимся парнем, постукивающим пальцем по виску («Нельзя опоздать на работу, если не ходить на работу»)?",
-              "image": "./packs/media/images/meme-roll-safe.jpg",
-              "hint": "По-английски два коротких слова (имя героя веб-сериала), а по-русски — «Подумай об этом» / «Парень с пальцем у виска».",
-              "answer": "Roll Safe («Подумай об этом» / парень с пальцем у виска)",
-              "comment": "Кадр с актёром Кайоде Эвуми из веб-сериала Hood Documentary.",
-              "rotationId": "r1-t0-base-3"
-            },
-            {
-              "cost": 2500,
-              "text": "Как прозвали героиню этого легендарного фото 2005 года — четырёхлетнюю Зои Рот, загадочно улыбающуюся на фоне горящего дома?",
-              "image": "./packs/media/images/meme-disaster-girl.webp",
-              "hint": "Два слова: маленькая героиня кадра + синоним слова «бедствие / крушение».",
-              "answer": "Девочка-катастрофа (Disaster Girl)",
-              "comment": "Пожарные проводили контролируемую учебную тренировку, но улыбка Зои вошла в историю!",
-              "rotationId": "r1-t0-base-4"
-            },
-            {
-              "rotationId": "r1-t0-alt-1",
-              "text": "Как зовут венгерского инженера Андраша Арато, прославившегося фотографиями улыбки, которая будто скрывает страдание?",
-              "answer": "Гарольд, скрывающий боль (Hide the Pain Harold)",
-              "hint": "Подсказка: в меме его зовут не настоящим именем.",
-              "comment": "Арато стал интернет-знаменитостью благодаря стоковым фото.",
-              "cost": 500
-            },
-            {
-              "rotationId": "r1-t0-alt-2",
-              "text": "Как называется мем с собакой, который часто противопоставляет «раньше» и «сейчас»?",
-              "answer": "Doge / «Доге»",
-              "hint": "Подсказка: сиба-ину и разноцветные подписи.",
-              "comment": "Один из ранних глобальных мемов о собаках.",
-              "cost": 1000
-            },
-            {
-              "rotationId": "r1-t0-alt-3",
-              "text": "Как зовут двух псов из шаблона, где один выглядит массивным и важным, а другой — маленьким и грустным?",
-              "answer": "Качок Доге и Чимс",
-              "hint": "Подсказка: оба героя — собаки породы сиба-ину.",
-              "comment": "Контраст величия и обыденности сделал шаблон вирусным.",
-              "cost": 1500
-            },
-            {
-              "rotationId": "r1-t0-alt-4",
-              "text": "Как называется мемная фраза из комикса с собакой, спокойно сидящей в горящем помещении?",
-              "answer": "This is fine",
-              "hint": "Подсказка: «Всё в порядке».",
-              "comment": "Комикс создал Кей-Си Грин.",
-              "cost": 2000
-            },
-            {
-              "rotationId": "r1-t0-alt-5",
-              "text": "Как зовут кота, который возмущённо смотрит на тарелку с овощами в меме с двумя панелями?",
-              "answer": "Смадж (Smudge the Cat)",
-              "hint": "Подсказка: белый кот из мема Woman Yelling at a Cat.",
-              "comment": "Фото кота со салатом стало частью знаменитого шаблона.",
-              "cost": 2500
+              "text": "Как называется мем-лицо с широкой зубастой улыбкой, которое часто используют для троллинга?",
+              "answer": "Trollface",
+              "image": "./packs/media/images/meme-trollface-cosplay.jpg"
             }
           ]
         },
@@ -1151,174 +1132,116 @@
           ],
           "questionPool": [
             {
-              "rotationId": "r1-user-akon-feat-eminem-smack-that",
-              "musicId": "r1-user-akon-feat-eminem-smack-that",
-              "cost": 500,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "Akon feat. Eminem — «Smack That»",
-              "audio": "./packs/media/audio/tracks/akon-feat-eminem-smack-that.mp3",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r1-user-hit-max-korzh-zakat",
-              "musicId": "r1-user-hit-max-korzh-zakat",
-              "cost": 1000,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "Макс Корж — «Закат»",
-              "audio": "./packs/media/audio/tracks/hit-max-korzh-zakat.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r1-user-hu-been-to-hell",
-              "musicId": "r1-user-hu-been-to-hell",
-              "cost": 1500,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "Hollywood Undead — «Been to Hell»",
-              "audio": "./packs/media/audio/tracks/hu-been-to-hell.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r1-user-hu-bullet",
-              "musicId": "r1-user-hu-bullet",
-              "cost": 2000,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "Hollywood Undead — «Bullet»",
-              "audio": "./packs/media/audio/tracks/hu-bullet.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r1-user-hu-everywhere-i-go",
-              "musicId": "r1-user-hu-everywhere-i-go",
-              "cost": 2500,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "Hollywood Undead — «Everywhere I Go»",
-              "audio": "./packs/media/audio/tracks/hu-everywhere-i-go.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r1-user-hu-hear-me-now",
-              "musicId": "r1-user-hu-hear-me-now",
-              "cost": 500,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "Hollywood Undead — «Hear Me Now»",
-              "audio": "./packs/media/audio/tracks/hu-hear-me-now.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r1-user-hu-undead",
-              "musicId": "r1-user-hu-undead",
-              "cost": 1000,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "Hollywood Undead — «Undead»",
-              "audio": "./packs/media/audio/tracks/hu-undead.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r1-user-hu-we-are",
-              "musicId": "r1-user-hu-we-are",
-              "cost": 1500,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "Hollywood Undead — «We Are»",
-              "audio": "./packs/media/audio/tracks/hu-we-are.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r1-user-melody-bad-guy",
-              "musicId": "r1-user-melody-bad-guy",
-              "cost": 2000,
-              "text": "Угадайте песню по инструментальной мелодии.",
-              "answer": "Billie Eilish — «Bad Guy» (мелодия)",
-              "audio": "./packs/media/audio/tracks/melody-bad-guy.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r1-user-melody-feel-good",
-              "musicId": "r1-user-melody-feel-good",
-              "cost": 2500,
-              "text": "Угадайте песню по инструментальной мелодии.",
-              "answer": "Gorillaz — «Feel Good Inc.» (мелодия)",
-              "audio": "./packs/media/audio/tracks/melody-feel-good.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r1-user-melody-kukla-kolduna",
-              "musicId": "r1-user-melody-kukla-kolduna",
-              "cost": 500,
-              "text": "Угадайте песню по инструментальной мелодии.",
+              "rotationId": "r0-user-melody-kukla-kolduna",
+              "musicId": "r0-user-melody-kukla-kolduna",
+              "cost": 100,
+              "text": "Какой исполнитель и трек звучат в этом вопросе?",
               "answer": "«Кукла колдуна» — «Король и Шут» (мелодия)",
               "audio": "./packs/media/audio/tracks/melody-kukla-kolduna.m4a",
               "audioStartSeconds": 0,
               "audioClipSeconds": 12
             },
             {
-              "rotationId": "r1-user-melody-lose-yourself",
-              "musicId": "r1-user-melody-lose-yourself",
-              "cost": 1000,
-              "text": "Угадайте песню по инструментальной мелодии.",
+              "rotationId": "r0-user-melody-lose-yourself",
+              "musicId": "r0-user-melody-lose-yourself",
+              "cost": 200,
+              "text": "Узнайте музыкальную композицию по её фрагменту.",
               "answer": "Eminem — «Lose Yourself» (мелодия)",
               "audio": "./packs/media/audio/tracks/melody-lose-yourself.m4a",
               "audioStartSeconds": 0,
               "audioClipSeconds": 12
             },
             {
-              "rotationId": "r1-user-melody-numb",
-              "musicId": "r1-user-melody-numb",
-              "cost": 1500,
-              "text": "Угадайте песню по инструментальной мелодии.",
+              "rotationId": "r0-user-melody-numb",
+              "musicId": "r0-user-melody-numb",
+              "cost": 300,
+              "text": "Что за песня играет в аудиозаписи?",
               "answer": "Linkin Park — «Numb» (мелодия)",
               "audio": "./packs/media/audio/tracks/melody-numb.m4a",
               "audioStartSeconds": 0,
               "audioClipSeconds": 12
             },
             {
-              "rotationId": "r1-user-melody-teen-spirit",
-              "musicId": "r1-user-melody-teen-spirit",
-              "cost": 2000,
-              "text": "Угадайте песню по инструментальной мелодии.",
+              "rotationId": "r0-user-melody-teen-spirit",
+              "musicId": "r0-user-melody-teen-spirit",
+              "cost": 400,
+              "text": "Назовите музыкальное произведение и его исполнителя.",
               "answer": "Nirvana — «Smells Like Teen Spirit» (мелодия)",
               "audio": "./packs/media/audio/tracks/melody-teen-spirit.m4a",
               "audioStartSeconds": 0,
               "audioClipSeconds": 12
             },
             {
-              "rotationId": "r1-user-rap-miyagi-i-got-love",
-              "musicId": "r1-user-rap-miyagi-i-got-love",
-              "cost": 2500,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
+              "rotationId": "r0-user-rap-miyagi-i-got-love",
+              "musicId": "r0-user-rap-miyagi-i-got-love",
+              "cost": 500,
+              "text": "По этому отрывку определите название песни.",
               "answer": "Miyagi & Эндшпиль feat. Рем Дигга — «I Got Love»",
               "audio": "./packs/media/audio/tracks/rap-miyagi-i-got-love.m4a",
               "audioStartSeconds": 0,
               "audioClipSeconds": 12
             },
             {
-              "rotationId": "r1-user-rock-korol-i-shut-kukla",
-              "musicId": "r1-user-rock-korol-i-shut-kukla",
-              "cost": 500,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
+              "rotationId": "r0-user-rock-korol-i-shut-kukla",
+              "musicId": "r0-user-rock-korol-i-shut-kukla",
+              "cost": 100,
+              "text": "Как называется трек и кто его автор или исполнитель?",
               "answer": "«Кукла колдуна» — «Король и Шут» (рок-версия)",
               "audio": "./packs/media/audio/tracks/rock-korol-i-shut-kukla.m4a",
               "audioStartSeconds": 0,
               "audioClipSeconds": 12
             },
             {
-              "rotationId": "r1-user-rock-tri-dnya-dozhdya-otpuskai",
-              "musicId": "r1-user-rock-tri-dnya-dozhdya-otpuskai",
-              "cost": 1000,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
+              "rotationId": "r0-user-rock-tri-dnya-dozhdya-otpuskai",
+              "musicId": "r0-user-rock-tri-dnya-dozhdya-otpuskai",
+              "cost": 200,
+              "text": "Угадайте композицию по её звучанию.",
               "answer": "«Отпускай» — «Три дня дождя»",
               "audio": "./packs/media/audio/tracks/rock-tri-dnya-dozhdya-otpuskai.m4a",
               "audioStartSeconds": 0,
               "audioClipSeconds": 12
+            },
+            {
+              "rotationId": "open-public-domain-happy-birthday-clip",
+              "musicId": "open-public-domain-happy-birthday-clip",
+              "cost": 100,
+              "text": "Какая песня звучит в этом коротком клипе?",
+              "answer": "Happy Birthday to You — traditional melody",
+              "audio": "./packs/media/audio/tracks/open/public-domain-happy-birthday-clip.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 12,
+              "audioType": "music",
+              "audioCredit": "Celestianpower, Happy Birthday Gerard",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Happy_Birthday_Gerard.ogg",
+              "audioLicense": "Public Domain"
+            },
+            {
+              "rotationId": "open-public-domain-auld-lang-syne-clip",
+              "musicId": "open-public-domain-auld-lang-syne-clip",
+              "cost": 100,
+              "text": "Определите название и исполнителя музыкального фрагмента.",
+              "answer": "Auld Lang Syne — traditional melody",
+              "audio": "./packs/media/audio/tracks/open/public-domain-auld-lang-syne-clip.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 12,
+              "audioType": "music",
+              "audioCredit": "Nellie Melba, 1905 recording",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Auld_Lang_Syne_-_Nelly_Melba_(1905).ogg",
+              "audioLicense": "Public Domain"
+            },
+            {
+              "rotationId": "open-public-domain-daisy-bell-clip",
+              "musicId": "open-public-domain-daisy-bell-clip",
+              "cost": 100,
+              "text": "Сможете узнать эту песню по звучанию?",
+              "answer": "Daisy Bell",
+              "audio": "./packs/media/audio/tracks/open/public-domain-daisy-bell-clip.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 12,
+              "audioType": "music",
+              "audioCredit": "Edward M. Favor",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Daisy_Bell_sung_by_Edward_M._Favor.ogg",
+              "audioLicense": "Public Domain"
             }
           ]
         },
@@ -1426,60 +1349,83 @@
             },
             {
               "cost": 2500,
-              "text": "Послушайте авторскую звуковую подсказку: короткий электрический разряд и энергетический всплеск. Какой чемпион Wild Rift особенно связан с молниями и электрическим уроном?",
+              "text": "Что объединяет всех четырёх изображённых чемпионов Wild Rift?",
               "image": "./packs/media/images/wr-unites-yordles.jpg",
               "hint": "Маленький йордл-ниндзя, который превращается в центр электрической бури.",
-              "answer": "Кеннен",
+              "answer": "Все четверо — йордлы.",
               "comment": "Это специально созданная звуковая загадка, а не запись из игры. Звук — CC0; официальные реплики/эффекты Wild Rift не копировались.",
               "rotationId": "r1-t2-base-4",
-              "audio": "./packs/media/audio/wr-electric-sfx.wav",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 3.2,
-              "audioType": "sfx",
-              "audioCredit": "Авторский синтезированный SFX для Broken Brain",
-              "audioCreditUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-              "audioLicense": "CC0 1.0",
               "answerImage": "./packs/media/images/wr-kennen-generated.jpg"
             },
             {
               "rotationId": "r1-t2-alt-1",
-              "text": "Какой чемпион из Демасии — крылатая воительница, которая после гибели может воскреснуть?",
-              "answer": "Кайла",
+              "text": "Кто из чемпионов носит титул «Меч Демасии»?",
+              "answer": "Гарен (Garen)",
               "hint": "Подсказка: её сестра — Моргана.",
               "comment": "Кайла — чемпион с поздним усилением и дальними атаками.",
               "cost": 500
             },
             {
               "rotationId": "r1-t2-alt-2",
-              "text": "Какой чемпион использует катану и может создавать стену, блокирующую вражеские снаряды?",
-              "answer": "Ясуо",
+              "text": "Какого чемпиона называют Девятихвостой лисицей?",
+              "answer": "Ари (Ahri)",
               "hint": "Подсказка: мечник с ветром в способностях.",
               "comment": "Его «Стена ветра» — одна из самых известных защитных способностей.",
               "cost": 1000
             },
             {
               "rotationId": "r1-t2-alt-3",
-              "text": "Кто является королём Погибшего королевства и центральной фигурой события «Руина»?",
-              "answer": "Виего",
+              "text": "Кого в Ноксусе называют Десницей Ноксуса?",
+              "answer": "Дариус (Darius)",
               "hint": "Подсказка: его называют Погибшим королём.",
               "comment": "Виего связан с Чёрным туманом и Сумрачными островами.",
               "cost": 1500
             },
             {
               "rotationId": "r1-t2-alt-4",
-              "text": "Какой предмет в League of Legends сочетает три компонента и в английском называется Trinity Force?",
-              "answer": "Тройственный Союз (Трифорс)",
+              "text": "Какое заклинание призывателя помогает леснику быстрее расправляться с монстрами и забирать нейтральные цели?",
+              "answer": "Кара (Smite)",
               "hint": "Подсказка: сила трёх.",
               "comment": "Это классический предмет для бойцов.",
               "cost": 2000
             },
             {
               "rotationId": "r1-t2-alt-5",
-              "text": "Как называется родной город Джинкс и Экко, расположенный под Пилтовером?",
-              "answer": "Заун",
+              "text": "Как называется основная карта для матча пять на пять в Wild Rift?",
+              "answer": "Ущелье призывателей (Summoner’s Rift)",
               "hint": "Подсказка: город показан в сериале «Аркейн».",
               "comment": "Заун и Пилтовер разделены не только высотой, но и социальным неравенством.",
               "cost": 2500
+            },
+            {
+              "rotationId": "r1-wr-extra-11",
+              "cost": 1100,
+              "text": "Какой эпический монстр появляется в речной яме и даёт команде усиление после победы над ним?",
+              "answer": "Барон Нашор"
+            },
+            {
+              "rotationId": "r1-wr-extra-12",
+              "cost": 1200,
+              "text": "Какую информацию дают союзной команде установленные тотемы (wards)?",
+              "answer": "Обзор участка карты и обнаружение видимых там противников."
+            },
+            {
+              "rotationId": "r1-wr-extra-13",
+              "cost": 1300,
+              "text": "Как зовут чемпионку-охотницу, которая атакует серебряными болтами и сражается с монстрами?",
+              "answer": "Вейн (Vayne)"
+            },
+            {
+              "rotationId": "r1-wr-extra-14",
+              "cost": 1400,
+              "text": "Что можно поднять после победы над Герольдом Бездны и использовать для атаки башни?",
+              "answer": "Глаз Герольда Бездны."
+            },
+            {
+              "rotationId": "r1-wr-extra-15",
+              "cost": 1500,
+              "text": "Какую задачу выполняют защитные башни на линиях?",
+              "answer": "Защищают линию и атакуют противников, подошедших слишком близко."
             }
           ]
         },
@@ -1725,43 +1671,48 @@
             },
             {
               "rotationId": "r1-t4-alt-1",
-              "text": "В какой серии фильмов юный волшебник учится в школе Хогвартс?",
-              "answer": "«Гарри Поттер»",
+              "text": "Как зовут белую сову Гарри Поттера?",
+              "answer": "Букля (Hedwig)",
               "hint": "Подсказка: его сову зовут Букля.",
               "comment": "Серия основана на книгах Джоан Роулинг.",
-              "cost": 500
+              "cost": 500,
+              "image": "./packs/media/images/frame-hedwig.jpg"
             },
             {
               "rotationId": "r1-t4-alt-2",
-              "text": "В каком фильме Нео выбирает между красной и синей таблеткой?",
-              "answer": "«Матрица»",
+              "text": "Как зовут героя Киану Ривза, который выбирает между красной и синей таблеткой?",
+              "answer": "Нео (Neo)",
               "hint": "Подсказка: режиссёры — сёстры Вачовски.",
               "comment": "Первый фильм вышел в 1999 году.",
-              "cost": 1000
+              "cost": 1000,
+              "image": "./packs/media/images/frame-matrix.jpg"
             },
             {
               "rotationId": "r1-t4-alt-3",
-              "text": "В какой игре главный герой Карл Джонсон возвращается в родной Лос-Сантос?",
-              "answer": "GTA: San Andreas",
+              "text": "Какими двумя буквами обычно называют Карла Джонсона из GTA: San Andreas?",
+              "answer": "CJ",
               "hint": "Подсказка: его сокращённо зовут Си-Джей.",
               "comment": "Игра Rockstar вышла в 2004 году.",
-              "cost": 1500
+              "cost": 1500,
+              "image": "./packs/media/images/frame-gta-sa.jpg"
             },
             {
               "rotationId": "r1-t4-alt-4",
-              "text": "Как называется сериал, где учитель химии Уолтер Уайт становится производителем метамфетамина?",
-              "answer": "«Во все тяжкие» (Breaking Bad)",
+              "text": "Какое прозвище использует Уолтер Уайт в криминальном мире?",
+              "answer": "Хайзенберг (Heisenberg)",
               "hint": "Подсказка: его напарник — Джесси Пинкман.",
               "comment": "Сериал создал Винс Гиллиган.",
-              "cost": 2000
+              "cost": 2000,
+              "image": "./packs/media/images/frame-breaking-bad.jpg"
             },
             {
               "rotationId": "r1-t4-alt-5",
-              "text": "Как называется RPG, действие которой происходит в провинции Тамриэля, а герой может стать Довакином?",
-              "answer": "The Elder Scrolls V: Skyrim",
+              "text": "Как называют героя Skyrim, способного поглощать души драконов?",
+              "answer": "Довакин (Dovahkiin)",
               "hint": "Подсказка: драконы и крики — ключевые элементы игры.",
               "comment": "Игра Bethesda вышла в 2011 году.",
-              "cost": 2500
+              "cost": 2500,
+              "image": "./packs/media/images/frame-skyrim-wagon.webp"
             }
           ]
         },
@@ -2042,8 +1993,10 @@
               "videoSourceUrl": "https://www.pexels.com/video/playful-kitten-enjoys-toy-in-cozy-living-room-35124856/",
               "videoCredit": "nilay ortanca · Pexels",
               "hint": "Малыш уже тянется к игрушке — не отводите взгляд от лап.",
-              "answer": "Котёнок подхватит розовую игрушку лапами, завалится на бок и продолжит с ней играть.",
-              "comment": "Короткий фрагмент с котёнком; видео обрывается до продолжения игры."
+              "answer": "Котёнок цепляет игрушку лапами, переворачивается на бок и продолжает с ней играть.",
+              "comment": "В продолжении видно, как котёнок возится с розовой игрушкой.",
+              "answerVideo": "./packs/media/video/what-next/what-next-kitten-answer-joined.webm",
+              "image": "./packs/media/images/what-next/what-next-kitten-tension.jpg"
             },
             {
               "rotationId": "what-next-skateboard-1",
@@ -2053,9 +2006,11 @@
               "video": "./packs/media/video/what-next/what-next-skateboard.webm",
               "videoSourceUrl": "https://www.pexels.com/video/a-skateboarder-is-riding-down-a-ramp-at-a-skate-park-20315562/",
               "videoCredit": "Kogi Kok · Pexels",
-              "hint": "Смотрите на доску под ногами — финал трюка ещё впереди.",
-              "answer": "Он приземляется на скейтборд и продолжает движение.",
-              "comment": "Короткий спортивный клип остановлен до приземления."
+              "hint": "Смотрите, останется ли доска под ногами после прыжка.",
+              "answer": "Не совсем: он приземляется на ноги рядом с доской, а скейт укатывается. Он идёт за ним.",
+              "comment": "Продолжение показывает неудачное приземление: доска уезжает отдельно.",
+              "answerVideo": "./packs/media/video/what-next/what-next-skateboard-answer-joined.webm",
+              "image": "./packs/media/images/what-next/what-next-skateboard-tension.jpg"
             },
             {
               "rotationId": "what-next-basketball-1",
@@ -2067,7 +2022,9 @@
               "videoCredit": "Pavel Danilyuk · Pexels",
               "hint": "Мяч летит точно к корзине, но результат пока не показан.",
               "answer": "Мяч проходит через кольцо. Попадание!",
-              "comment": "Фрагмент заканчивается до того, как становится ясно, попадёт ли мяч."
+              "comment": "Фрагмент заканчивается до того, как становится ясно, попадёт ли мяч.",
+              "answerVideo": "./packs/media/video/what-next/what-next-basketball-answer-joined.webm",
+              "image": "./packs/media/images/what-next/what-next-basketball-tension.jpg"
             },
             {
               "rotationId": "what-next-dominoes-1",
@@ -2079,7 +2036,9 @@
               "videoCredit": "Miguel Á. Padriñán · Pexels",
               "hint": "Первая костяшка уже наклонилась к следующей.",
               "answer": "Начинается цепная реакция: костяшки одна за другой падают по дорожке.",
-              "comment": "Вопрос о продолжении цепочки домино."
+              "comment": "Вопрос о продолжении цепочки домино.",
+              "answerVideo": "./packs/media/video/what-next/what-next-dominoes-answer-joined.webm",
+              "image": "./packs/media/images/what-next/what-next-dominoes-tension.jpg"
             },
             {
               "rotationId": "what-next-dice-1",
@@ -2090,8 +2049,10 @@
               "videoSourceUrl": "https://www.pexels.com/video/red-dice-falling-in-slow-motion-34805935/",
               "videoCredit": "Efrem Efre · Pexels",
               "hint": "Посмотрите на верхние кубики — равновесие уже нарушено.",
-              "answer": "Башня не удерживается: кубики падают и разъезжаются по столу.",
-              "comment": "Клип обрывается в момент, когда башня начинает заваливаться."
+              "answer": "Башня заваливается: несколько кубиков падают и раскатываются, но часть остаётся стоять.",
+              "comment": "В продолжении видно, что не все кубики падают — часть башни остаётся на месте.",
+              "answerVideo": "./packs/media/video/what-next/what-next-dice-answer-joined.webm",
+              "image": "./packs/media/images/what-next/what-next-dice-tension.jpg"
             }
           ],
           "questionPool": [
@@ -2104,20 +2065,10 @@
               "videoSourceUrl": "https://www.pexels.com/video/playful-kitten-enjoys-toy-in-cozy-living-room-35124856/",
               "videoCredit": "nilay ortanca · Pexels",
               "hint": "Малыш уже тянется к игрушке — не отводите взгляд от лап.",
-              "answer": "Котёнок подхватит розовую игрушку лапами, завалится на бок и продолжит с ней играть.",
-              "comment": "Короткий фрагмент с котёнком; видео обрывается до продолжения игры."
-            },
-            {
-              "rotationId": "what-next-kitten-2",
-              "rotationGroup": "kitten",
-              "cost": 500,
-              "text": "Котёнок уже поймал игрушку лапой. Бросит её или продолжит охотиться?",
-              "video": "./packs/media/video/what-next/what-next-kitten.webm",
-              "videoSourceUrl": "https://www.pexels.com/video/playful-kitten-enjoys-toy-in-cozy-living-room-35124856/",
-              "videoCredit": "nilay ortanca · Pexels",
-              "hint": "Малыш уже тянется к игрушке — не отводите взгляд от лап.",
-              "answer": "Котёнок подхватит розовую игрушку лапами, завалится на бок и продолжит с ней играть.",
-              "comment": "Короткий фрагмент с котёнком; видео обрывается до продолжения игры."
+              "answer": "Котёнок цепляет игрушку лапами, переворачивается на бок и продолжает с ней играть.",
+              "comment": "В продолжении видно, как котёнок возится с розовой игрушкой.",
+              "answerVideo": "./packs/media/video/what-next/what-next-kitten-answer-joined.webm",
+              "image": "./packs/media/images/what-next/what-next-kitten-tension.jpg"
             },
             {
               "rotationId": "what-next-skateboard-1",
@@ -2127,21 +2078,11 @@
               "video": "./packs/media/video/what-next/what-next-skateboard.webm",
               "videoSourceUrl": "https://www.pexels.com/video/a-skateboarder-is-riding-down-a-ramp-at-a-skate-park-20315562/",
               "videoCredit": "Kogi Kok · Pexels",
-              "hint": "Смотрите на доску под ногами — финал трюка ещё впереди.",
-              "answer": "Он приземляется на скейтборд и продолжает движение.",
-              "comment": "Короткий спортивный клип остановлен до приземления."
-            },
-            {
-              "rotationId": "what-next-skateboard-2",
-              "rotationGroup": "skateboard",
-              "cost": 1000,
-              "text": "Трюк уже в воздухе: что произойдёт в следующую секунду — падение или чистое приземление?",
-              "video": "./packs/media/video/what-next/what-next-skateboard.webm",
-              "videoSourceUrl": "https://www.pexels.com/video/a-skateboarder-is-riding-down-a-ramp-at-a-skate-park-20315562/",
-              "videoCredit": "Kogi Kok · Pexels",
-              "hint": "Смотрите на доску под ногами — финал трюка ещё впереди.",
-              "answer": "Он приземляется на скейтборд и продолжает движение.",
-              "comment": "Короткий спортивный клип остановлен до приземления."
+              "hint": "Смотрите, останется ли доска под ногами после прыжка.",
+              "answer": "Не совсем: он приземляется на ноги рядом с доской, а скейт укатывается. Он идёт за ним.",
+              "comment": "Продолжение показывает неудачное приземление: доска уезжает отдельно.",
+              "answerVideo": "./packs/media/video/what-next/what-next-skateboard-answer-joined.webm",
+              "image": "./packs/media/images/what-next/what-next-skateboard-tension.jpg"
             },
             {
               "rotationId": "what-next-basketball-1",
@@ -2153,19 +2094,9 @@
               "videoCredit": "Pavel Danilyuk · Pexels",
               "hint": "Мяч летит точно к корзине, но результат пока не показан.",
               "answer": "Мяч проходит через кольцо. Попадание!",
-              "comment": "Фрагмент заканчивается до того, как становится ясно, попадёт ли мяч."
-            },
-            {
-              "rotationId": "what-next-basketball-2",
-              "rotationGroup": "basketball",
-              "cost": 1500,
-              "text": "Предскажите финал броска: мяч пройдёт через сетку или отскочит от кольца?",
-              "video": "./packs/media/video/what-next/what-next-basketball.webm",
-              "videoSourceUrl": "https://www.pexels.com/video/shooting-a-basketball-in-the-hoop-5192151/",
-              "videoCredit": "Pavel Danilyuk · Pexels",
-              "hint": "Мяч летит точно к корзине, но результат пока не показан.",
-              "answer": "Мяч проходит через кольцо. Попадание!",
-              "comment": "Фрагмент заканчивается до того, как становится ясно, попадёт ли мяч."
+              "comment": "Фрагмент заканчивается до того, как становится ясно, попадёт ли мяч.",
+              "answerVideo": "./packs/media/video/what-next/what-next-basketball-answer-joined.webm",
+              "image": "./packs/media/images/what-next/what-next-basketball-tension.jpg"
             },
             {
               "rotationId": "what-next-dominoes-1",
@@ -2177,19 +2108,9 @@
               "videoCredit": "Miguel Á. Padriñán · Pexels",
               "hint": "Первая костяшка уже наклонилась к следующей.",
               "answer": "Начинается цепная реакция: костяшки одна за другой падают по дорожке.",
-              "comment": "Вопрос о продолжении цепочки домино."
-            },
-            {
-              "rotationId": "what-next-dominoes-2",
-              "rotationGroup": "dominoes",
-              "cost": 2000,
-              "text": "Дойдёт ли цепная реакция до конца дорожки или остановится на первых костяшках?",
-              "video": "./packs/media/video/what-next/what-next-dominoes.webm",
-              "videoSourceUrl": "https://www.pexels.com/video/set-of-dominoes-1793414/",
-              "videoCredit": "Miguel Á. Padriñán · Pexels",
-              "hint": "Первая костяшка уже наклонилась к следующей.",
-              "answer": "Начинается цепная реакция: костяшки одна за другой падают по дорожке.",
-              "comment": "Вопрос о продолжении цепочки домино."
+              "comment": "Вопрос о продолжении цепочки домино.",
+              "answerVideo": "./packs/media/video/what-next/what-next-dominoes-answer-joined.webm",
+              "image": "./packs/media/images/what-next/what-next-dominoes-tension.jpg"
             },
             {
               "rotationId": "what-next-dice-1",
@@ -2200,20 +2121,10 @@
               "videoSourceUrl": "https://www.pexels.com/video/red-dice-falling-in-slow-motion-34805935/",
               "videoCredit": "Efrem Efre · Pexels",
               "hint": "Посмотрите на верхние кубики — равновесие уже нарушено.",
-              "answer": "Башня не удерживается: кубики падают и разъезжаются по столу.",
-              "comment": "Клип обрывается в момент, когда башня начинает заваливаться."
-            },
-            {
-              "rotationId": "what-next-dice-2",
-              "rotationGroup": "dice",
-              "cost": 2500,
-              "text": "Что случится с верхними кубиками: они останутся на башне или всё сооружение развалится?",
-              "video": "./packs/media/video/what-next/what-next-dice.webm",
-              "videoSourceUrl": "https://www.pexels.com/video/red-dice-falling-in-slow-motion-34805935/",
-              "videoCredit": "Efrem Efre · Pexels",
-              "hint": "Посмотрите на верхние кубики — равновесие уже нарушено.",
-              "answer": "Башня не удерживается: кубики падают и разъезжаются по столу.",
-              "comment": "Клип обрывается в момент, когда башня начинает заваливаться."
+              "answer": "Башня заваливается: несколько кубиков падают и раскатываются, но часть остаётся стоять.",
+              "comment": "В продолжении видно, что не все кубики падают — часть башни остаётся на месте.",
+              "answerVideo": "./packs/media/video/what-next/what-next-dice-answer-joined.webm",
+              "image": "./packs/media/images/what-next/what-next-dice-tension.jpg"
             },
             {
               "rotationId": "what-next-coin-1",
@@ -2225,19 +2136,9 @@
               "videoCredit": "Coverr · Pexels",
               "hint": "Вращение становится медленнее, монета начинает покачиваться.",
               "answer": "Монета теряет скорость и в конце концов падает плашмя на стол.",
-              "comment": "Предскажите, чем завершится вращение монеты."
-            },
-            {
-              "rotationId": "what-next-coin-2",
-              "rotationGroup": "coin",
-              "cost": 3000,
-              "text": "Монета продолжит стоять на ребре или замедлится и ляжет на стол?",
-              "video": "./packs/media/video/what-next/what-next-coin.webm",
-              "videoSourceUrl": "https://www.pexels.com/video/spinning-coin-853779/",
-              "videoCredit": "Coverr · Pexels",
-              "hint": "Вращение становится медленнее, монета начинает покачиваться.",
-              "answer": "Монета теряет скорость и в конце концов падает плашмя на стол.",
-              "comment": "Предскажите, чем завершится вращение монеты."
+              "comment": "Предскажите, чем завершится вращение монеты.",
+              "answerVideo": "./packs/media/video/what-next/what-next-coin-answer-joined.webm",
+              "image": "./packs/media/images/what-next/what-next-coin-tension.jpg"
             }
           ]
         }
@@ -2295,95 +2196,6 @@
               "answer": "Сериал «Нарко» (Narcos — ждущий Пабло Эскобар)",
               "comment": "Актёр Вагнер Моура в роли Пабло Эскобара.",
               "rotationId": "r2-t0-base-4"
-            }
-          ],
-          "questionPool": [
-            {
-              "cost": 1000,
-              "text": "Дикого степного кота-каракала Гошу с кисточками на ушах обожает весь интернет, а по мемам он обожает пельмени. Какое у него мемное имя?",
-              "image": "./packs/media/images/meme-floppa.jpg",
-              "hint": "От английского глагола flop (хлопать ушами) — «Большой …»!",
-              "answer": "Большой Шлёпа (Big Floppa / просто Шлёпа)",
-              "comment": "Настоящий каракал Гоша живёт в Москве в семье Бондаревых.",
-              "rotationId": "r2-t0-base-0"
-            },
-            {
-              "cost": 2000,
-              "modifier": "upside_down",
-              "text": "Из какого мультсериала или про какого супергероя этот великий мем, где двойники обвиняюще тычут друг в друга пальцем?",
-              "image": "./packs/media/images/meme-spiderman-pointing.png",
-              "hint": "Дружелюбный сосед Питер Паркер в красно-синем костюме с паутиной.",
-              "answer": "Человек-паук (Spider-Man, мультсериал 1967 года)",
-              "comment": "Эпизод «Двойная идентичность», в котором злодей притворился Человеком-пауком.",
-              "rotationId": "r2-t0-base-1"
-            },
-            {
-              "cost": 3000,
-              "text": "Какой канадский рэпер в ярко-оранжевом пуховике изображён на этом самом популярном в мире шаблоне «отказ / одобрение» (из клипа Hotline Bling)?",
-              "image": "./packs/media/images/meme-drake.jpg",
-              "hint": "Суперзвезда из Торонто, автор хитов God's Plan и One Dance.",
-              "answer": "Дрейк (Drake)",
-              "comment": "Клип Hotline Bling вышел в 2015 году и подарил интернету вечный двухпанельный шаблон.",
-              "rotationId": "r2-t0-base-2"
-            },
-            {
-              "cost": 4000,
-              "modifier": "score_steal",
-              "text": "В каком фильме Квентина Тарантино 2012 года герой Леонардо Ди Каприо скорчил эту ставшую великим мемом ухмылку с бокалом в руке?",
-              "image": "./packs/media/images/meme-dicaprio-django.webp",
-              "hint": "Вестерн Тарантино с Джейми Фоксом и Кристофом Вальцем про бывшего раба, ставшего охотником за головами.",
-              "answer": "«Джанго освобождённый» (Django Unchained)",
-              "comment": "Леонардо Ди Каприо сыграл плантатора Кэлвина Кэнди.",
-              "rotationId": "r2-t0-base-3"
-            },
-            {
-              "cost": 5000,
-              "text": "Из какого криминального сериала Netflix (про знаменитого колумбийского наркобарона) пришёл этот мем томительного одинокого ожидания на качелях?",
-              "image": "./packs/media/images/meme-escobar-waiting.jpg",
-              "hint": "Короткое название сериала из 5 букв (по-английски 6 букв) про Медельинский картель и Пабло Эскобара.",
-              "answer": "Сериал «Нарко» (Narcos — ждущий Пабло Эскобар)",
-              "comment": "Актёр Вагнер Моура в роли Пабло Эскобара.",
-              "rotationId": "r2-t0-base-4"
-            },
-            {
-              "rotationId": "r2-t0-alt-1",
-              "text": "Как зовут кота-каракала Гошу, ставшего мемом про пельмени и грозный взгляд?",
-              "answer": "Большой Шлёпа (Big Floppa)",
-              "hint": "Подсказка: мемное имя звучит как «Флоппа».",
-              "comment": "Каракал стал вирусным благодаря кисточкам на ушах.",
-              "cost": 1000
-            },
-            {
-              "rotationId": "r2-t0-alt-2",
-              "text": "Как называется мем, где два одинаковых персонажа Человека-паука указывают друг на друга?",
-              "answer": "Мем с двумя Человеками-пауками",
-              "hint": "Подсказка: он изображает взаимные обвинения.",
-              "comment": "Кадр взят из мультсериала 1967 года.",
-              "cost": 2000
-            },
-            {
-              "rotationId": "r2-t0-alt-3",
-              "text": "Кто изображён в шаблоне «не одобряю / одобряю» из клипа Hotline Bling?",
-              "answer": "Дрейк",
-              "hint": "Подсказка: канадский рэпер в оранжевой куртке.",
-              "comment": "Шаблон стал известен благодаря двум контрастным жестам.",
-              "cost": 3000
-            },
-            {
-              "rotationId": "r2-t0-alt-4",
-              "text": "Как называется мем, где Леонардо Ди Каприо с бокалом делает многозначительный тост?",
-              "answer": "«Джанго освобождённый» / мем с Кэлвином Кэнди",
-              "hint": "Подсказка: фильм Квентина Тарантино.",
-              "comment": "Кадр стал реакцией на узнавание или одобрение.",
-              "cost": 4000
-            },
-            {
-              "rotationId": "r2-t0-alt-5",
-              "text": "Какой колумбийский наркобарон из сериала Netflix стал мемом ожидания на качелях?",
-              "answer": "Пабло Эскобар из «Нарко»",
-              "hint": "Подсказка: персонаж одиноко ждёт и скучает.",
-              "comment": "Мем происходит из сериала Narcos.",
-              "cost": 5000
             }
           ]
         },
@@ -2443,174 +2255,144 @@
           ],
           "questionPool": [
             {
-              "rotationId": "r2-user-akon-feat-eminem-smack-that",
-              "musicId": "r2-user-akon-feat-eminem-smack-that",
-              "cost": 1000,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "Akon feat. Eminem — «Smack That»",
-              "audio": "./packs/media/audio/tracks/akon-feat-eminem-smack-that.mp3",
+              "rotationId": "open-public-domain-amazing-grace-clip",
+              "musicId": "open-public-domain-amazing-grace-clip",
+              "cost": 100,
+              "text": "Какой трек включён в аудиовопросе?",
+              "answer": "Amazing Grace",
+              "audio": "./packs/media/audio/tracks/open/public-domain-amazing-grace-clip.ogg",
               "audioStartSeconds": 0,
-              "audioClipSeconds": 12
+              "audioClipSeconds": 12,
+              "audioType": "music",
+              "audioCredit": "U.S. Air Force Band, jazz vocal",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Amazing_Grace_(USAFB_jazz_vocal).ogg",
+              "audioLicense": "Public Domain"
             },
             {
-              "rotationId": "r2-user-hit-max-korzh-zakat",
-              "musicId": "r2-user-hit-max-korzh-zakat",
-              "cost": 2000,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "Макс Корж — «Закат»",
-              "audio": "./packs/media/audio/tracks/hit-max-korzh-zakat.m4a",
+              "rotationId": "open-public-domain-moonlight-sonata-clip",
+              "musicId": "open-public-domain-moonlight-sonata-clip",
+              "cost": 100,
+              "text": "Назовите песню, от которой взят этот фрагмент.",
+              "answer": "Moonlight Sonata",
+              "audio": "./packs/media/audio/tracks/open/public-domain-moonlight-sonata-clip.ogg",
               "audioStartSeconds": 0,
-              "audioClipSeconds": 12
+              "audioClipSeconds": 12,
+              "audioType": "music",
+              "audioCredit": "Beethoven, piano performance",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Moonlight_Sonata.ogg",
+              "audioLicense": "Public Domain"
             },
             {
-              "rotationId": "r2-user-hu-been-to-hell",
-              "musicId": "r2-user-hu-been-to-hell",
-              "cost": 3000,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "Hollywood Undead — «Been to Hell»",
-              "audio": "./packs/media/audio/tracks/hu-been-to-hell.m4a",
+              "rotationId": "open-public-domain-mountain-king-clip",
+              "musicId": "open-public-domain-mountain-king-clip",
+              "cost": 100,
+              "text": "Узнайте исполнителя и название услышанной композиции.",
+              "answer": "In the Hall of the Mountain King",
+              "audio": "./packs/media/audio/tracks/open/public-domain-mountain-king-clip.ogg",
               "audioStartSeconds": 0,
-              "audioClipSeconds": 12
+              "audioClipSeconds": 12,
+              "audioType": "music",
+              "audioCredit": "Edvard Grieg / Musopen",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Musopen_-_In_the_Hall_Of_The_Mountain_King.ogg",
+              "audioLicense": "Public Domain"
             },
             {
-              "rotationId": "r2-user-hu-bullet",
-              "musicId": "r2-user-hu-bullet",
-              "cost": 4000,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "Hollywood Undead — «Bullet»",
-              "audio": "./packs/media/audio/tracks/hu-bullet.m4a",
+              "rotationId": "open-public-domain-bumblebee-clip",
+              "musicId": "open-public-domain-bumblebee-clip",
+              "cost": 100,
+              "text": "Какая музыкальная композиция звучит здесь?",
+              "answer": "Flight of the Bumblebee",
+              "audio": "./packs/media/audio/tracks/open/public-domain-bumblebee-clip.ogg",
               "audioStartSeconds": 0,
-              "audioClipSeconds": 12
+              "audioClipSeconds": 12,
+              "audioType": "music",
+              "audioCredit": "U.S. Air Force Band of the Rockies",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Flight_of_the_Bumblebee_-_Concert_Band_-_United_States_Air_Force_Band_of_the_Rockies.mp3",
+              "audioLicense": "Public Domain"
             },
             {
-              "rotationId": "r2-user-hu-everywhere-i-go",
-              "musicId": "r2-user-hu-everywhere-i-go",
-              "cost": 5000,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "Hollywood Undead — «Everywhere I Go»",
-              "audio": "./packs/media/audio/tracks/hu-everywhere-i-go.m4a",
+              "rotationId": "open-swing-has-swung-clip",
+              "musicId": "open-swing-has-swung-clip",
+              "cost": 100,
+              "text": "Определите песню по её короткому аудиоотрывку.",
+              "answer": "Swing Has Swung",
+              "audio": "./packs/media/audio/tracks/open/swing-has-swung-clip.ogg",
               "audioStartSeconds": 0,
-              "audioClipSeconds": 12
+              "audioClipSeconds": 12,
+              "audioType": "music",
+              "audioCredit": "Shane Ivers — silvermansound.com",
+              "audioCreditUrl": "https://www.silvermansound.com/free-music/swing-has-swung",
+              "audioLicense": "CC BY 4.0"
             },
             {
-              "rotationId": "r2-user-hu-hear-me-now",
-              "musicId": "r2-user-hu-hear-me-now",
-              "cost": 1000,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "Hollywood Undead — «Hear Me Now»",
-              "audio": "./packs/media/audio/tracks/hu-hear-me-now.m4a",
+              "rotationId": "open-speakeasy-clip",
+              "musicId": "open-speakeasy-clip",
+              "cost": 100,
+              "text": "Вспомните, кто исполняет этот трек и как он называется.",
+              "answer": "Speakeasy",
+              "audio": "./packs/media/audio/tracks/open/speakeasy-clip.ogg",
               "audioStartSeconds": 0,
-              "audioClipSeconds": 12
+              "audioClipSeconds": 12,
+              "audioType": "music",
+              "audioCredit": "Shane Ivers — silvermansound.com",
+              "audioCreditUrl": "https://www.silvermansound.com/free-music/speakeasy",
+              "audioLicense": "CC BY 4.0"
             },
             {
-              "rotationId": "r2-user-hu-undead",
-              "musicId": "r2-user-hu-undead",
-              "cost": 2000,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "Hollywood Undead — «Undead»",
-              "audio": "./packs/media/audio/tracks/hu-undead.m4a",
+              "rotationId": "open-strollin-cat-clip",
+              "musicId": "open-strollin-cat-clip",
+              "cost": 100,
+              "text": "Как называется музыкальный фрагмент из этого вопроса?",
+              "answer": "Strollin’ Cat",
+              "audio": "./packs/media/audio/tracks/open/strollin-cat-clip.ogg",
               "audioStartSeconds": 0,
-              "audioClipSeconds": 12
+              "audioClipSeconds": 12,
+              "audioType": "music",
+              "audioCredit": "Shane Ivers — silvermansound.com",
+              "audioCreditUrl": "https://www.silvermansound.com/free-music/strollin-cat",
+              "audioLicense": "CC BY 4.0"
             },
             {
-              "rotationId": "r2-user-hu-we-are",
-              "musicId": "r2-user-hu-we-are",
-              "cost": 3000,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "Hollywood Undead — «We Are»",
-              "audio": "./packs/media/audio/tracks/hu-we-are.m4a",
+              "rotationId": "open-rockapalooza-clip",
+              "musicId": "open-rockapalooza-clip",
+              "cost": 100,
+              "text": "Назовите исполнителя композиции, которую слышите.",
+              "answer": "Rockapalooza!",
+              "audio": "./packs/media/audio/tracks/open/rockapalooza-clip.ogg",
               "audioStartSeconds": 0,
-              "audioClipSeconds": 12
+              "audioClipSeconds": 12,
+              "audioType": "music",
+              "audioCredit": "Shane Ivers — silvermansound.com",
+              "audioCreditUrl": "https://www.silvermansound.com/free-music/rockapalooza",
+              "audioLicense": "CC BY 4.0"
             },
             {
-              "rotationId": "r2-user-melody-bad-guy",
-              "musicId": "r2-user-melody-bad-guy",
-              "cost": 4000,
-              "text": "Угадайте песню по инструментальной мелодии.",
-              "answer": "Billie Eilish — «Bad Guy» (мелодия)",
-              "audio": "./packs/media/audio/tracks/melody-bad-guy.m4a",
+              "rotationId": "open-dance-dubber-clip",
+              "musicId": "open-dance-dubber-clip",
+              "cost": 100,
+              "text": "Угадайте, какой трек звучит в наушниках.",
+              "answer": "Dance Dubber",
+              "audio": "./packs/media/audio/tracks/open/dance-dubber-clip.ogg",
               "audioStartSeconds": 0,
-              "audioClipSeconds": 12
+              "audioClipSeconds": 12,
+              "audioType": "music",
+              "audioCredit": "Jason Shaw — Audionautix.com",
+              "audioCreditUrl": "https://audionautix.com/free-music/dance",
+              "audioLicense": "CC BY 4.0"
             },
             {
-              "rotationId": "r2-user-melody-feel-good",
-              "musicId": "r2-user-melody-feel-good",
-              "cost": 5000,
-              "text": "Угадайте песню по инструментальной мелодии.",
-              "answer": "Gorillaz — «Feel Good Inc.» (мелодия)",
-              "audio": "./packs/media/audio/tracks/melody-feel-good.m4a",
+              "rotationId": "open-occupy-the-dance-floor-clip",
+              "musicId": "open-occupy-the-dance-floor-clip",
+              "cost": 100,
+              "text": "Что это за песня? Вспомните её исполнителя.",
+              "answer": "Occupy the Dance Floor",
+              "audio": "./packs/media/audio/tracks/open/occupy-the-dance-floor-clip.ogg",
               "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r2-user-melody-kukla-kolduna",
-              "musicId": "r2-user-melody-kukla-kolduna",
-              "cost": 1000,
-              "text": "Угадайте песню по инструментальной мелодии.",
-              "answer": "«Кукла колдуна» — «Король и Шут» (мелодия)",
-              "audio": "./packs/media/audio/tracks/melody-kukla-kolduna.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r2-user-melody-lose-yourself",
-              "musicId": "r2-user-melody-lose-yourself",
-              "cost": 2000,
-              "text": "Угадайте песню по инструментальной мелодии.",
-              "answer": "Eminem — «Lose Yourself» (мелодия)",
-              "audio": "./packs/media/audio/tracks/melody-lose-yourself.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r2-user-melody-numb",
-              "musicId": "r2-user-melody-numb",
-              "cost": 3000,
-              "text": "Угадайте песню по инструментальной мелодии.",
-              "answer": "Linkin Park — «Numb» (мелодия)",
-              "audio": "./packs/media/audio/tracks/melody-numb.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r2-user-melody-teen-spirit",
-              "musicId": "r2-user-melody-teen-spirit",
-              "cost": 4000,
-              "text": "Угадайте песню по инструментальной мелодии.",
-              "answer": "Nirvana — «Smells Like Teen Spirit» (мелодия)",
-              "audio": "./packs/media/audio/tracks/melody-teen-spirit.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r2-user-rap-miyagi-i-got-love",
-              "musicId": "r2-user-rap-miyagi-i-got-love",
-              "cost": 5000,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "Miyagi & Эндшпиль feat. Рем Дигга — «I Got Love»",
-              "audio": "./packs/media/audio/tracks/rap-miyagi-i-got-love.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r2-user-rock-korol-i-shut-kukla",
-              "musicId": "r2-user-rock-korol-i-shut-kukla",
-              "cost": 1000,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "«Кукла колдуна» — «Король и Шут» (рок-версия)",
-              "audio": "./packs/media/audio/tracks/rock-korol-i-shut-kukla.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
-            },
-            {
-              "rotationId": "r2-user-rock-tri-dnya-dozhdya-otpuskai",
-              "musicId": "r2-user-rock-tri-dnya-dozhdya-otpuskai",
-              "cost": 2000,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
-              "answer": "«Отпускай» — «Три дня дождя»",
-              "audio": "./packs/media/audio/tracks/rock-tri-dnya-dozhdya-otpuskai.m4a",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 12
+              "audioClipSeconds": 12,
+              "audioType": "music",
+              "audioCredit": "Jason Shaw — Audionautix.com",
+              "audioCreditUrl": "https://audionautix.com/free-music/dance",
+              "audioLicense": "CC BY 4.0"
             }
           ]
         },
@@ -2717,40 +2499,40 @@
             },
             {
               "rotationId": "r2-t2-alt-1",
-              "text": "Какой чемпион из Демасии — крылатая воительница, которая после гибели может воскреснуть?",
-              "answer": "Кайла",
+              "text": "Какой чемпион может превращаться в дракона?",
+              "answer": "Шивана (Shyvana)",
               "hint": "Подсказка: её сестра — Моргана.",
               "comment": "Кайла — чемпион с поздним усилением и дальними атаками.",
               "cost": 1000
             },
             {
               "rotationId": "r2-t2-alt-2",
-              "text": "Какой чемпион использует катану и может создавать стену, блокирующую вражеские снаряды?",
-              "answer": "Ясуо",
+              "text": "Кого в Пилтовере называют Шерифом Пилтовера?",
+              "answer": "Кейтлин (Caitlyn)",
               "hint": "Подсказка: мечник с ветром в способностях.",
               "comment": "Его «Стена ветра» — одна из самых известных защитных способностей.",
               "cost": 2000
             },
             {
               "rotationId": "r2-t2-alt-3",
-              "text": "Кто является королём Погибшего королевства и центральной фигурой события «Руина»?",
-              "answer": "Виего",
+              "text": "Какого чемпиона называют «Дитя звёзд»?",
+              "answer": "Сорака (Soraka)",
               "hint": "Подсказка: его называют Погибшим королём.",
               "comment": "Виего связан с Чёрным туманом и Сумрачными островами.",
               "cost": 3000
             },
             {
               "rotationId": "r2-t2-alt-4",
-              "text": "Какой предмет в League of Legends сочетает три компонента и в английском называется Trinity Force?",
-              "answer": "Тройственный Союз (Трифорс)",
+              "text": "Какой принц Демасии использует ультимативную способность «Катаклизм»?",
+              "answer": "Джарван IV (Jarvan IV)",
               "hint": "Подсказка: сила трёх.",
               "comment": "Это классический предмет для бойцов.",
               "cost": 4000
             },
             {
               "rotationId": "r2-t2-alt-5",
-              "text": "Как называется родной город Джинкс и Экко, расположенный под Пилтовером?",
-              "answer": "Заун",
+              "text": "Кто в истории League of Legends известен как Звёздный кузнец?",
+              "answer": "Аурелион Сол (Aurelion Sol)",
               "hint": "Подсказка: город показан в сериале «Аркейн».",
               "comment": "Заун и Пилтовер разделены не только высотой, но и социальным неравенством.",
               "cost": 5000
@@ -2758,11 +2540,35 @@
             {
               "rotationId": "r2-t2-quote-yasuo-hasagi",
               "cost": 2000,
-              "text": "Чья короткая боевая реплика — «Хасаги!»? Назовите чемпиона Wild Rift.",
-              "answer": "Ясуо",
+              "text": "Как зовут охотницу за головами из Билджвотера, вооружённую двумя пистолетами?",
+              "answer": "Мисс Фортуна (Miss Fortune)",
               "answerImage": "./packs/media/images/wr-yasuo-generated.jpg",
               "hint": "Мечник Ионии, использующий катану и вихри ветра.",
               "comment": "«Хасаги!» — один из самых узнаваемых боевых возгласов Ясуо."
+            },
+            {
+              "rotationId": "r2-wr-extra-12",
+              "cost": 1200,
+              "text": "Как зовут прославленную дуэлянтку из Фиоры, чья родина — Демасия?",
+              "answer": "Фиора (Fiora)"
+            },
+            {
+              "rotationId": "r2-wr-extra-13",
+              "cost": 1300,
+              "text": "Кто из чемпионов Билджвотера — капитан пиратского корабля и бывший правитель города?",
+              "answer": "Гангпланк (Gangplank)"
+            },
+            {
+              "rotationId": "r2-wr-extra-14",
+              "cost": 1400,
+              "text": "Как зовут исследователя, который сражается магической перчаткой и путешествует по Рунтерре?",
+              "answer": "Эзреаль (Ezreal)"
+            },
+            {
+              "rotationId": "r2-wr-extra-15",
+              "cost": 1500,
+              "text": "Какой чемпион считается знаменитым ноксийским генералом и мастером стратегии?",
+              "answer": "Свейн (Swain)"
             }
           ]
         },
@@ -2867,43 +2673,48 @@
             },
             {
               "rotationId": "r2-t3-alt-1",
-              "text": "Как зовут пиратского капитана с треуголкой и компасом, которого сыграл Джонни Депп?",
-              "answer": "Джек Воробей из «Пиратов Карибского моря»",
+              "text": "Какой предмет помогает Джеку Воробью находить то, чего он сильнее всего желает?",
+              "answer": "Компас",
               "hint": "Подсказка: его корабль называется «Чёрная жемчужина».",
               "comment": "Первая часть серии вышла в 2003 году.",
-              "cost": 1000
+              "cost": 1000,
+              "image": "./packs/media/images/frame-jack-sparrow.jpg"
             },
             {
               "rotationId": "r2-t3-alt-2",
-              "text": "Из какой игры зелёный монстр бесшумно подкрадывается и взрывается рядом с игроком?",
-              "answer": "Minecraft — крипер",
+              "text": "Какой звук выдаёт Крипера за мгновение до взрыва?",
+              "answer": "Шипение",
               "hint": "Подсказка: персонаж стал символом игры Mojang.",
               "comment": "Крипер появился из ошибки при создании модели свиньи.",
-              "cost": 2000
+              "cost": 2000,
+              "image": "./packs/media/images/frame-minecraft-creeper.png"
             },
             {
               "rotationId": "r2-t3-alt-3",
-              "text": "В каком корейском сериале участники соревнуются в детских играх ради огромного денежного приза?",
-              "answer": "«Игра в кальмара» (Squid Game)",
+              "text": "Какие три геометрические фигуры встречаются на масках охраны сериала?",
+              "answer": "Круг, треугольник и квадрат",
               "hint": "Подсказка: надзиратели носят розовое, а маски — геометрические знаки.",
               "comment": "Сериал создал Хван Дон-хёк.",
-              "cost": 3000
+              "cost": 3000,
+              "image": "./packs/media/images/frame-squid-game.jpg"
             },
             {
               "rotationId": "r2-t3-alt-4",
-              "text": "Как называется планета с синими на’ви в фильме Джеймса Кэмерона?",
-              "answer": "Пандора из «Аватара»",
+              "text": "Как называется язык синекожего народа на’ви?",
+              "answer": "На’ви (Na’vi)",
               "hint": "Подсказка: это спутник газового гиганта Полемус.",
               "comment": "Фильм вышел в 2009 году.",
-              "cost": 4000
+              "cost": 4000,
+              "image": "./packs/media/images/frame-avatar.jpg"
             },
             {
               "rotationId": "r2-t3-alt-5",
-              "text": "Как зовут астронавта Купера в фильме, где герои ищут новый дом за пределами Солнечной системы?",
-              "answer": "«Интерстеллар»",
+              "text": "Как называется чёрная дыра в фильме «Интерстеллар»?",
+              "answer": "Гаргантюа (Gargantua)",
               "hint": "Подсказка: фильм Кристофера Нолана, а ключевая планета — Миллер.",
               "comment": "Фильм вышел в 2014 году.",
-              "cost": 5000
+              "cost": 5000,
+              "image": "./packs/media/images/frame-interstellar.jpg"
             }
           ]
         },
@@ -2996,40 +2807,40 @@
             },
             {
               "rotationId": "r2-t4-alt-1",
-              "text": "Правда ли, что логотип Chupa Chups нарисовал Сальвадор Дали?",
-              "answer": "Правда",
+              "text": "Правда ли, что у осьминога три сердца?",
+              "answer": "Правда: у осьминога три сердца.",
               "hint": "Подсказка: художник создал дизайн в 1969 году.",
               "comment": "Логотип был задуман как ромашка.",
               "cost": 1000
             },
             {
               "rotationId": "r2-t4-alt-2",
-              "text": "Правда ли, что Nintendo старше кино и была основана в 1889 году?",
-              "answer": "Правда",
+              "text": "Правда ли, что Венера вращается вокруг своей оси в направлении, противоположном большинству планет?",
+              "answer": "Правда: Венера вращается ретроградно.",
               "hint": "Подсказка: компания начинала с игральных карт ханафуда.",
               "comment": "Nintendo основана в Киото Фусадзиро Ямаути.",
               "cost": 2000
             },
             {
               "rotationId": "r2-t4-alt-3",
-              "text": "Правда ли, что бананы с ботанической точки зрения относятся к ягодам?",
-              "answer": "Правда",
+              "text": "Правда ли, что молния никогда не ударяет в одно место дважды?",
+              "answer": "Неправда: молния может многократно ударять в одно и то же место.",
               "hint": "Подсказка: ботаническое определение отличается от бытового.",
               "comment": "А вот клубника ботанической ягодой не считается.",
               "cost": 3000
             },
             {
               "rotationId": "r2-t4-alt-4",
-              "text": "Правда ли, что «Тетрис» создали в Москве в 1984 году?",
-              "answer": "Правда",
+              "text": "Правда ли, что у золотой рыбки память длится всего три секунды?",
+              "answer": "Неправда: золотые рыбки способны помнить значительно дольше.",
               "hint": "Подсказка: автор — советский программист Алексей Пажитнов.",
               "comment": "Первая версия работала на компьютере «Электроника-60».",
               "cost": 4000
             },
             {
               "rotationId": "r2-t4-alt-5",
-              "text": "Правда ли, что Эйфелева башня летом может немного вырасти из-за нагрева металла?",
-              "answer": "Правда",
+              "text": "Правда ли, что Эйфелева башня в жару немного увеличивается из-за расширения металла?",
+              "answer": "Правда: нагрев вызывает небольшое тепловое расширение конструкции.",
               "hint": "Подсказка: металл расширяется при нагревании.",
               "comment": "Изменение высоты может составлять несколько сантиметров.",
               "cost": 5000
@@ -3131,40 +2942,40 @@
             },
             {
               "rotationId": "r2-t5-alt-1",
-              "text": "Какой материк полностью занят одним государством?",
-              "answer": "Австралия",
+              "text": "В корзине лежат пять яблок. Пятеро людей берут по одному, но одно яблоко остаётся в корзине. Как так?",
+              "answer": "Последний человек забрал яблоко вместе с корзиной.",
               "hint": "Подсказка: страна и материк носят одно имя.",
               "comment": "Австралия — и государство, и материк.",
               "cost": 1000
             },
             {
               "rotationId": "r2-t5-alt-2",
-              "text": "Три таблетки пьют по одной каждые полчаса, начиная сейчас. Когда будет выпита последняя?",
-              "answer": "Через 60 минут",
+              "text": "У тебя две монеты общей стоимостью 30 рублей; одна из них — не 10 рублей. Какие это монеты?",
+              "answer": "10 и 20 рублей: фраза говорит лишь, что одна монета не 10; другая может быть 10.",
               "hint": "Подсказка: первая — сразу, вторая через 30 минут.",
               "comment": "Третья принимается через час от начала.",
               "cost": 2000
             },
             {
               "rotationId": "r2-t5-alt-3",
-              "text": "Двое подошли к реке с разных берегов, каждый переправился на лодке и оказался на противоположном относительно себя берегу. Как это возможно?",
-              "answer": "Они начали с разных берегов",
+              "text": "Сколько месяцев в году имеют хотя бы 28 дней?",
+              "answer": "Все 12 месяцев.",
               "hint": "Подсказка: «противоположный берег» у каждого свой.",
               "comment": "Формулировка не говорит, что они переправились в одном направлении.",
               "cost": 3000
             },
             {
               "rotationId": "r2-t5-alt-4",
-              "text": "В тёмной комнате есть свеча, лампа и спичка. Что зажечь первым?",
-              "answer": "Спичку",
+              "text": "На ветке сидели пять птиц. Хлопнула петарда — сколько птиц останется на ветке?",
+              "answer": "Ни одной: птицы разлетятся.",
               "hint": "Подсказка: без неё не зажечь остальные предметы.",
               "comment": "Проверьте порядок действий.",
               "cost": 4000
             },
             {
               "rotationId": "r2-t5-alt-5",
-              "text": "На двух руках десять пальцев. Сколько пальцев на десяти руках?",
-              "answer": "Пятьдесят",
+              "text": "Сколько раз можно вычесть число 10 из 100?",
+              "answer": "Один раз: после первого вычитания вычитаешь уже из 90.",
               "hint": "Подсказка: на каждой руке по пять пальцев.",
               "comment": "10 × 5 = 50.",
               "cost": 5000
