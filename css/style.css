@@ -337,6 +337,21 @@ input:focus, select:focus, textarea:focus {
   font-weight: 800;
 }
 
+.brand-brain {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.12em;
+  line-height: 1;
+  filter: drop-shadow(0 0 10px rgba(245, 196, 81, 0.44));
+  animation: brainBob 3.2s ease-in-out infinite;
+}
+
+@keyframes brainBob {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50% { transform: translateY(-3px) rotate(4deg); }
+}
+
 .subtitle {
   margin: 3px 0 0;
   color: var(--text-muted);
@@ -426,12 +441,14 @@ input:focus, select:focus, textarea:focus {
 }
 
 .avatar-btn {
-  background: #18181c;
+  min-height: 48px;
+  background: linear-gradient(160deg, #202025, #151518);
   border: 1px solid rgba(245, 196, 81, 0.18);
   border-radius: 10px;
   padding: 7px 0;
-  font-size: 1.3rem;
-  transition: transform 0.12s ease, border-color 0.12s ease;
+  font-size: 1.5rem;
+  line-height: 1.1;
+  transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
 }
 .avatar-btn.selected {
   border-color: var(--gold);
@@ -673,7 +690,10 @@ input:focus, select:focus, textarea:focus {
 .timer-fill {
   height: 100%;
   width: 100%;
-  background: linear-gradient(90deg, #ca8a04, #fde047);
+  --timer-hue: 45;
+  background: linear-gradient(90deg,
+    hsl(var(--timer-hue) 92% 45%),
+    hsl(var(--timer-hue) 92% 60%));
   transition: background 0.2s ease;
 }
 .timer-fill.urgent {
@@ -944,6 +964,31 @@ input:focus, select:focus, textarea:focus {
 .question-card.buzz-ready-glow {
   border-color: var(--gold);
   box-shadow: 0 0 42px rgba(245, 196, 81, 0.32), var(--shadow-studio);
+}
+
+.question-card.giant-question-window.timer-active {
+  --timer-hue: 120;
+  border: 2.5px solid transparent;
+  background:
+    linear-gradient(165deg, rgba(35, 34, 38, 0.97), rgba(19, 19, 22, 0.98)) padding-box,
+    linear-gradient(125deg,
+      hsl(var(--timer-hue) 92% 48%),
+      hsl(var(--timer-hue) 78% 62%),
+      hsl(var(--timer-hue) 92% 48%)) border-box;
+  animation: questionFramePulse 1.05s ease-in-out infinite;
+}
+
+.question-card.giant-question-window.timer-critical {
+  animation-duration: 0.52s;
+}
+
+@keyframes questionFramePulse {
+  0%, 100% {
+    box-shadow: 0 0 13px hsla(var(--timer-hue), 92%, 50%, 0.2), var(--shadow-studio);
+  }
+  50% {
+    box-shadow: 0 0 32px hsla(var(--timer-hue), 92%, 50%, 0.48), var(--shadow-studio);
+  }
 }
 
 .question-header {
@@ -2103,6 +2148,34 @@ input:focus, select:focus, textarea:focus {
   color: #f87171;
 }
 
+.score-value {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+  will-change: transform, color, text-shadow;
+}
+
+.score-value.score-up {
+  color: #86efac;
+  animation: scoreCountUp 0.62s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.score-value.score-down {
+  color: #fca5a5;
+  animation: scoreCountDown 0.62s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes scoreCountUp {
+  0% { transform: translateY(7px) scale(0.86); text-shadow: 0 0 0 transparent; }
+  45% { transform: translateY(-3px) scale(1.16); text-shadow: 0 0 18px rgba(134, 239, 172, 0.72); }
+  100% { transform: translateY(0) scale(1); text-shadow: 0 0 0 transparent; }
+}
+
+@keyframes scoreCountDown {
+  0% { transform: translateY(-7px) scale(0.86); text-shadow: 0 0 0 transparent; }
+  45% { transform: translateY(3px) scale(1.12); text-shadow: 0 0 18px rgba(252, 165, 165, 0.68); }
+  100% { transform: translateY(0) scale(1); text-shadow: 0 0 0 transparent; }
+}
+
 .zeroed-pill {
   font-size: 0.72rem;
   background: rgba(244, 63, 94, 0.25);
@@ -2670,5 +2743,14 @@ input:focus, select:focus, textarea:focus {
 .host-hint-preview {
   color: #fde68a;
   margin-top: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-brain,
+  .question-card.giant-question-window.timer-active,
+  .score-value.score-up,
+  .score-value.score-down {
+    animation: none !important;
+  }
 }
 
