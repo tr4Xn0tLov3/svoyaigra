@@ -54,6 +54,7 @@ class SvoyaIgraApp {
     this.timerSync = { durationMs: 0, remainingMs: 0, running: false, syncedAt: 0 };
     this.lastPlayedSoundSeq = 0;
     this.lastBannerTs = 0;
+    this.lastSpokenQuestionKey = null;
 
     // Постоянный аудиоплеер для вопросов «Угадай звук» (не сбивается при ререндере DOM!)
     this.qAudio = new Audio();
@@ -188,6 +189,41 @@ class SvoyaIgraApp {
       this.localBuzzerDodges = 0;
       this.localDodgeOffset = { x: 0, y: 0 };
     }
+  }
+
+  _speakQuestionOnce(view) {
+    const question = view?.phase === 'question' ? view.questionView : null;
+    const rawText = question?.speechText || question?.text;
+    const text = String(rawText || '')
+      .replace(/<br\s*\/?\s*>/gi, '. ')
+      .replace(/<[^>]*>/g, ' ')
+      .replace(/&nbsp;/gi, ' ')
+      .replace(/&amp;/gi, ' и ')
+      .replace(/&quot;/gi, '"')
+      .replace(/&#39;/gi, "'")
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (!text) return;
+
+    const questionKey = question.questionKey || `${question.themeName}::${question.nominalCost}::${text}`;
+    const speechKey = `${view.roomCode || ''}::${questionKey}`;
+    if (speechKey === this.lastSpokenQuestionKey) return;
+    this.lastSpokenQuestionKey = speechKey;
+
+    if (!('speechSynthesis' in window) || typeof window.SpeechSynthesisUtterance !== 'function') return;
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'ru-RU';
+    utterance.rate = 0.92;
+    utterance.pitch = 1;
+
+    const voices = window.speechSynthesis.getVoices();
+    const russianVoice = voices.find((voice) => /^ru-ru$/i.test(voice.lang))
+      || voices.find((voice) => /^ru(?:-|$)/i.test(voice.lang));
+    if (russianVoice) utterance.voice = russianVoice;
+
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
   }
 
   _handlePlayerBuzzAttempt() {
@@ -385,6 +421,7 @@ class SvoyaIgraApp {
     if (!this.engine) return;
     this._scheduleHostBackup();
     this.view = this.engine.buildViewFor('__host__');
+    this._speakQuestionOnce(this.view);
     this._syncLocalTimerFromView();
     this._syncQuestionAudio(this.view);
     this._syncCurseProgress(this.view);
@@ -509,6 +546,7 @@ class SvoyaIgraApp {
     const prevPhase = this.view?.phase;
     const prevSubstate = this.view?.questionView?.runtime?.substate;
     this.view = payload;
+    this._speakQuestionOnce(this.view);
     this._syncLocalTimerFromView();
     this._syncQuestionAudio(this.view);
     this._syncCurseProgress(this.view);

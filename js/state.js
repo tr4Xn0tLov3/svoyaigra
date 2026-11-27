@@ -1679,11 +1679,13 @@ export class GameEngine {
 
       questionView = {
         themeName: effectiveThemeName,
+        questionKey: `${s.roomCode || ''}:${s.activeCell.roundIndex}:${s.activeCell.themeIndex}:${s.activeCell.qIndex}`,
         nominalCost: s.activeCell.nominalCost,
         effectiveCost: rt?.effectiveCost ?? s.activeCell.nominalCost,
         type: q.type,
         modifier: s.activeCell.modifier,
         text: showQuestionBody ? q.text : '',
+        speechText: showQuestionBody ? (q.speechText || q.text) : '',
         image: showQuestionBody ? q.image : '',
         audio: showQuestionBody ? q.audio : '',
         video: showQuestionBody ? q.video : '',
