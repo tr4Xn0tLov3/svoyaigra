@@ -1572,20 +1572,20 @@ input:focus, select:focus, textarea:focus {
 }
 
 .special-event-card.np-theme.tone-violet {
-  border-color: #a855f7;
-  box-shadow: 0 0 44px rgba(168, 85, 247, 0.3), var(--shadow-studio);
+  border-color: rgba(168, 85, 247, 0.72);
+  box-shadow: 0 0 14px rgba(168, 85, 247, 0.12), var(--shadow-studio);
 }
 .special-event-card.np-theme.tone-amber {
-  border-color: #f59e0b;
-  box-shadow: 0 0 44px rgba(245, 158, 11, 0.3), var(--shadow-studio);
+  border-color: rgba(245, 158, 11, 0.72);
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.12), var(--shadow-studio);
 }
 .special-event-card.np-theme.tone-emerald {
-  border-color: #10b981;
-  box-shadow: 0 0 44px rgba(16, 185, 129, 0.3), var(--shadow-studio);
+  border-color: rgba(16, 185, 129, 0.72);
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.12), var(--shadow-studio);
 }
 .special-event-card.np-theme.tone-pink {
-  border-color: #ec4899;
-  box-shadow: 0 0 44px rgba(236, 72, 153, 0.3), var(--shadow-studio);
+  border-color: rgba(236, 72, 153, 0.72);
+  box-shadow: 0 0 14px rgba(236, 72, 153, 0.12), var(--shadow-studio);
 }
 
 .buzzer-main-text {
@@ -1643,9 +1643,10 @@ input:focus, select:focus, textarea:focus {
 /* Стиль модификаторов-пакостей */
 .special-event-card.np-theme {
   max-width: 1040px;
+  min-width: 0;
   background: linear-gradient(155deg, rgba(44, 24, 28, 0.96), rgba(20, 20, 24, 0.98));
-  border: 2.5px solid #f43f5e;
-  box-shadow: 0 0 48px rgba(244, 63, 94, 0.32), var(--shadow-studio);
+  border: 2px solid rgba(244, 63, 94, 0.72);
+  box-shadow: 0 0 16px rgba(244, 63, 94, 0.12), var(--shadow-studio);
 }
 
 .np-badge {
@@ -2615,6 +2616,44 @@ input:focus, select:focus, textarea:focus {
   }
   .glass-panel {
     padding: 18px 15px;
+  }
+  .special-event-card,
+  .final-stage-card,
+  .podium-stage-card {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    padding: 18px 14px;
+    border-radius: 18px;
+  }
+  .special-event-card.np-theme {
+    padding: 18px 14px;
+  }
+  .special-event-card h2 {
+    font-size: clamp(1.25rem, 5.6vw, 1.8rem);
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+  .special-sub {
+    font-size: 0.96rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+  .mt-md {
+    width: 100%;
+    margin-top: 16px;
+  }
+  .mt-md .btn {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 12px 10px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: center;
+    line-height: 1.28;
+    font-size: 0.96rem;
   }
   .packs-section-head {
     align-items: flex-start;
