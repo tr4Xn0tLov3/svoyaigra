@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 400" width="680" height="400">
+  <rect width="680" height="400" rx="22" fill="#091533"/>
+  <!-- Outer bean shape of mitochondrion -->
+  <ellipse cx="340" cy="195" rx="220" ry="112" fill="#ea580c" stroke="#fed7aa" stroke-width="6" transform="rotate(-8 340 195)"/>
+  <ellipse cx="340" cy="195" rx="196" ry="90" fill="#fb923c" transform="rotate(-8 340 195)"/>
+  <!-- Inner folded cristae membrane -->
+  <path d="M 165 205 C 195 140, 215 140, 225 225 C 235 265, 255 265, 270 155 C 285 115, 310 115, 320 235 C 330 270, 355 270, 370 150 C 385 115, 415 115, 425 225 C 435 260, 465 260, 485 175 C 500 140, 515 170, 515 200"
+        fill="none" stroke="#fef08a" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Lightning bolt icon -->
+  <polygon points="348,132 318,195 344,195 330,255 372,184 345,184" fill="#fde047" stroke="#0f172a" stroke-width="3"/>
+  <text x="340" y="362" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-weight="800" font-size="22">⚡ «Энергетическая станция клетки» — как она называется?</text>
+</svg>

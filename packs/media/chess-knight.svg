@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" width="600" height="420">
+  <rect width="600" height="420" rx="20" fill="#081229"/>
+  <!-- 5x5 mini chessboard centered -->
+  <g transform="translate(150, 50)">
+    <rect x="-8" y="-8" width="316" height="316" rx="10" fill="#1e3a8a" stroke="#f5c542" stroke-width="3"/>
+    <!-- Row 0 -->
+    <rect x="0" y="0" width="60" height="60" fill="#e2e8f0"/><rect x="60" y="0" width="60" height="60" fill="#334155"/>
+    <rect x="120" y="0" width="60" height="60" fill="#e2e8f0"/><rect x="180" y="0" width="60" height="60" fill="#334155"/>
+    <rect x="240" y="0" width="60" height="60" fill="#e2e8f0"/>
+    <!-- Row 1 -->
+    <rect x="0" y="60" width="60" height="60" fill="#334155"/><rect x="60" y="60" width="60" height="60" fill="#e2e8f0"/>
+    <rect x="120" y="60" width="60" height="60" fill="#334155"/><rect x="180" y="60" width="60" height="60" fill="#e2e8f0"/>
+    <rect x="240" y="60" width="60" height="60" fill="#334155"/>
+    <!-- Row 2 -->
+    <rect x="0" y="120" width="60" height="60" fill="#e2e8f0"/><rect x="60" y="120" width="60" height="60" fill="#334155"/>
+    <rect x="120" y="120" width="60" height="60" fill="#f59e0b"/><rect x="180" y="120" width="60" height="60" fill="#334155"/>
+    <rect x="240" y="120" width="60" height="60" fill="#e2e8f0"/>
+    <!-- Row 3 -->
+    <rect x="0" y="180" width="60" height="60" fill="#334155"/><rect x="60" y="180" width="60" height="60" fill="#e2e8f0"/>
+    <rect x="120" y="180" width="60" height="60" fill="#334155"/><rect x="180" y="180" width="60" height="60" fill="#e2e8f0"/>
+    <rect x="240" y="180" width="60" height="60" fill="#334155"/>
+    <!-- Row 4 -->
+    <rect x="0" y="240" width="60" height="60" fill="#e2e8f0"/><rect x="60" y="240" width="60" height="60" fill="#334155"/>
+    <rect x="120" y="240" width="60" height="60" fill="#e2e8f0"/><rect x="180" y="240" width="60" height="60" fill="#334155"/>
+    <rect x="240" y="240" width="60" height="60" fill="#e2e8f0"/>
+    <!-- 8 target dots of the knight -->
+    <g fill="#22c55e" stroke="#052e16" stroke-width="2">
+      <circle cx="90" cy="30" r="11"/><circle cx="210" cy="30" r="11"/>
+      <circle cx="30" cy="90" r="11"/><circle cx="270" cy="90" r="11"/>
+      <circle cx="30" cy="210" r="11"/><circle cx="270" cy="210" r="11"/>
+      <circle cx="90" cy="270" r="11"/><circle cx="210" cy="270" r="11"/>
+    </g>
+    <text x="150" y="164" text-anchor="middle" fill="#0f172a" font-family="serif" font-weight="900" font-size="44">♞</text>
+  </g>
+  <text x="300" y="395" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="18" font-weight="600">Обход каждой клетки доски 8×8 ровно по одному разу</text>
+</svg>

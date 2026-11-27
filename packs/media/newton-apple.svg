@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 400" width="680" height="400">
+  <defs>
+    <linearGradient id="skyN" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#bae6fd"/>
+    </linearGradient>
+  </defs>
+  <rect width="680" height="400" rx="22" fill="url(#skyN)"/>
+  <!-- Grass hill -->
+  <ellipse cx="340" cy="395" rx="420" ry="110" fill="#22c55e"/>
+  <!-- Tree trunk -->
+  <rect x="285" y="135" width="54" height="190" rx="8" fill="#78350f"/>
+  <!-- Tree foliage -->
+  <circle cx="312" cy="110" r="95" fill="#15803d"/>
+  <circle cx="235" cy="130" r="68" fill="#16a34a"/>
+  <circle cx="395" cy="128" r="72" fill="#16a34a"/>
+  <!-- Apples on tree -->
+  <circle cx="220" cy="125" r="13" fill="#dc2626"/>
+  <circle cx="345" cy="95" r="13" fill="#dc2626"/>
+  <!-- Falling apple with motion lines! -->
+  <line x1="405" y1="168" x2="405" y2="205" stroke="#ffffff" stroke-width="4" stroke-dasharray="6 5"/>
+  <circle cx="405" cy="232" r="18" fill="#ef4444" stroke="#7f1d1d" stroke-width="2.5"/>
+  <path d="M 405 212 Q 414 203 420 209" fill="none" stroke="#14532d" stroke-width="3.5"/>
+  <!-- Scholar silhouette below -->
+  <circle cx="405" cy="290" r="24" fill="#fde68a" stroke="#1e293b" stroke-width="3"/>
+  <path d="M 377 292 Q 375 260 405 262 Q 435 260 433 292" fill="#e2e8f0" stroke="#475569" stroke-width="3"/>
+  <rect x="378" y="315" width="54" height="45" rx="12" fill="#1e3a8a"/>
+  <text x="520" y="240" fill="#0f172a" font-family="sans-serif" font-weight="900" font-size="28">F = G · m₁m₂ / r²</text>
+</svg>

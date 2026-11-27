@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 420" width="680" height="420">
+  <rect width="680" height="420" rx="22" fill="#08132e"/>
+  <!-- Chalkboard frame -->
+  <rect x="30" y="25" width="620" height="370" rx="14" fill="#143d2b" stroke="#a16207" stroke-width="10"/>
+  <!-- Right triangle -->
+  <polygon points="210,310 210,110 475,310" fill="rgba(255,255,255,0.08)" stroke="#f8fafc" stroke-width="5" stroke-linejoin="round"/>
+  <!-- Right angle square -->
+  <polyline points="210,282 238,282 238,310" fill="none" stroke="#fde047" stroke-width="3.5"/>
+  <!-- Labels -->
+  <text x="172" y="220" text-anchor="middle" fill="#93c5fd" font-family="sans-serif" font-weight="900" font-size="38">3</text>
+  <text x="342" y="358" text-anchor="middle" fill="#93c5fd" font-family="sans-serif" font-weight="900" font-size="38">4</text>
+  <circle cx="366" cy="182" r="32" fill="#f59e0b"/>
+  <text x="366" y="195" text-anchor="middle" fill="#0f172a" font-family="sans-serif" font-weight="900" font-size="38">?</text>
+  <text x="340" y="74" text-anchor="middle" fill="#e2e8f0" font-family="sans-serif" font-weight="700" font-size="22">a² + b² = c²</text>
+</svg>
