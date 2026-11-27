@@ -344,6 +344,7 @@ export class GameEngine {
           catsPlayed: 0,
           auctionsWon: 0,
           zeroedOthers: 0,
+          sabotagedCount: 0,
           wasZeroed: 0,
           hintsUsed: 0
         }
@@ -407,6 +408,7 @@ export class GameEngine {
         catsPlayed: 0,
         auctionsWon: 0,
         zeroedOthers: 0,
+        sabotagedCount: 0,
         wasZeroed: 0,
         hintsUsed: 0
       };
@@ -436,14 +438,20 @@ export class GameEngine {
       selectedThemeIndexes: [],
       requiredCount: Math.min(5, themes.length),
       lastShotThemeIndex: null,
-      shotSeq: 0
+      shotSeq: 0,
+      turnPlayerIds: this.state.players.filter((p) => !p.isSpectator).map((p) => p.id)
     };
     this.state.phase = 'category_select';
   }
 
   shootCategory(actorId, themeIndex) {
     const cs = this.state.categorySelection;
-    if (actorId !== '__host__' || this.state.phase !== 'category_select' || !cs) return;
+    if (this.state.phase !== 'category_select' || !cs) return;
+    const turnIds = cs.turnPlayerIds || [];
+    if (!turnIds.length) return;
+    const starter = cs.roundIndex % turnIds.length;
+    const expectedId = turnIds[(starter + cs.selectedThemeIndexes.length) % turnIds.length];
+    if (actorId !== expectedId) return;
     const themes = this.pack?.rounds?.[cs.roundIndex]?.themes || [];
     const target = Number(themeIndex);
     if (!Number.isInteger(target) || !themes[target]) return;
@@ -1042,9 +1050,6 @@ export class GameEngine {
 
     const reactionMs = rt.buzzOpenedAt ? Math.max(40, now - rt.buzzOpenedAt) : null;
     player.stats.buzzWins += 1;
-    if (reactionMs !== null && (player.stats.fastestReactionMs === null || reactionMs < player.stats.fastestReactionMs)) {
-      player.stats.fastestReactionMs = reactionMs;
-    }
 
     rt._firstBuzzAt = now;
     rt.pausedBuzzMs = this._getCurrentRemainingMs();
@@ -1139,6 +1144,9 @@ export class GameEngine {
       if (responder) {
         responder.score += cost;
         responder.stats.correct += 1;
+        if (rt.reactionMs !== null && rt.reactionMs !== undefined && (responder.stats.fastestReactionMs === null || rt.reactionMs < responder.stats.fastestReactionMs)) {
+          responder.stats.fastestReactionMs = rt.reactionMs;
+        }
         this.state.chooserId = responder.id;
       }
       rt.lastJudgment = {
@@ -1891,6 +1899,8 @@ export class GameEngine {
         selectedThemeIndexes: [...s.categorySelection.selectedThemeIndexes],
         lastShotThemeIndex: s.categorySelection.lastShotThemeIndex,
         shotSeq: s.categorySelection.shotSeq,
+        turnPlayerIds: [...(s.categorySelection.turnPlayerIds || [])],
+        currentTurnPlayerId: (s.categorySelection.turnPlayerIds || [])[((s.categorySelection.roundIndex % Math.max(1, s.categorySelection.turnPlayerIds.length)) + s.categorySelection.selectedThemeIndexes.length) % Math.max(1, s.categorySelection.turnPlayerIds.length)] || null,
         themes: (this.pack?.rounds?.[s.categorySelection.roundIndex]?.themes || []).map((theme, themeIndex) => ({
           themeIndex,
           name: theme.name,

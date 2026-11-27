@@ -551,6 +551,9 @@ class SvoyaIgraApp {
       case 'SELECT_CELL':
         this.engine.selectCell(playerId, Number(msg.themeIndex), Number(msg.qIndex));
         break;
+      case 'SHOOT_CATEGORY':
+        this.engine.shootCategory(playerId, Number(msg.themeIndex));
+        break;
       case 'RESOLVE_NOTHING_PERSONAL':
         this.engine.resolveNothingPersonal(playerId, msg.targetId);
         break;
@@ -1432,6 +1435,8 @@ class SvoyaIgraApp {
     const isHost = this.role === 'host';
     const count = selection.selectedThemeIndexes.length;
     const required = selection.requiredCount;
+    const currentTurn = v.players.find((p) => p.id === selection.currentTurnPlayerId);
+    const isMyShot = this.role === 'player' && !this.isSpectator && selection.currentTurnPlayerId === this.playerId;
     const canUndo = isHost && count > 0;
     const canConfirm = isHost && count === required;
 
@@ -1441,10 +1446,7 @@ class SvoyaIgraApp {
           <div>
             <div class="panel-tag">🎯 ПОДГОТОВКА ${escapeHtml(selection.roundName)}</div>
             <h2>Выстрели по пяти категориям</h2>
-            <p>${isHost
-              ? 'Нажми на мишень — попадание добавит категорию на табло.'
-              : 'Ведущий выбирает категории для этого раунда. Смотри на попадания!'}
-            </p>
+            <p>${currentTurn ? `Ход игрока: ${escapeHtml(currentTurn.avatar)} ${escapeHtml(currentTurn.name)}${isMyShot ? ' — стреляй!' : ''}` : 'Ждём игроков…'} ${isHost ? 'Ты можешь отменить выстрел и запустить раунд.' : ''}</p>
           </div>
           <div class="category-hit-counter"><strong>${count}</strong><span>из ${required}</span></div>
         </header>
@@ -1463,7 +1465,7 @@ class SvoyaIgraApp {
               const top = 50 + Math.sin(angle) * 37;
               const hit = theme.selected;
               const lastShot = selection.lastShotThemeIndex === theme.themeIndex;
-              const canShoot = isHost && !hit && count < required;
+              const canShoot = isMyShot && !hit && count < required;
               return `
                 <button type="button" class="category-target ${hit ? 'target-hit' : ''} ${lastShot ? 'target-last-shot' : ''}"
                   style="--target-left:${left.toFixed(2)}%;--target-top:${top.toFixed(2)}%"
@@ -1489,7 +1491,7 @@ class SvoyaIgraApp {
               <button type="button" class="btn btn-secondary" id="btn-undo-category-shot" ${canUndo ? '' : 'disabled'}>↶ Отменить выстрел</button>
               <button type="button" class="btn btn-gold btn-lg" id="btn-confirm-categories" ${canConfirm ? '' : 'disabled'}>Начать раунд →</button>
             </div>
-          ` : '<div class="muted-sm">Ожидаем ведущего…</div>'}
+          ` : `<div class="muted-sm">${isMyShot ? 'Ваш ход — выберите мишень!' : 'Ожидаем своего хода…'}</div>`}
         </footer>
       </section>
     `;
@@ -2441,12 +2443,22 @@ class SvoyaIgraApp {
   _renderPodiumStage(v) {
     const sorted = [...v.players].sort((a, b) => b.score - a.score);
     const winner = sorted[0];
-    const fastest = [...v.players]
-      .filter((p) => p.stats?.fastestReactionMs !== null)
-      .sort((a, b) => a.stats.fastestReactionMs - b.stats.fastestReactionMs)[0];
-    const topKiller = [...v.players]
-      .filter((p) => (p.stats?.sabotagesUsed || p.stats?.zeroedOthers || 0) > 0)
-      .sort((a, b) => (b.stats?.sabotagesUsed || 0) - (a.stats?.sabotagesUsed || 0))[0];
+    const awards = [
+      { icon: '🍀', title: 'Самый везучий неудачник', value: (p) => p.stats?.wrong || 0, eligible: (p) => p.score > 0, suffix: 'ошибок' },
+      { icon: '⚡', title: 'Молния', value: (p) => p.stats?.fastestReactionMs != null ? -p.stats.fastestReactionMs : 0, eligible: (p) => p.stats?.fastestReactionMs != null, allowNegative: true, format: (p) => `${(p.stats.fastestReactionMs / 1000).toFixed(2)} с` },
+      { icon: '🔘', title: 'Кнопкодав', value: (p) => p.stats?.buzzWins || 0, suffix: 'побед в нажатии' },
+      { icon: '🔨', title: 'Аукционист', value: (p) => p.stats?.auctionsWon || 0, suffix: 'выигранных аукционов' },
+      { icon: '💡', title: 'Любитель подсказок', value: (p) => p.stats?.hintsUsed || 0, suffix: 'подсказок' },
+      { icon: '🎯', title: 'Мишень судьбы', value: (p) => p.stats?.sabotagedCount || p.stats?.wasZeroed || 0, suffix: 'пакостей получено' }
+    ];
+    const awardWinners = awards.map((award) => {
+      const eligible = v.players.filter((p) => award.eligible ? award.eligible(p) : award.value(p) > 0);
+      if (!eligible.length) return null;
+      const max = Math.max(...eligible.map(award.value));
+      if (!award.allowNegative && max <= 0) return null;
+      const winners = eligible.filter((p) => award.value(p) === max);
+      return { ...award, winners, formatted: award.format ? award.format(winners[0]) : `${max} ${award.suffix}` };
+    }).filter(Boolean);
 
     return `
       <div class="podium-stage-card">
@@ -2474,14 +2486,9 @@ class SvoyaIgraApp {
           }).join('')}
         </div>
 
-        <div class="awards-row">
-          ${fastest ? `
-            <div class="award-chip">⚡ Самый быстрый палец: <strong>${escapeHtml(fastest.name)}</strong> (${(fastest.stats.fastestReactionMs / 1000).toFixed(2)} с)</div>
-          ` : ''}
-          ${topKiller ? `
-            <div class="award-chip">😈 Главный пакостник стола: <strong>${escapeHtml(topKiller.name)}</strong> (пакостей: ${topKiller.stats.sabotagesUsed || topKiller.stats.zeroedOthers || 0})</div>
-          ` : ''}
-        </div>
+        ${awardWinners.length ? `<div class="awards-row">
+          ${awardWinners.map((award) => `<div class="award-chip"><span>${award.icon} ${award.title}:</span> <strong>${award.winners.map((p) => `${escapeHtml(p.avatar || '')} ${escapeHtml(p.name)}`).join(' / ')}</strong> <small>(${award.formatted})</small></div>`).join('')}
+        </div>` : ''}
 
         ${this.role === 'host' ? `
           <div class="btn-row center mt-sm">
@@ -2682,7 +2689,7 @@ class SvoyaIgraApp {
 
     document.querySelectorAll('[data-shoot-theme]').forEach((btn) => {
       btn.addEventListener('click', () => {
-        if (this.role === 'host') this.engine?.shootCategory('__host__', Number(btn.dataset.shootTheme));
+        if (this.role === 'player') this.playerNet?.send({ action: 'SHOOT_CATEGORY', themeIndex: Number(btn.dataset.shootTheme) });
       });
     });
     document.getElementById('btn-undo-category-shot')?.addEventListener('click', () => {
