@@ -62,6 +62,12 @@ class StudioAudio {
     this._tone(783.99, 0.14, 0.26, 'sine', 0.35);     // G5
   }
 
+  playTargetShot() {
+    // Короткий стилизованный звук попадания по мишени на колесе категорий
+    this._tone(185, 0, 0.055, 'square', 0.22, 70);
+    this._tone(90, 0.035, 0.09, 'sawtooth', 0.14, 42);
+  }
+
   playBuzzReady() {
     this._tone(880, 0, 0.12, 'sine', 0.22);
     this._tone(1174.66, 0.06, 0.18, 'sine', 0.25);
