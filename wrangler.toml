@@ -1,0 +1,8 @@
+name = "svoya-igra-pages-relay"
+compatibility_date = "2026-05-03"
+pages_build_output_dir = "."
+
+[[durable_objects.bindings]]
+name = "ROOMS"
+class_name = "GameRoom"
+script_name = "svoya-igra-realtime"
