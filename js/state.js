@@ -125,6 +125,7 @@ export class GameEngine {
       phase: 'lobby',
       roundIndex: 0,
       categorySelection: null,
+      lastCategoryStarterId: null,
       selectedThemeIndexesByRound: [],
       playedCells: [],
       runtimeModifiers: [], // [roundIdx][themeIdx][qIdx] = null | 'nothing_personal'
@@ -251,6 +252,7 @@ export class GameEngine {
           videoEmbedUrl: q.videoEmbedUrl || '',
           videoSourceUrl: q.videoSourceUrl || '',
           videoCredit: String(q.videoCredit || ''),
+          answerVideo: q.answerVideo || '',
           hint: String(q.hint || ''),
           answer: String(q.answer || ''),
           answerImage: q.answerImage || '',
@@ -355,6 +357,16 @@ export class GameEngine {
     if (!this.state.chooserId && this.state.players.length > 0) {
       this.state.chooserId = this.state.players[0].id;
     }
+    // Include a real player who joins while category selection is already open.
+    // Keep the current starter stable for this round; late joiners queue behind them.
+    if (this.state.phase === 'category_select' && this.state.categorySelection) {
+      const cs = this.state.categorySelection;
+      cs.turnPlayerIds ||= ['__host__'];
+      if (!cs.turnPlayerIds.includes(playerId)) {
+        const hostIndex = cs.turnPlayerIds.indexOf('__host__');
+        cs.turnPlayerIds.splice(hostIndex < 0 ? cs.turnPlayerIds.length : hostIndex, 0, playerId);
+      }
+    }
     this._emit();
   }
 
@@ -394,6 +406,7 @@ export class GameEngine {
   startGame() {
     if (!this.pack) return;
     this.state.roundIndex = 0;
+    this.state.lastCategoryStarterId = null;
     this.state.selectedThemeIndexesByRound = [];
     this._rebuildCellsAndModifiers();
 
@@ -433,23 +446,40 @@ export class GameEngine {
   _beginCategorySelection(roundIndex) {
     const themes = this.pack?.rounds?.[roundIndex]?.themes || [];
     this.state.roundIndex = roundIndex;
+    const turnPlayerIds = [...this.state.players.filter((p) => !p.isSpectator).map((p) => p.id), '__host__'];
+    let starterPlayerId = null;
+    if (this.state.lastCategoryStarterId && turnPlayerIds.length > 0) {
+      const previousIndex = turnPlayerIds.indexOf(this.state.lastCategoryStarterId);
+      starterPlayerId = turnPlayerIds[(previousIndex >= 0 ? previousIndex + 1 : roundIndex) % turnPlayerIds.length];
+    }
     this.state.categorySelection = {
       roundIndex,
       selectedThemeIndexes: [],
       requiredCount: Math.min(5, themes.length),
       lastShotThemeIndex: null,
       shotSeq: 0,
-      turnPlayerIds: this.state.players.filter((p) => !p.isSpectator).map((p) => p.id)
+      turnPlayerIds,
+      starterPlayerId
     };
     this.state.phase = 'category_select';
+  }
+
+  setCategoryStarter(actorId, starterPlayerId) {
+    const cs = this.state.categorySelection;
+    if (actorId !== '__host__' || this.state.phase !== 'category_select' || !cs) return;
+    if (cs.selectedThemeIndexes.length > 0 || !(cs.turnPlayerIds || []).includes(starterPlayerId)) return;
+    cs.starterPlayerId = starterPlayerId;
+    this._emit();
   }
 
   shootCategory(actorId, themeIndex) {
     const cs = this.state.categorySelection;
     if (this.state.phase !== 'category_select' || !cs) return;
     const turnIds = cs.turnPlayerIds || [];
-    if (!turnIds.length) return;
-    const starter = cs.roundIndex % turnIds.length;
+    if (!turnIds.length || !cs.starterPlayerId) return;
+    const starterIndex = turnIds.indexOf(cs.starterPlayerId);
+    if (starterIndex < 0) return;
+    const starter = starterIndex;
     const expectedId = turnIds[(starter + cs.selectedThemeIndexes.length) % turnIds.length];
     if (actorId !== expectedId) return;
     const themes = this.pack?.rounds?.[cs.roundIndex]?.themes || [];
@@ -475,8 +505,9 @@ export class GameEngine {
   confirmCategorySelection(actorId) {
     const cs = this.state.categorySelection;
     if (actorId !== '__host__' || this.state.phase !== 'category_select' || !cs) return;
-    if (cs.selectedThemeIndexes.length !== cs.requiredCount) return;
+    if (cs.selectedThemeIndexes.length !== cs.requiredCount || !cs.starterPlayerId) return;
     this.state.selectedThemeIndexesByRound[cs.roundIndex] = [...cs.selectedThemeIndexes];
+    this.state.lastCategoryStarterId = cs.starterPlayerId;
     const roundName = this.pack?.rounds?.[cs.roundIndex]?.name || `Раунд ${cs.roundIndex + 1}`;
     this.state.categorySelection = null;
     this.state.phase = 'board';
@@ -489,6 +520,7 @@ export class GameEngine {
     this._stopTimer();
     this.state.phase = 'lobby';
     this.state.categorySelection = null;
+    this.state.lastCategoryStarterId = null;
     this.state.selectedThemeIndexesByRound = [];
     this.state.activeCell = null;
     this.state.modifierState = null;
@@ -1804,6 +1836,7 @@ export class GameEngine {
         videoEmbedUrl: showQuestionBody ? (q.videoEmbedUrl || '') : '',
         videoSourceUrl: showQuestionBody ? (q.videoSourceUrl || '') : '',
         videoCredit: showQuestionBody ? (q.videoCredit || '') : '',
+        answerVideo: isRevealed ? (q.answerVideo || '') : '',
         answer: (isHost || isRevealed) ? q.answer : null,
         answerImage: (isHost || isRevealed) ? q.answerImage : null,
         comment: (isHost || isRevealed) ? q.comment : null,
@@ -1900,7 +1933,14 @@ export class GameEngine {
         lastShotThemeIndex: s.categorySelection.lastShotThemeIndex,
         shotSeq: s.categorySelection.shotSeq,
         turnPlayerIds: [...(s.categorySelection.turnPlayerIds || [])],
-        currentTurnPlayerId: (s.categorySelection.turnPlayerIds || [])[((s.categorySelection.roundIndex % Math.max(1, s.categorySelection.turnPlayerIds.length)) + s.categorySelection.selectedThemeIndexes.length) % Math.max(1, s.categorySelection.turnPlayerIds.length)] || null,
+        starterPlayerId: s.categorySelection.starterPlayerId || null,
+        currentTurnPlayerId: (() => {
+          const ids = s.categorySelection.turnPlayerIds || [];
+          if (!ids.length || !s.categorySelection.starterPlayerId) return null;
+          const starterIndex = ids.indexOf(s.categorySelection.starterPlayerId);
+          if (starterIndex < 0) return null;
+          return ids[(starterIndex + s.categorySelection.selectedThemeIndexes.length) % ids.length] || null;
+        })(),
         themes: (this.pack?.rounds?.[s.categorySelection.roundIndex]?.themes || []).map((theme, themeIndex) => ({
           themeIndex,
           name: theme.name,
