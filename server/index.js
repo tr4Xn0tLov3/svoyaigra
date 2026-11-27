@@ -1,7 +1,7 @@
 import http from 'node:http';
 import { WebSocket, WebSocketServer } from 'ws';
 
-const PORT = Number(process.env.PORT || 8787);
+const PORT = Number(process.env.PORT || 80);
 const HEARTBEAT_MS = 25_000;
 const ROOM_TTL_MS = 6 * 60 * 60 * 1000;
 const rooms = new Map();
