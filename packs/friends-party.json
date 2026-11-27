@@ -56,7 +56,7 @@
           ]
         },
         {
-          "name": "Музыка",
+          "name": "Трек целиком",
           "questions": [
             {
               "cost": 100,
@@ -64,15 +64,8 @@
               "audio": "./packs/media/audio/tracks/rap-miyagi-i-got-love.m4a",
               "hint": "Осетинский дуэт из Владикавказа, а припев на английском переводится «У меня есть любовь».",
               "answer": "Miyagi & Эндшпиль (feat. Рем Дигга) — «I Got Love»",
-              "comment": "Клип «I Got Love» преодолел отметку в 1 миллиард просмотров."
-            },
-            {
-              "cost": 200,
-              "text": "🎹 ТОЛЬКО МЕЛОДИЯ (без слов)! Угадайте знаменитую русскоязычную панк-сказку по симфонической мелодии фортепиано и струнных!",
-              "audio": "./packs/media/audio/tracks/melody-kukla-kolduna.m4a",
-              "hint": "Легендарная питерская хоррор-панк группа — песня про тёмного мага, управляющего девушкой как марионеткой.",
-              "answer": "«Король и Шут» — «Кукла колдуна»",
-              "comment": "Инструментальное исполнение оркестра CAGMO («Симфония Король и Шут»)."
+              "comment": "Клип «I Got Love» преодолел отметку в 1 миллиард просмотров.",
+              "musicId": "full-existing-1"
             },
             {
               "cost": 300,
@@ -81,16 +74,8 @@
               "audio": "./packs/media/audio/tracks/hu-everywhere-i-go.m4a",
               "hint": "Это группа с «голливудской нежитью» в названии и куплетом Чарли Ссина: «Куда бы я ни пошёл…».",
               "answer": "Hollywood Undead — «Everywhere I Go»",
-              "comment": "Один из самых узнаваемых вечериночных хитов Hollywood Undead с альбома Swan Songs (2008)."
-            },
-            {
-              "cost": 400,
-              "modifier": "runaway_buzzer",
-              "text": "🎹 ТОЛЬКО МЕЛОДИЯ (без слов)! Какой культовый гранж-хит 90-х здесь играет струнный квартет? Назовите группу и песню!",
-              "audio": "./packs/media/audio/tracks/melody-teen-spirit.m4a",
-              "hint": "Группа Курта Кобейна, а в названии песни упоминается марка подросткового дезодоранта.",
-              "answer": "Nirvana — «Smells Like Teen Spirit»",
-              "comment": "Чистая струнная версия от Vitamin String Quartet без единого слова вокала."
+              "comment": "Один из самых узнаваемых вечериночных хитов Hollywood Undead с альбома Swan Songs (2008).",
+              "musicId": "full-existing-2"
             },
             {
               "cost": 500,
@@ -99,7 +84,160 @@
               "audio": "./packs/media/audio/tracks/hu-undead.m4a",
               "hint": "Песня называется ровно одним словом — второй половиной названия самой группы в масках!",
               "answer": "Hollywood Undead — «Undead»",
-              "comment": "Главный визитный трек Hollywood Undead, добравшийся до вершин рок-чартов Billboard."
+              "comment": "Главный визитный трек Hollywood Undead, добравшийся до вершин рок-чартов Billboard.",
+              "musicId": "full-existing-3"
+            },
+            {
+              "cost": 500,
+              "text": "Назовите молодёжную рок-группу Глеба Викторова и название этого громкого хита!",
+              "audio": "./packs/media/audio/tracks/rock-tri-dnya-dozhdya-otpuskai.m4a",
+              "hint": "В названии группы — трое суток пасмурной погоды, а песня просит наконец-то разжать руки и не держать.",
+              "answer": "«Три дня дождя» — «Отпускай»",
+              "comment": "Один из самых прослушиваемых русскоязычных рок-треков последних лет.",
+              "musicId": "full-existing-4"
+            },
+            {
+              "cost": 1000,
+              "text": "Угадайте группу и эту знаменитую иронично-мрачную песню под максимально жизнерадостный бой гавайской гитары укулеле!",
+              "audio": "./packs/media/audio/tracks/hu-bullet.m4a",
+              "hint": "Это трек Hollywood Undead с альбома American Tragedy — в переводе с английского название означает «Пуля».",
+              "answer": "Hollywood Undead — «Bullet»",
+              "comment": "Фирменный контраст солнечной акустики и чёрного юмора с альбома American Tragedy (2011).",
+              "musicId": "full-existing-5"
+            }
+          ],
+          "questionPool": [
+            {
+              "cost": 100,
+              "text": "Назовите дуэт (совместно с Рем Диггой) и название этого мирового хита, чей клип побил все рекорды русскоязычного YouTube!",
+              "audio": "./packs/media/audio/tracks/rap-miyagi-i-got-love.m4a",
+              "hint": "Осетинский дуэт из Владикавказа, а припев на английском переводится «У меня есть любовь».",
+              "answer": "Miyagi & Эндшпиль (feat. Рем Дигга) — «I Got Love»",
+              "comment": "Клип «I Got Love» преодолел отметку в 1 миллиард просмотров.",
+              "musicId": "full-existing-1"
+            },
+            {
+              "cost": 300,
+              "modifier": "mute_player",
+              "text": "Назовите калифорнийскую рэп-рок группу в масках и этот отрывной тусовочный бэнгер с их дебютного альбома Swan Songs!",
+              "audio": "./packs/media/audio/tracks/hu-everywhere-i-go.m4a",
+              "hint": "Это группа с «голливудской нежитью» в названии и куплетом Чарли Ссина: «Куда бы я ни пошёл…».",
+              "answer": "Hollywood Undead — «Everywhere I Go»",
+              "comment": "Один из самых узнаваемых вечериночных хитов Hollywood Undead с альбома Swan Songs (2008).",
+              "musicId": "full-existing-2"
+            },
+            {
+              "cost": 500,
+              "type": "auction",
+              "text": "Назовите группу и этот боевой гимн с гитарным риффом в духе Crazy Train Оззи Осборна, давший имя всему коллективу!",
+              "audio": "./packs/media/audio/tracks/hu-undead.m4a",
+              "hint": "Песня называется ровно одним словом — второй половиной названия самой группы в масках!",
+              "answer": "Hollywood Undead — «Undead»",
+              "comment": "Главный визитный трек Hollywood Undead, добравшийся до вершин рок-чартов Billboard.",
+              "musicId": "full-existing-3"
+            },
+            {
+              "cost": 500,
+              "text": "Назовите молодёжную рок-группу Глеба Викторова и название этого громкого хита!",
+              "audio": "./packs/media/audio/tracks/rock-tri-dnya-dozhdya-otpuskai.m4a",
+              "hint": "В названии группы — трое суток пасмурной погоды, а песня просит наконец-то разжать руки и не держать.",
+              "answer": "«Три дня дождя» — «Отпускай»",
+              "comment": "Один из самых прослушиваемых русскоязычных рок-треков последних лет.",
+              "musicId": "full-existing-4"
+            },
+            {
+              "cost": 1000,
+              "text": "Угадайте группу и эту знаменитую иронично-мрачную песню под максимально жизнерадостный бой гавайской гитары укулеле!",
+              "audio": "./packs/media/audio/tracks/hu-bullet.m4a",
+              "hint": "Это трек Hollywood Undead с альбома American Tragedy — в переводе с английского название означает «Пуля».",
+              "answer": "Hollywood Undead — «Bullet»",
+              "comment": "Фирменный контраст солнечной акустики и чёрного юмора с альбома American Tragedy (2011).",
+              "musicId": "full-existing-5"
+            },
+            {
+              "cost": 2000,
+              "text": "Назовите группу и этот мощный рок-рэп-сингл 2010 года, ставший дебютом нового вокалиста Дэнни на припеве!",
+              "audio": "./packs/media/audio/tracks/hu-hear-me-now.m4a",
+              "hint": "Лид-сингл Hollywood Undead с альбома American Tragedy — по-английски «Услышь меня сейчас»!",
+              "answer": "Hollywood Undead — «Hear Me Now»",
+              "comment": "Первый трек Hollywood Undead, записанный с вокалистом Дэнни Мурильо.",
+              "musicId": "full-existing-6"
+            },
+            {
+              "cost": 1000,
+              "text": "Назовите белорусского хитмейкера и эту душевную летнюю песню!",
+              "audio": "./packs/media/audio/tracks/hit-max-korzh-zakat.m4a",
+              "hint": "Исполнитель из Минска («Малый повзрослел»), а в названии песни — вечернее небо цвета спелой ягоды.",
+              "answer": "Макс Корж — «Малиновый закат»",
+              "comment": "Главный гимн ночных поездок с друзьями.",
+              "musicId": "full-existing-7"
+            },
+            {
+              "cost": 2000,
+              "text": "Назовите группу и этот тяжёлый открывающий трек альбома American Tragedy про жестокую изнанку фабрики грёз в Лос-Анджелесе!",
+              "audio": "./packs/media/audio/tracks/hu-been-to-hell.m4a",
+              "hint": "Боевик Hollywood Undead — по-английски название переводится «Побывал в аду» (три слова).",
+              "answer": "Hollywood Undead — «Been to Hell»",
+              "comment": "Открывающий сингл пластинки American Tragedy (2011) про разбитые мечты на Голливудских холмах.",
+              "musicId": "full-existing-8"
+            },
+            {
+              "cost": 4000,
+              "modifier": "mute_player",
+              "text": "Назовите группу и этот мощный хоровой гимн с альбома Notes from the Underground (клип на него снял Шон «Клоун» Крэхан из Slipknot)!",
+              "audio": "./packs/media/audio/tracks/hu-we-are.m4a",
+              "hint": "Трек Hollywood Undead с детским хором в припеве — два коротких английских слова: «Мы есть…».",
+              "answer": "Hollywood Undead — «We Are»",
+              "comment": "Главный сингл третьего студийного альбома Hollywood Undead — Notes from the Underground (2013).",
+              "musicId": "full-existing-9"
+            },
+            {
+              "musicId": "traditional-happy-birthday",
+              "text": "Эту песню почти каждый слышал на празднике с тортом и свечами. Назовите её.",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Happy_Birthday_Gerard.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 12,
+              "audioCredit": "Happy Birthday Gerard — Celestianpower",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Happy_Birthday_Gerard.ogg",
+              "audioLicense": "Public Domain",
+              "answer": "«Happy Birthday to You»",
+              "comment": "Запись опубликована автором в общественное достояние; короткая домашняя вокальная версия."
+            },
+            {
+              "musicId": "traditional-auld-lang-syne",
+              "text": "Как называется шотландская песня в исполнении оперной певицы Нелли Мелба, записанная в 1905 году и часто звучащая в новогоднюю полночь?",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/4/44/Auld_Lang_Syne_-_Nelly_Melba_%281905%29.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 14,
+              "audioCredit": "Auld Lang Syne — Nellie Melba (1905)",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Auld_Lang_Syne_-_Nelly_Melba_(1905).ogg",
+              "audioLicense": "Public Domain",
+              "answer": "«Auld Lang Syne» («Старое доброе время»)",
+              "comment": "Песня Роберта Бёрнса, исполнение Нелли Мелба, запись 1905 года; общественное достояние."
+            },
+            {
+              "musicId": "traditional-daisy-bell",
+              "text": "Как называется песня конца XIX века, в которой герой предлагает возлюбленной прокатиться на велосипеде-тандеме?",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/6/65/Daisy_Bell_sung_by_Edward_M._Favor.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 14,
+              "audioCredit": "Daisy Bell — Edward M. Favor",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Daisy_Bell_sung_by_Edward_M._Favor.ogg",
+              "audioLicense": "Public Domain",
+              "answer": "«Daisy Bell» («A Bicycle Built for Two»)",
+              "comment": "Историческая вокальная запись; общественное достояние."
+            },
+            {
+              "musicId": "traditional-amazing-grace",
+              "text": "Назовите гимн по строке «I once was lost, but now am found» в этой вокальной версии.",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/f/f0/Amazing_Grace_%28USAFB_jazz_vocal%29.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 14,
+              "audioCredit": "Amazing Grace — USAF Band jazz vocal",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Amazing_Grace_(USAFB_jazz_vocal).ogg",
+              "audioLicense": "Public Domain",
+              "answer": "«Amazing Grace»",
+              "comment": "Традиционный гимн; исполнение U.S. Air Force Band доступно в общественном достоянии."
             }
           ]
         },
@@ -341,23 +479,26 @@
           ]
         },
         {
-          "name": "Музыка",
+          "name": "Только мелодия",
           "questions": [
             {
-              "cost": 500,
-              "text": "Назовите молодёжную рок-группу Глеба Викторова и название этого громкого хита!",
-              "audio": "./packs/media/audio/tracks/rock-tri-dnya-dozhdya-otpuskai.m4a",
-              "hint": "В названии группы — трое суток пасмурной погоды, а песня просит наконец-то разжать руки и не держать.",
-              "answer": "«Три дня дождя» — «Отпускай»",
-              "comment": "Один из самых прослушиваемых русскоязычных рок-треков последних лет."
+              "cost": 200,
+              "text": "🎹 ТОЛЬКО МЕЛОДИЯ (без слов)! Угадайте знаменитую русскоязычную панк-сказку по симфонической мелодии фортепиано и струнных!",
+              "audio": "./packs/media/audio/tracks/melody-kukla-kolduna.m4a",
+              "hint": "Легендарная питерская хоррор-панк группа — песня про тёмного мага, управляющего девушкой как марионеткой.",
+              "answer": "«Король и Шут» — «Кукла колдуна»",
+              "comment": "Инструментальное исполнение оркестра CAGMO («Симфония Король и Шут»).",
+              "musicId": "melody-existing-1"
             },
             {
-              "cost": 1000,
-              "text": "Угадайте группу и эту знаменитую иронично-мрачную песню под максимально жизнерадостный бой гавайской гитары укулеле!",
-              "audio": "./packs/media/audio/tracks/hu-bullet.m4a",
-              "hint": "Это трек Hollywood Undead с альбома American Tragedy — в переводе с английского название означает «Пуля».",
-              "answer": "Hollywood Undead — «Bullet»",
-              "comment": "Фирменный контраст солнечной акустики и чёрного юмора с альбома American Tragedy (2011)."
+              "cost": 400,
+              "modifier": "runaway_buzzer",
+              "text": "🎹 ТОЛЬКО МЕЛОДИЯ (без слов)! Какой культовый гранж-хит 90-х здесь играет струнный квартет? Назовите группу и песню!",
+              "audio": "./packs/media/audio/tracks/melody-teen-spirit.m4a",
+              "hint": "Группа Курта Кобейна, а в названии песни упоминается марка подросткового дезодоранта.",
+              "answer": "Nirvana — «Smells Like Teen Spirit»",
+              "comment": "Чистая струнная версия от Vitamin String Quartet без единого слова вокала.",
+              "musicId": "melody-existing-2"
             },
             {
               "cost": 1500,
@@ -366,15 +507,8 @@
               "audio": "./packs/media/audio/tracks/melody-numb.m4a",
               "hint": "Финальный трек альбома Meteora с вокалом Честера Беннингтона — переводится как «Оцепеневший».",
               "answer": "Linkin Park — «Numb»",
-              "comment": "Инструментальный кавер дуэта Brooklyn Duo (виолончель + рояль)."
-            },
-            {
-              "cost": 2000,
-              "text": "Назовите группу и этот мощный рок-рэп-сингл 2010 года, ставший дебютом нового вокалиста Дэнни на припеве!",
-              "audio": "./packs/media/audio/tracks/hu-hear-me-now.m4a",
-              "hint": "Лид-сингл Hollywood Undead с альбома American Tragedy — по-английски «Услышь меня сейчас»!",
-              "answer": "Hollywood Undead — «Hear Me Now»",
-              "comment": "Первый трек Hollywood Undead, записанный с вокалистом Дэнни Мурильо."
+              "comment": "Инструментальный кавер дуэта Brooklyn Duo (виолончель + рояль).",
+              "musicId": "melody-existing-3"
             },
             {
               "cost": 2500,
@@ -384,7 +518,128 @@
               "audio": "./packs/media/audio/tracks/melody-bad-guy.m4a",
               "hint": "Певица с зелёными корнями волос в 2019-м и ироничное слово «Duh!» перед дропом.",
               "answer": "Billie Eilish — «bad guy»",
-              "comment": "Исполнение Vitamin String Quartet без вокала."
+              "comment": "Исполнение Vitamin String Quartet без вокала.",
+              "musicId": "melody-existing-4"
+            },
+            {
+              "cost": 3000,
+              "modifier": "nothing_personal",
+              "text": "🎹 ТОЛЬКО МЕЛОДИЯ (без слов)! Какой оскароносный трек из фильма «8 миля» здесь играет струнный квартет? Назовите артиста и песню!",
+              "audio": "./packs/media/audio/tracks/melody-lose-yourself.m4a",
+              "hint": "Белый рэпер из Детройта (Маршалл Мэтерс) и строки про мамины спагетти.",
+              "answer": "Eminem — «Lose Yourself»",
+              "comment": "Первая рэп-песня в истории, получившая премию «Оскар»!",
+              "musicId": "melody-existing-5"
+            }
+          ],
+          "questionPool": [
+            {
+              "cost": 200,
+              "text": "🎹 ТОЛЬКО МЕЛОДИЯ (без слов)! Угадайте знаменитую русскоязычную панк-сказку по симфонической мелодии фортепиано и струнных!",
+              "audio": "./packs/media/audio/tracks/melody-kukla-kolduna.m4a",
+              "hint": "Легендарная питерская хоррор-панк группа — песня про тёмного мага, управляющего девушкой как марионеткой.",
+              "answer": "«Король и Шут» — «Кукла колдуна»",
+              "comment": "Инструментальное исполнение оркестра CAGMO («Симфония Король и Шут»).",
+              "musicId": "melody-existing-1"
+            },
+            {
+              "cost": 400,
+              "modifier": "runaway_buzzer",
+              "text": "🎹 ТОЛЬКО МЕЛОДИЯ (без слов)! Какой культовый гранж-хит 90-х здесь играет струнный квартет? Назовите группу и песню!",
+              "audio": "./packs/media/audio/tracks/melody-teen-spirit.m4a",
+              "hint": "Группа Курта Кобейна, а в названии песни упоминается марка подросткового дезодоранта.",
+              "answer": "Nirvana — «Smells Like Teen Spirit»",
+              "comment": "Чистая струнная версия от Vitamin String Quartet без единого слова вокала.",
+              "musicId": "melody-existing-2"
+            },
+            {
+              "cost": 1500,
+              "modifier": "mute_player",
+              "text": "🎹 ТОЛЬКО МЕЛОДИЯ (без слов)! Угадайте культовую группу и этот мировой хит 2003 года по дуэту виолончели и фортепиано!",
+              "audio": "./packs/media/audio/tracks/melody-numb.m4a",
+              "hint": "Финальный трек альбома Meteora с вокалом Честера Беннингтона — переводится как «Оцепеневший».",
+              "answer": "Linkin Park — «Numb»",
+              "comment": "Инструментальный кавер дуэта Brooklyn Duo (виолончель + рояль).",
+              "musicId": "melody-existing-3"
+            },
+            {
+              "cost": 2500,
+              "modifier": "runaway_buzzer",
+              "type": "auction",
+              "text": "🎹 ТОЛЬКО МЕЛОДИЯ (без слов)! Какой суперхит 2019 года здесь играет струнный квартет (эта версия даже звучала в сериале «Бриджертоны»)?",
+              "audio": "./packs/media/audio/tracks/melody-bad-guy.m4a",
+              "hint": "Певица с зелёными корнями волос в 2019-м и ироничное слово «Duh!» перед дропом.",
+              "answer": "Billie Eilish — «bad guy»",
+              "comment": "Исполнение Vitamin String Quartet без вокала.",
+              "musicId": "melody-existing-4"
+            },
+            {
+              "cost": 3000,
+              "modifier": "nothing_personal",
+              "text": "🎹 ТОЛЬКО МЕЛОДИЯ (без слов)! Какой оскароносный трек из фильма «8 миля» здесь играет струнный квартет? Назовите артиста и песню!",
+              "audio": "./packs/media/audio/tracks/melody-lose-yourself.m4a",
+              "hint": "Белый рэпер из Детройта (Маршалл Мэтерс) и строки про мамины спагетти.",
+              "answer": "Eminem — «Lose Yourself»",
+              "comment": "Первая рэп-песня в истории, получившая премию «Оскар»!",
+              "musicId": "melody-existing-5"
+            },
+            {
+              "cost": 5000,
+              "type": "auction",
+              "text": "🎹 ТОЛЬКО МЕЛОДИЯ (без слов)! Угадайте виртуальную группу с мультяшными участниками и их суперхит 2005 года по одной только инструментальной мелодии!",
+              "audio": "./packs/media/audio/tracks/melody-feel-good.m4a",
+              "hint": "Проект Дэймона Албарна с синеволосым вокалистом 2-D и зловещим смехом перед басовым риффом.",
+              "answer": "Gorillaz — «Feel Good Inc.»",
+              "comment": "Струнная аранжировка фирменного басового риффа Gorillaz!",
+              "musicId": "melody-existing-6"
+            },
+            {
+              "musicId": "classic-the-entertainer",
+              "text": "Назовите композитора и знаменитый рэгтайм, который звучит в фильмах и мультфильмах уже больше века.",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/1/1b/The_Entertainer_-_Scott_Joplin.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 15,
+              "audioCredit": "The Entertainer — Scott Joplin",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:The_Entertainer_-_Scott_Joplin.ogg",
+              "audioLicense": "Public Domain",
+              "answer": "Скотт Джоплин — «The Entertainer»",
+              "comment": "Рэгтайм Скотта Джоплина, опубликованный в 1902 году; запись в общественном достоянии."
+            },
+            {
+              "musicId": "classic-moonlight-sonata",
+              "text": "Назовите композитора и сонату, чью первую часть часто называют «Лунной».",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Moonlight_Sonata.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 15,
+              "audioCredit": "Moonlight Sonata",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Moonlight_Sonata.ogg",
+              "audioLicense": "Public Domain",
+              "answer": "Людвиг ван Бетховен — Соната № 14 («Лунная»)",
+              "comment": "Запись и произведение доступны в общественном достоянии."
+            },
+            {
+              "musicId": "classic-turkish-march",
+              "text": "Чей это «Турецкий марш» и из какой фортепианной сонаты он происходит?",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/b/bf/Mozart_-_Piano_Sonata_No._11_in_A_major_-_III._Allegro_%28Turkish_March%29.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 15,
+              "audioCredit": "Bernd Krueger — Mozart, Piano Sonata KV 331, III. Allegro",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Mozart_-_Piano_Sonata_No._11_in_A_major_-_III._Allegro_(Turkish_March).ogg",
+              "audioLicense": "CC BY-SA 3.0 DE",
+              "answer": "Вольфганг Амадей Моцарт — Соната № 11, финал «Alla Turca»",
+              "comment": "Исполнение Бернда Крюгера с Wikimedia Commons под CC BY-SA 3.0 DE. Источник и лицензия указаны рядом с плеером."
+            },
+            {
+              "musicId": "classic-william-tell",
+              "text": "Увертюра какого произведения Россини звучит в этой старой фонографической записи?",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/c/cf/William_Tell_Overture_-_Edison.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 15,
+              "audioCredit": "William Tell Overture — Edison recording",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:William_Tell_Overture_-_Edison.ogg",
+              "audioLicense": "Public Domain",
+              "answer": "Джоаккино Россини — увертюра к опере «Вильгельм Телль»",
+              "comment": "Историческая фонографическая запись; общественное достояние."
             }
           ]
         },
@@ -627,50 +882,189 @@
           ]
         },
         {
-          "name": "Музыка",
+          "name": "Музыкальная эрудиция",
           "questions": [
             {
-              "cost": 1000,
-              "text": "Назовите белорусского хитмейкера и эту душевную летнюю песню!",
-              "audio": "./packs/media/audio/tracks/hit-max-korzh-zakat.m4a",
-              "hint": "Исполнитель из Минска («Малый повзрослел»), а в названии песни — вечернее небо цвета спелой ягоды.",
-              "answer": "Макс Корж — «Малиновый закат»",
-              "comment": "Главный гимн ночных поездок с друзьями."
+              "musicId": "grieg-mountain-king",
+              "text": "Из какой сюиты Грига эта нарастающая, всё более стремительная мелодия? Назовите композитора и тему.",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/b/bb/Musopen_-_In_the_Hall_Of_The_Mountain_King.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 15,
+              "audioCredit": "«В пещере горного короля» — Public Domain",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Musopen_-_In_the_Hall_Of_The_Mountain_King.ogg",
+              "audioLicense": "Public Domain",
+              "answer": "Григ — «В пещере горного короля»",
+              "comment": "Открытая запись с Wikimedia Commons: File:Musopen - In the Hall Of The Mountain King.ogg."
             },
             {
-              "cost": 2000,
-              "text": "Назовите группу и этот тяжёлый открывающий трек альбома American Tragedy про жестокую изнанку фабрики грёз в Лос-Анджелесе!",
-              "audio": "./packs/media/audio/tracks/hu-been-to-hell.m4a",
-              "hint": "Боевик Hollywood Undead — по-английски название переводится «Побывал в аду» (три слова).",
-              "answer": "Hollywood Undead — «Been to Hell»",
-              "comment": "Открывающий сингл пластинки American Tragedy (2011) про разбитые мечты на Голливудских холмах."
+              "musicId": "rimsky-bumblebee",
+              "text": "Как называется стремительный оркестровый фрагмент Римского-Корсакова?",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/7/75/Flight_of_the_Bumblebee_-_Concert_Band_-_United_States_Air_Force_Band_of_the_Rockies.mp3",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 14,
+              "audioCredit": "«Полёт шмеля» — Public Domain",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Flight_of_the_Bumblebee_-_Concert_Band_-_United_States_Air_Force_Band_of_the_Rockies.mp3",
+              "audioLicense": "Public Domain",
+              "answer": "Николай Римский-Корсаков — «Полёт шмеля»",
+              "comment": "Открытая запись с Wikimedia Commons: File:Flight of the Bumblebee - Concert Band - United States Air Force Band of the Rockies.mp3."
             },
             {
-              "cost": 3000,
-              "modifier": "nothing_personal",
-              "text": "🎹 ТОЛЬКО МЕЛОДИЯ (без слов)! Какой оскароносный трек из фильма «8 миля» здесь играет струнный квартет? Назовите артиста и песню!",
-              "audio": "./packs/media/audio/tracks/melody-lose-yourself.m4a",
-              "hint": "Белый рэпер из Детройта (Маршалл Мэтерс) и строки про мамины спагетти.",
-              "answer": "Eminem — «Lose Yourself»",
-              "comment": "Первая рэп-песня в истории, получившая премию «Оскар»!"
+              "musicId": "mozart-eine-kleine",
+              "text": "Назовите композитора и произведение по первой части этой знаменитой серенады.",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/6/68/Mozart_K525_Serenade_in_G_Major_1_-_Allegro.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 15,
+              "audioCredit": "«Маленькая ночная серенада» — Public Domain",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Mozart_K525_Serenade_in_G_Major_1_-_Allegro.ogg",
+              "audioLicense": "Public Domain",
+              "answer": "Моцарт — «Маленькая ночная серенада»",
+              "comment": "Открытая запись с Wikimedia Commons: File:Mozart K525 Serenade in G Major 1 - Allegro.ogg."
             },
             {
-              "cost": 4000,
-              "modifier": "mute_player",
-              "text": "Назовите группу и этот мощный хоровой гимн с альбома Notes from the Underground (клип на него снял Шон «Клоун» Крэхан из Slipknot)!",
-              "audio": "./packs/media/audio/tracks/hu-we-are.m4a",
-              "hint": "Трек Hollywood Undead с детским хором в припеве — два коротких английских слова: «Мы есть…».",
-              "answer": "Hollywood Undead — «We Are»",
-              "comment": "Главный сингл третьего студийного альбома Hollywood Undead — Notes from the Underground (2013)."
+              "musicId": "tchaikovsky-sugar-plum",
+              "text": "Из какого балета Чайковского эта хрупкая, звенящая мелодия?",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Tchaikovsky_-_Dance_of_the_Sugar_Plum_Fairy_-_The_Nutcracker.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 15,
+              "audioCredit": "«Танец Феи Драже» — CC BY 3.0",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Tchaikovsky_-_Dance_of_the_Sugar_Plum_Fairy_-_The_Nutcracker.ogg",
+              "audioLicense": "CC BY 3.0",
+              "answer": "Чайковский — «Танец Феи Драже»",
+              "comment": "Открытая запись с Wikimedia Commons: File:Tchaikovsky - Dance of the Sugar Plum Fairy - The Nutcracker.ogg. Условия и авторство — на странице источника."
             },
             {
-              "cost": 5000,
-              "type": "auction",
-              "text": "🎹 ТОЛЬКО МЕЛОДИЯ (без слов)! Угадайте виртуальную группу с мультяшными участниками и их суперхит 2005 года по одной только инструментальной мелодии!",
-              "audio": "./packs/media/audio/tracks/melody-feel-good.m4a",
-              "hint": "Проект Дэймона Албарна с синеволосым вокалистом 2-D и зловещим смехом перед басовым риффом.",
-              "answer": "Gorillaz — «Feel Good Inc.»",
-              "comment": "Струнная аранжировка фирменного басового риффа Gorillaz!"
+              "musicId": "wagner-valkyries",
+              "text": "Как называется знаменитый музыкальный эпизод из оперы Вагнера «Валькирия»?",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/2/29/Richard_Wagner_-_Ride_of_the_Valkyries.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 15,
+              "audioCredit": "«Полёт валькирий» — Public Domain",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Richard_Wagner_-_Ride_of_the_Valkyries.ogg",
+              "audioLicense": "Public Domain",
+              "answer": "Вагнер — «Полёт валькирий»",
+              "comment": "Открытая запись с Wikimedia Commons: File:Richard Wagner - Ride of the Valkyries.ogg."
+            }
+          ],
+          "questionPool": [
+            {
+              "musicId": "grieg-mountain-king",
+              "text": "Из какой сюиты Грига эта нарастающая, всё более стремительная мелодия? Назовите композитора и тему.",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/b/bb/Musopen_-_In_the_Hall_Of_The_Mountain_King.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 15,
+              "audioCredit": "«В пещере горного короля» — Public Domain",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Musopen_-_In_the_Hall_Of_The_Mountain_King.ogg",
+              "audioLicense": "Public Domain",
+              "answer": "Григ — «В пещере горного короля»",
+              "comment": "Открытая запись с Wikimedia Commons: File:Musopen - In the Hall Of The Mountain King.ogg."
+            },
+            {
+              "musicId": "rimsky-bumblebee",
+              "text": "Как называется стремительный оркестровый фрагмент Римского-Корсакова?",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/7/75/Flight_of_the_Bumblebee_-_Concert_Band_-_United_States_Air_Force_Band_of_the_Rockies.mp3",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 14,
+              "audioCredit": "«Полёт шмеля» — Public Domain",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Flight_of_the_Bumblebee_-_Concert_Band_-_United_States_Air_Force_Band_of_the_Rockies.mp3",
+              "audioLicense": "Public Domain",
+              "answer": "Николай Римский-Корсаков — «Полёт шмеля»",
+              "comment": "Открытая запись с Wikimedia Commons: File:Flight of the Bumblebee - Concert Band - United States Air Force Band of the Rockies.mp3."
+            },
+            {
+              "musicId": "mozart-eine-kleine",
+              "text": "Назовите композитора и произведение по первой части этой знаменитой серенады.",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/6/68/Mozart_K525_Serenade_in_G_Major_1_-_Allegro.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 15,
+              "audioCredit": "«Маленькая ночная серенада» — Public Domain",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Mozart_K525_Serenade_in_G_Major_1_-_Allegro.ogg",
+              "audioLicense": "Public Domain",
+              "answer": "Моцарт — «Маленькая ночная серенада»",
+              "comment": "Открытая запись с Wikimedia Commons: File:Mozart K525 Serenade in G Major 1 - Allegro.ogg."
+            },
+            {
+              "musicId": "tchaikovsky-sugar-plum",
+              "text": "Из какого балета Чайковского эта хрупкая, звенящая мелодия?",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Tchaikovsky_-_Dance_of_the_Sugar_Plum_Fairy_-_The_Nutcracker.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 15,
+              "audioCredit": "«Танец Феи Драже» — CC BY 3.0",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Tchaikovsky_-_Dance_of_the_Sugar_Plum_Fairy_-_The_Nutcracker.ogg",
+              "audioLicense": "CC BY 3.0",
+              "answer": "Чайковский — «Танец Феи Драже»",
+              "comment": "Открытая запись с Wikimedia Commons: File:Tchaikovsky - Dance of the Sugar Plum Fairy - The Nutcracker.ogg. Условия и авторство — на странице источника."
+            },
+            {
+              "musicId": "wagner-valkyries",
+              "text": "Как называется знаменитый музыкальный эпизод из оперы Вагнера «Валькирия»?",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/2/29/Richard_Wagner_-_Ride_of_the_Valkyries.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 15,
+              "audioCredit": "«Полёт валькирий» — Public Domain",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Richard_Wagner_-_Ride_of_the_Valkyries.ogg",
+              "audioLicense": "Public Domain",
+              "answer": "Вагнер — «Полёт валькирий»",
+              "comment": "Открытая запись с Wikimedia Commons: File:Richard Wagner - Ride of the Valkyries.ogg."
+            },
+            {
+              "musicId": "tchaikovsky-swan-lake",
+              "text": "Какой балет Чайковского скрывается в этом знакомом оркестровом фрагменте?",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/3/35/Tchaikovsky_Swan_Lake_Op.20_No.13._Danses_des_cygnes_IV.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 15,
+              "audioCredit": "«Лебединое озеро» — Public Domain",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Tchaikovsky_Swan_Lake_Op.20_No.13._Danses_des_cygnes_IV.ogg",
+              "audioLicense": "Public Domain",
+              "answer": "Чайковский — «Лебединое озеро»",
+              "comment": "Открытая запись с Wikimedia Commons: File:Tchaikovsky Swan Lake Op.20 No.13. Danses des cygnes IV.ogg."
+            },
+            {
+              "musicId": "ravel-bolero",
+              "text": "Назовите произведение Равеля, которое постепенно наращивает громкость и повторяет один ритм.",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/3/32/Bol%C3%A9ro_de_Ravel%2C_Orchestre_de_l%27Association_des_Concerts_Lamoureux%2C_1935%2C_1.mp3",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 15,
+              "audioCredit": "«Болеро» — Public Domain",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Bol%C3%A9ro_de_Ravel,_Orchestre_de_l%27Association_des_Concerts_Lamoureux,_1935,_1.mp3",
+              "audioLicense": "Public Domain",
+              "answer": "Морис Равель — «Болеро»",
+              "comment": "Открытая запись с Wikimedia Commons: File:Bol%C3%A9ro de Ravel, Orchestre de l%27Association des Concerts Lamoureux, 1935, 1.mp3."
+            },
+            {
+              "musicId": "satie-gymnopedie",
+              "text": "Назовите композитора и номер этой спокойной фортепианной пьесы.",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/b/b7/Gymnopedie_No._1..ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 15,
+              "audioCredit": "«Гимнопедия № 1» — CC0",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Gymnopedie_No._1..ogg",
+              "audioLicense": "CC0",
+              "answer": "Эрик Сати — «Гимнопедия № 1»",
+              "comment": "Открытая запись с Wikimedia Commons: File:Gymnopedie No. 1..ogg."
+            },
+            {
+              "musicId": "rimsky-scheherazade",
+              "text": "Как называется симфоническая сюита Римского-Корсакова, вдохновлённая историями «Тысячи и одной ночи»?",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/5/50/Rimsky-Korsakov_-_Scheherazade_-_1._Largo_e_maestoso_for_Piano_solo.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 15,
+              "audioCredit": "«Шехеразада» — CC0",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Rimsky-Korsakov_-_Scheherazade_-_1._Largo_e_maestoso_for_Piano_solo.ogg",
+              "audioLicense": "CC0",
+              "answer": "Римский-Корсаков — «Шехеразада»",
+              "comment": "Открытая запись с Wikimedia Commons: File:Rimsky-Korsakov - Scheherazade - 1. Largo e maestoso for Piano solo.ogg."
+            },
+            {
+              "musicId": "brahms-hungarian-dance",
+              "text": "Назовите композитора и жанр этой узнаваемой танцевальной пьесы.",
+              "audio": "https://upload.wikimedia.org/wikipedia/commons/2/20/Hungarian_Dance_No._1_Brahms_US_Air_Force_Bands.ogg",
+              "audioStartSeconds": 0,
+              "audioClipSeconds": 15,
+              "audioCredit": "«Венгерский танец № 1» — Public Domain",
+              "audioCreditUrl": "https://commons.wikimedia.org/wiki/File:Hungarian_Dance_No._1_Brahms_US_Air_Force_Bands.ogg",
+              "audioLicense": "Public Domain",
+              "answer": "Брамс — «Венгерский танец № 1»",
+              "comment": "Открытая запись с Wikimedia Commons: File:Hungarian Dance No. 1 Brahms US Air Force Bands.ogg."
             }
           ]
         },
