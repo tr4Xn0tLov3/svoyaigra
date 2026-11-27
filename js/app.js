@@ -1435,10 +1435,20 @@ class SvoyaIgraApp {
     const isHost = this.role === 'host';
     const count = selection.selectedThemeIndexes.length;
     const required = selection.requiredCount;
-    const currentTurn = v.players.find((p) => p.id === selection.currentTurnPlayerId);
-    const isMyShot = this.role === 'player' && !this.isSpectator && selection.currentTurnPlayerId === this.playerId;
+    const currentTurnId = selection.currentTurnPlayerId;
+    const currentTurn = v.players.find((p) => p.id === currentTurnId);
+    const isMyShot = this.role === 'player' && !this.isSpectator && currentTurnId === this.playerId;
+    const isHostShot = isHost && currentTurnId === '__host__';
     const canUndo = isHost && count > 0;
     const canConfirm = isHost && count === required;
+    const turnCandidates = (selection.turnPlayerIds || []).map((id) => id === '__host__'
+      ? { id, avatar: '🎙️', name: 'Ведущий' }
+      : v.players.find((p) => p.id === id)).filter(Boolean);
+    const turnCaption = currentTurnId === '__host__'
+      ? `Ход ведущего${isHostShot ? ' — стреляй!' : ''}`
+      : currentTurn
+        ? `Ход игрока: ${escapeHtml(currentTurn.avatar)} ${escapeHtml(currentTurn.name)}${isMyShot ? ' — стреляй!' : ''}`
+        : 'Ведущий выбирает первого стрелка';
 
     return `
       <section class="category-select-screen">
@@ -1446,7 +1456,16 @@ class SvoyaIgraApp {
           <div>
             <div class="panel-tag">🎯 ПОДГОТОВКА ${escapeHtml(selection.roundName)}</div>
             <h2>Выстрели по пяти категориям</h2>
-            <p>${currentTurn ? `Ход игрока: ${escapeHtml(currentTurn.avatar)} ${escapeHtml(currentTurn.name)}${isMyShot ? ' — стреляй!' : ''}` : 'Ждём игроков…'} ${isHost ? 'Ты можешь отменить выстрел и запустить раунд.' : ''}</p>
+            <p>${turnCaption} ${isHost ? 'Игроки и ведущий стреляют по очереди; промах не меняет порядок.' : ''}</p>
+            ${isHost ? `
+              <div class="category-starter-picker">
+                <label for="sel-category-starter">Первый стрелок:</label>
+                <select id="sel-category-starter" ${count > 0 ? 'disabled' : ''}>
+                  ${turnCandidates.map((p) => `<option value="${escapeHtml(p.id)}" ${selection.starterPlayerId === p.id ? 'selected' : ''}>${escapeHtml(p.avatar)} ${escapeHtml(p.name)}</option>`).join('')}
+                </select>
+                <button type="button" class="btn btn-secondary" id="btn-set-category-starter" ${count > 0 || !turnCandidates.length ? 'disabled' : ''}>Назначить</button>
+              </div>
+            ` : ''}
           </div>
           <div class="category-hit-counter"><strong>${count}</strong><span>из ${required}</span></div>
         </header>
@@ -1465,7 +1484,7 @@ class SvoyaIgraApp {
               const top = 50 + Math.sin(angle) * 37;
               const hit = theme.selected;
               const lastShot = selection.lastShotThemeIndex === theme.themeIndex;
-              const canShoot = isMyShot && !hit && count < required;
+              const canShoot = (isMyShot || isHostShot) && !hit && count < required;
               return `
                 <button type="button" class="category-target ${hit ? 'target-hit' : ''} ${lastShot ? 'target-last-shot' : ''}"
                   style="--target-left:${left.toFixed(2)}%;--target-top:${top.toFixed(2)}%"
@@ -1889,7 +1908,12 @@ class SvoyaIgraApp {
 
           ${rt.substate === 'revealed' ? `
             <div class="revealed-answer-banner ${noOneAnswered ? 'no-answer-center' : ''}">
-              <div class="ans-label">ПРАВИЛЬНЫЙ ОТВЕТ:</div>
+              <div class="ans-label">${qv.answerVideo ? '🎬 ПРОДОЛЖЕНИЕ РОЛИКА — ОТВЕТ:' : 'ПРАВИЛЬНЫЙ ОТВЕТ:'}</div>
+              ${qv.answerVideo ? `
+                <div class="answer-video-frame">
+                  <video controls autoplay playsinline preload="metadata" src="${escapeHtml(qv.answerVideo)}" class="q-video answer-reveal-video"></video>
+                </div>
+              ` : ''}
               <div class="ans-value">${escapeHtml(qv.answer || '')}</div>
               ${qv.answerImage ? `
                 <div class="ans-reveal-media">
@@ -2687,9 +2711,15 @@ class SvoyaIgraApp {
       this.engine?.startGame();
     });
 
+    document.getElementById('btn-set-category-starter')?.addEventListener('click', () => {
+      const starterPlayerId = document.getElementById('sel-category-starter')?.value;
+      if (starterPlayerId) this.engine?.setCategoryStarter('__host__', starterPlayerId);
+    });
     document.querySelectorAll('[data-shoot-theme]').forEach((btn) => {
       btn.addEventListener('click', () => {
-        if (this.role === 'player') this.playerNet?.send({ action: 'SHOOT_CATEGORY', themeIndex: Number(btn.dataset.shootTheme) });
+        const themeIndex = Number(btn.dataset.shootTheme);
+        if (this.role === 'host') this.engine?.shootCategory('__host__', themeIndex);
+        else if (this.role === 'player') this.playerNet?.send({ action: 'SHOOT_CATEGORY', themeIndex });
       });
     });
     document.getElementById('btn-undo-category-shot')?.addEventListener('click', () => {
