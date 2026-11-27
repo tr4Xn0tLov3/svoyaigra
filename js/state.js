@@ -237,10 +237,13 @@ export class GameEngine {
           catTheme: q.catTheme || '',
           catCost: q.catCost !== undefined ? q.catCost : null,
           text: String(q.text || ''),
-          speechText: String(q.speechText || ''),
-          speechAudio: q.speechAudio || '',
           image: q.image || '',
           audio: q.audio || '',
+          audioStartSeconds: Number(q.audioStartSeconds) || 0,
+          audioClipSeconds: Number(q.audioClipSeconds) || 0,
+          audioCredit: String(q.audioCredit || ''),
+          audioCreditUrl: q.audioCreditUrl || '',
+          audioLicense: String(q.audioLicense || ''),
           video: q.video || '',
           hint: String(q.hint || ''),
           answer: String(q.answer || ''),
@@ -629,6 +632,7 @@ export class GameEngine {
       displayTheme: themeName,
       buzzOpenedAt: startImmediately ? Date.now() : null,
       pausedBuzzMs: null,
+      judgeAvailableAt: 0,
       activeResponderId: null,
       submittedText: null,
       lockedPlayerIds: initialLocked,
@@ -924,6 +928,7 @@ export class GameEngine {
       displayTheme,
       buzzOpenedAt: null,
       pausedBuzzMs: null,
+      judgeAvailableAt: responderId ? Date.now() + 1500 : 0,
       activeResponderId: responderId,
       submittedText: null,
       lockedPlayerIds: [],
@@ -942,6 +947,7 @@ export class GameEngine {
       this._stopTimer();
     }
     this._emit();
+    if (responderId) this._scheduleJudgeAvailability(this.state.questionRuntime);
   }
 
   // --- Нажатие кнопки (Buzzer) и ответ ---
@@ -985,6 +991,7 @@ export class GameEngine {
 
     rt._firstBuzzAt = now;
     rt.pausedBuzzMs = this._getCurrentRemainingMs();
+    rt.judgeAvailableAt = now + 1500;
     rt.substate = 'answering';
     rt.activeResponderId = playerId;
     rt.submittedText = null;
@@ -993,6 +1000,26 @@ export class GameEngine {
     this._sound('buzz');
     this._startTimer('answering', this.settings.answerTimeSec * 1000);
     this._emit();
+    this._scheduleJudgeAvailability(rt);
+  }
+
+  _scheduleJudgeAvailability(rt) {
+    const wait = Math.max(0, (rt?.judgeAvailableAt || 0) - Date.now());
+    if (!wait) return;
+    setTimeout(() => {
+      if (this.state.phase === 'question' && this.state.questionRuntime === rt && rt.judgeAvailableAt <= Date.now()) {
+        this._emit();
+      }
+    }, wait + 20);
+  }
+
+  markPlayerAnswerDone(playerId) {
+    if (this.state.phase !== 'question' || !this.state.questionRuntime) return;
+    const rt = this.state.questionRuntime;
+    if (rt.activeResponderId !== playerId || (rt.substate !== 'answering' && rt.substate !== 'special_answering')) return;
+    rt.judgeAvailableAt = Date.now() + 1500;
+    this._emit();
+    this._scheduleJudgeAvailability(rt);
   }
 
   submitPlayerAnswerText(playerId, text) {
@@ -1000,6 +1027,10 @@ export class GameEngine {
       const rt = this.state.questionRuntime;
       if (rt.activeResponderId === playerId && (rt.substate === 'answering' || rt.substate === 'special_answering')) {
         rt.submittedText = String(text || '').trim().slice(0, 180);
+        if (rt.submittedText) {
+          rt.judgeAvailableAt = Date.now() + 1500;
+          this._scheduleJudgeAvailability(rt);
+        }
         this._emit();
       }
       return;
@@ -1036,6 +1067,7 @@ export class GameEngine {
     if (this.state.phase !== 'question' || !this.state.questionRuntime) return;
     const rt = this.state.questionRuntime;
     if (rt.substate !== 'answering' && rt.substate !== 'special_answering') return;
+    if ((rt.judgeAvailableAt || 0) > Date.now()) return;
 
     const responder = this.state.players.find((p) => p.id === rt.activeResponderId);
     const hasCursedMark = Boolean(
@@ -1687,10 +1719,13 @@ export class GameEngine {
         type: q.type,
         modifier: s.activeCell.modifier,
         text: showQuestionBody ? q.text : '',
-        speechText: showQuestionBody ? (q.speechText || q.text) : '',
-        speechAudio: showQuestionBody ? (q.speechAudio || '') : '',
         image: showQuestionBody ? q.image : '',
         audio: showQuestionBody ? q.audio : '',
+        audioStartSeconds: showQuestionBody ? (q.audioStartSeconds || 0) : 0,
+        audioClipSeconds: showQuestionBody ? (q.audioClipSeconds || 0) : 0,
+        audioCredit: showQuestionBody ? (q.audioCredit || '') : '',
+        audioCreditUrl: showQuestionBody ? (q.audioCreditUrl || '') : '',
+        audioLicense: showQuestionBody ? (q.audioLicense || '') : '',
         video: showQuestionBody ? q.video : '',
         answer: (isHost || isRevealed) ? q.answer : null,
         answerImage: (isHost || isRevealed) ? q.answerImage : null,
@@ -1718,6 +1753,7 @@ export class GameEngine {
           falseStartUntil: rt.falseStartUntil,
           lateBuzzes: rt.lateBuzzes,
           reactionMs: rt.reactionMs,
+          judgeAvailableAt: rt.judgeAvailableAt || 0,
           lastJudgment: rt.lastJudgment
         } : null
       };

@@ -56,27 +56,27 @@ class SvoyaIgraApp {
     this.scoreValues = new Map();
     this.lastPlayedSoundSeq = 0;
     this.lastBannerTs = 0;
-    this.lastSpokenQuestionKey = null;
+    this.lastAnimatedQuestionKey = null;
 
     // Постоянный аудиоплеер для вопросов «Угадай звук» (не сбивается при ререндере DOM!)
     this.qAudio = new Audio();
     this.qAudioKey = null;
     this.qAudioPlaying = false;
     this.qAudioPausedByBuzz = false;
+    this.qAudioClipStart = 0;
+    this.qAudioClipSeconds = 0;
     this.qAudioVolume = 0.85;
     this.qAudio.volume = this.qAudioVolume;
     this.qAudio.addEventListener('play', () => this._updateAudioUiBadge(true));
     this.qAudio.addEventListener('pause', () => this._updateAudioUiBadge(false));
     this.qAudio.addEventListener('ended', () => this._updateAudioUiBadge(false));
     this.qAudio.addEventListener('timeupdate', () => this._updateAudioProgressUi());
-    this.qAudio.addEventListener('loadedmetadata', () => this._updateAudioProgressUi());
-
-    // Голосовой клип вопроса; музыкальный фрагмент начнётся только после его окончания.
-    this.qVoiceAudio = new Audio();
-    this.qVoiceAudio.preload = 'auto';
-    this.questionNarrationKey = null;
-    this.questionNarrationDoneKey = null;
-    this.pendingQuestionMusicKey = null;
+    this.qAudio.addEventListener('loadedmetadata', () => {
+      if (this.qAudioClipStart > 0 && Math.abs(this.qAudio.currentTime - this.qAudioClipStart) > 0.5) {
+        this.qAudio.currentTime = this.qAudioClipStart;
+      }
+      this._updateAudioProgressUi();
+    });
 
     // Зум картинки по клику
     this.zoomedImageUrl = null;
@@ -181,6 +181,38 @@ class SvoyaIgraApp {
     return json;
   }
 
+  _preparePackForGame(rawPack) {
+    const pack = JSON.parse(JSON.stringify(rawPack));
+    const packId = pack.id || 'custom-pack';
+    pack.rounds?.forEach((round, roundIndex) => {
+      round.themes?.forEach((theme, themeIndex) => {
+        const pool = theme.questionPool;
+        if (!Array.isArray(pool) || pool.length <= (theme.questions?.length || 5)) return;
+        const count = theme.questions?.length || 5;
+        const storageKey = `bb_music_rotation:${packId}:${roundIndex}:${themeIndex}`;
+        const getId = (question) => String(question.musicId || question.audio || question.text || '');
+        let previousIds = [];
+        try {
+          const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+          previousIds = Array.isArray(saved.ids) ? saved.ids : [];
+        } catch (_) {}
+
+        let candidates = pool.filter((question) => !previousIds.includes(getId(question)));
+        if (candidates.length < count) candidates = pool.slice();
+        for (let i = candidates.length - 1; i > 0; i -= 1) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
+        }
+        theme.questions = candidates.slice(0, count);
+        try {
+          localStorage.setItem(storageKey, JSON.stringify({ ids: theme.questions.map(getId), updatedAt: Date.now() }));
+        } catch (_) {}
+        delete theme.questionPool;
+      });
+    });
+    return pack;
+  }
+
   // --- Управление звуковым фрагментом вопроса («Угадай звук») ---
 
   _syncCurseProgress(v) {
@@ -198,105 +230,6 @@ class SvoyaIgraApp {
       this.localBuzzerDodges = 0;
       this.localDodgeOffset = { x: 0, y: 0 };
     }
-  }
-
-  _speakQuestionOnce(view) {
-    const question = view?.phase === 'question' ? view.questionView : null;
-    if (!question) {
-      this.qVoiceAudio.pause();
-      this.qVoiceAudio.onended = null;
-      this.qVoiceAudio.onerror = null;
-      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      this.questionNarrationKey = null;
-      this.questionNarrationDoneKey = null;
-      this.pendingQuestionMusicKey = null;
-      return;
-    }
-
-    const rawText = question.speechText || question.text;
-    const text = String(rawText || '')
-      .replace(/<br\s*\/?\s*>/gi, '. ')
-      .replace(/<[^>]*>/g, ' ')
-      .replace(/&nbsp;/gi, ' ')
-      .replace(/&amp;/gi, ' и ')
-      .replace(/&quot;/gi, '"')
-      .replace(/&#39;/gi, "'")
-      .replace(/\s+/g, ' ')
-      .trim();
-    const questionKey = question.questionKey || `${question.themeName}::${question.nominalCost}::${text}`;
-    const speechKey = `${view.roomCode || ''}::${questionKey}`;
-    if (speechKey === this.lastSpokenQuestionKey) return;
-
-    this.lastSpokenQuestionKey = speechKey;
-    this.questionNarrationKey = speechKey;
-    this.questionNarrationDoneKey = null;
-    this.qVoiceAudio.pause();
-    this.qVoiceAudio.currentTime = 0;
-    this.qVoiceAudio.onended = null;
-    this.qVoiceAudio.onerror = null;
-    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-
-    if (!text) {
-      this._completeQuestionNarration(speechKey);
-      return;
-    }
-
-    if (question.speechAudio) {
-      this.qVoiceAudio.src = question.speechAudio;
-      this.qVoiceAudio.onended = () => this._completeQuestionNarration(speechKey);
-      const fallbackToBrowserVoice = () => {
-        if (this.questionNarrationKey !== speechKey || this.questionNarrationDoneKey === speechKey) return;
-        this.qVoiceAudio.onended = null;
-        this.qVoiceAudio.onerror = null;
-        this._speakWithBrowserVoice(text, speechKey);
-      };
-      this.qVoiceAudio.onerror = fallbackToBrowserVoice;
-      const playAttempt = this.qVoiceAudio.play();
-      if (playAttempt?.catch) playAttempt.catch(fallbackToBrowserVoice);
-      return;
-    }
-
-    this._speakWithBrowserVoice(text, speechKey);
-  }
-
-  _speakWithBrowserVoice(text, speechKey) {
-    if (!('speechSynthesis' in window) || typeof window.SpeechSynthesisUtterance !== 'function') {
-      this._completeQuestionNarration(speechKey);
-      return;
-    }
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'ru-RU';
-    utterance.rate = 0.92;
-    utterance.pitch = 1;
-    utterance.onend = () => this._completeQuestionNarration(speechKey);
-    utterance.onerror = () => this._completeQuestionNarration(speechKey);
-
-    const voices = window.speechSynthesis.getVoices();
-    const russianVoice = voices.find((voice) => /^ru-ru$/i.test(voice.lang))
-      || voices.find((voice) => /^ru(?:-|$)/i.test(voice.lang));
-    if (russianVoice) utterance.voice = russianVoice;
-
-    try {
-      window.speechSynthesis.speak(utterance);
-    } catch (_) {
-      this._completeQuestionNarration(speechKey);
-    }
-  }
-
-  _completeQuestionNarration(speechKey) {
-    if (this.questionNarrationKey !== speechKey) return;
-    this.questionNarrationDoneKey = speechKey;
-    this._maybeStartQuestionMusic(speechKey);
-  }
-
-  _maybeStartQuestionMusic(speechKey) {
-    if (!speechKey || this.pendingQuestionMusicKey !== speechKey) return;
-    if (this.questionNarrationDoneKey !== speechKey || !this.qAudioKey || sound.muted) return;
-    const substate = this.view?.questionView?.runtime?.substate;
-    if (substate === 'answering' || substate === 'special_answering' || substate === 'revealed') return;
-    this.pendingQuestionMusicKey = null;
-    this.qAudio.play().catch(() => {});
   }
 
   _handlePlayerBuzzAttempt() {
@@ -332,44 +265,41 @@ class SvoyaIgraApp {
         this.qAudioKey = null;
         this.qAudioPlaying = false;
       }
-      this.pendingQuestionMusicKey = null;
+      this.qAudioClipStart = 0;
+      this.qAudioClipSeconds = 0;
       return;
     }
 
     const questionKey = qv.questionKey || `${qv.themeName}::${qv.nominalCost}::${qv.text || ''}`;
-    const speechKey = `${v.roomCode || ''}::${questionKey}`;
     const audioKey = `${questionKey}::${audioSrc}`;
     const substate = qv.runtime?.substate;
 
     if (this.qAudioKey !== audioKey) {
       this.qAudioKey = audioKey;
       this.qAudioPausedByBuzz = false;
+      this.qAudioClipStart = Math.max(0, Number(qv.audioStartSeconds) || 0);
+      this.qAudioClipSeconds = Math.max(0, Number(qv.audioClipSeconds) || 0);
       this.qAudio.src = audioSrc;
-      this.qAudio.currentTime = 0;
+      this.qAudio.currentTime = this.qAudioClipStart;
       this.qAudio.volume = this.qAudioVolume;
-
-      const waitingForNarration = this.questionNarrationKey === speechKey
-        && this.questionNarrationDoneKey !== speechKey;
-      this.pendingQuestionMusicKey = waitingForNarration ? speechKey : null;
-      if (!sound.muted && substate !== 'revealed' && !waitingForNarration) {
+      if (substate === 'answering' || substate === 'special_answering') {
+        this.qAudioPausedByBuzz = true;
+      } else if (!sound.muted && substate !== 'revealed') {
         this.qAudio.play().catch(() => {});
       }
-    } else {
-      // Музыка идёт после озвучки; при ответе ставим её на паузу и продолжаем после неверного ответа.
-      if (substate === 'answering' || substate === 'special_answering') {
-        if (!this.qAudio.paused) {
-          this.qAudioPausedByBuzz = true;
-          this.qAudio.pause();
-        }
-      } else if (substate === 'buzzing' && this.qAudioPausedByBuzz) {
-        this.qAudioPausedByBuzz = false;
-        if (!sound.muted) this.qAudio.play().catch(() => {});
-      } else if (substate === 'buzzing') {
-        this._maybeStartQuestionMusic(speechKey);
-      } else if (substate === 'revealed') {
-        this.qAudioPausedByBuzz = false;
-        if (!this.qAudio.paused) this.qAudio.pause();
+    } else if (substate === 'answering' || substate === 'special_answering') {
+      // Музыкальный фрагмент ставится на паузу, пока игрок отвечает.
+      if (!this.qAudio.paused) {
+        this.qAudioPausedByBuzz = true;
+        this.qAudio.pause();
       }
+    } else if (substate === 'buzzing' && this.qAudioPausedByBuzz) {
+      // После неверного ответа возвращаем музыку с того же места.
+      this.qAudioPausedByBuzz = false;
+      if (!sound.muted) this.qAudio.play().catch(() => {});
+    } else if (substate === 'revealed') {
+      this.qAudioPausedByBuzz = false;
+      if (!this.qAudio.paused) this.qAudio.pause();
     }
   }
 
@@ -381,25 +311,45 @@ class SvoyaIgraApp {
     return `${m}:${rem}`;
   }
 
+  _audioElapsedForUi() {
+    const current = this.qAudio.currentTime || 0;
+    return this.qAudioClipSeconds
+      ? Math.min(this.qAudioClipSeconds, Math.max(0, current - this.qAudioClipStart))
+      : current;
+  }
+
+  _audioDurationForUi() {
+    return this.qAudioClipSeconds || this.qAudio.duration || 30;
+  }
+
   _updateAudioProgressUi() {
     const cur = this.qAudio.currentTime || 0;
-    const dur = this.qAudio.duration || 30;
-    const pct = dur > 0 ? Math.min(100, Math.max(0, (cur / dur) * 100)) : 0;
+    const end = this.qAudioClipStart + this.qAudioClipSeconds;
+    if (this.qAudioClipSeconds > 0 && cur >= end) {
+      this.qAudio.pause();
+      return;
+    }
+    const elapsed = this._audioElapsedForUi();
+    const duration = this._audioDurationForUi();
+    const pct = duration > 0 ? Math.min(100, Math.max(0, (elapsed / duration) * 100)) : 0;
     const fill = document.getElementById('q-audio-progress-fill');
     const timeEl = document.getElementById('q-audio-time-label');
     if (fill) fill.style.width = `${pct.toFixed(1)}%`;
-    if (timeEl) timeEl.textContent = `${this._formatAudioTime(cur)} / ${this._formatAudioTime(dur)}`;
+    if (timeEl) timeEl.textContent = `${this._formatAudioTime(elapsed)} / ${this._formatAudioTime(duration)}`;
   }
 
   _replayQuestionAudio() {
     if (!this.qAudio.src) return;
-    this.qAudio.currentTime = 0;
+    this.qAudio.currentTime = this.qAudioClipStart;
     this.qAudio.play().catch(() => {});
   }
 
   _toggleQuestionAudio() {
     if (!this.qAudio.src) return;
     if (this.qAudio.paused) {
+      if (this.qAudioClipSeconds > 0 && this.qAudio.currentTime >= this.qAudioClipStart + this.qAudioClipSeconds) {
+        this.qAudio.currentTime = this.qAudioClipStart;
+      }
       this.qAudio.play().catch(() => {});
     } else {
       this.qAudio.pause();
@@ -441,10 +391,10 @@ class SvoyaIgraApp {
       this.engine.onChange = () => this._onHostEngineChange();
       try {
         if (this.customUploadedPack) {
-          this.engine.setPack(this.customUploadedPack);
+          this.engine.setPack(this._preparePackForGame(this.customUploadedPack));
         } else if (this.selectedPackMeta) {
           const packJson = await this._fetchPackJson(this.selectedPackMeta);
-          if (packJson) this.engine.setPack(packJson);
+          if (packJson) this.engine.setPack(this._preparePackForGame(packJson));
         }
       } catch (err) {
         this._toast('Ошибка загрузки пака: ' + err.message, 'red');
@@ -500,7 +450,6 @@ class SvoyaIgraApp {
     if (!this.engine) return;
     this._scheduleHostBackup();
     this.view = this.engine.buildViewFor('__host__');
-    this._speakQuestionOnce(this.view);
     this._syncLocalTimerFromView();
     this._syncQuestionAudio(this.view);
     this._syncCurseProgress(this.view);
@@ -548,6 +497,9 @@ class SvoyaIgraApp {
         break;
       case 'SUBMIT_ANSWER_TEXT':
         this.engine.submitPlayerAnswerText(playerId, msg.text);
+        break;
+      case 'ANSWER_DONE':
+        this.engine.markPlayerAnswerDone(playerId);
         break;
       case 'ASSIGN_CAT':
         this.engine.assignCatTarget(playerId, msg.targetId, msg.cost);
@@ -625,7 +577,6 @@ class SvoyaIgraApp {
     const prevPhase = this.view?.phase;
     const prevSubstate = this.view?.questionView?.runtime?.substate;
     this.view = payload;
-    this._speakQuestionOnce(this.view);
     this._syncLocalTimerFromView();
     this._syncQuestionAudio(this.view);
     this._syncCurseProgress(this.view);
@@ -664,14 +615,6 @@ class SvoyaIgraApp {
     this.qAudio.pause();
     this.qAudio.src = '';
     this.qAudioKey = null;
-    this.qVoiceAudio.pause();
-    this.qVoiceAudio.src = '';
-    this.qVoiceAudio.onended = null;
-    this.qVoiceAudio.onerror = null;
-    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-    this.questionNarrationKey = null;
-    this.questionNarrationDoneKey = null;
-    this.pendingQuestionMusicKey = null;
     if (this.engine) {
       this.engine.destroy();
       this.engine = null;
@@ -1216,6 +1159,11 @@ class SvoyaIgraApp {
 
         <!-- Огромная центральная сцена с окном вопроса / табло -->
         <main class="studio-stage">
+          ${!isHost && v.timer?.kind && !v.timer.running ? `
+            <div class="player-paused-overlay" role="status" aria-live="polite">
+              <span>⏸ На паузе</span>
+            </div>
+          ` : ''}
           ${this._renderMainStage(v)}
         </main>
 
@@ -1687,6 +1635,9 @@ class SvoyaIgraApp {
     const responder = v.players.find((p) => p.id === rt.activeResponderId);
     const curse = v.activeCurse;
     const isRevealed = rt.substate === 'revealed';
+    const noOneAnswered = isRevealed && !rt.lastJudgment;
+    const openingQuestion = this.lastAnimatedQuestionKey !== qv.questionKey;
+    if (openingQuestion) this.lastAnimatedQuestionKey = qv.questionKey;
     const isCursedVictim = this.role === 'player' && !this.isSpectator && curse?.targetId === this.playerId && !isRevealed;
 
     const isUpsideDownMe = isCursedVictim && curse.kind === 'upside_down';
@@ -1713,7 +1664,7 @@ class SvoyaIgraApp {
 
     return `
       <div class="question-stage-layout">
-        <div class="question-card giant-question-window ${rt.substate === 'buzzing' ? 'buzz-ready-glow' : ''}">
+        <div class="question-card giant-question-window ${rt.substate === 'buzzing' ? 'buzz-ready-glow' : ''} ${openingQuestion ? 'question-opening' : ''} ${isRevealed ? 'question-fold-after-answer' : ''} ${noOneAnswered ? 'no-answer-revealed' : ''}">
           <div class="question-header">
             <div class="q-theme-title">
               ${badges.join('')}
@@ -1742,13 +1693,14 @@ class SvoyaIgraApp {
                   </div>
                   <div class="audio-card-info">
                     <div class="audio-card-head-row">
-                      <strong>${qv.audio.includes('melody-') ? '🎹 Только мелодия (без слов) — угадайте хит!' : '🎵 Музыкальный вопрос — угадайте трек!'}</strong>
-                      <span class="audio-time-label" id="q-audio-time-label">${this._formatAudioTime(this.qAudio.currentTime || 0)} / ${this._formatAudioTime(this.qAudio.duration || 30)}</span>
+                      <strong>${/только мелодия/i.test(qv.themeName) || qv.audio.includes('melody-') ? '🎹 Только мелодия (без слов) — угадайте хит!' : '🎵 Музыкальный вопрос — угадайте трек!'}</strong>
+                      <span class="audio-time-label" id="q-audio-time-label">${this._formatAudioTime(this._audioElapsedForUi())} / ${this._formatAudioTime(this._audioDurationForUi())}</span>
                     </div>
                     <div class="audio-progress-track">
-                      <div class="audio-progress-fill" id="q-audio-progress-fill" style="width:${this.qAudio.duration ? Math.min(100, ((this.qAudio.currentTime || 0) / this.qAudio.duration) * 100).toFixed(1) : 0}%"></div>
+                      <div class="audio-progress-fill" id="q-audio-progress-fill" style="width:${this._audioDurationForUi() ? Math.min(100, (this._audioElapsedForUi() / this._audioDurationForUi()) * 100).toFixed(1) : 0}%"></div>
                     </div>
                     <span class="muted-sm">При нажатии кнопки ответа трек ставится на паузу</span>
+                    ${qv.audioCredit ? `<a class="audio-credit" href="${escapeHtml(qv.audioCreditUrl || '#')}" target="_blank" rel="noopener">Источник: ${escapeHtml(qv.audioCredit)}${qv.audioLicense ? ` · ${escapeHtml(qv.audioLicense)}` : ''}</a>` : ''}
                   </div>
                   <div class="audio-card-btns">
                     <button type="button" class="btn btn-gold" id="btn-toggle-q-audio">
@@ -1790,7 +1742,7 @@ class SvoyaIgraApp {
           ${this._renderQuestionStatusBanner(v, qv, rt, responder)}
 
           ${rt.substate === 'revealed' ? `
-            <div class="revealed-answer-banner">
+            <div class="revealed-answer-banner ${noOneAnswered ? 'no-answer-center' : ''}">
               <div class="ans-label">ПРАВИЛЬНЫЙ ОТВЕТ:</div>
               <div class="ans-value">${escapeHtml(qv.answer || '')}</div>
               ${qv.answerImage ? `
@@ -1963,6 +1915,7 @@ class SvoyaIgraApp {
 
   _renderHostQuestionPanel(qv, rt) {
     if (rt.substate === 'revealed') return '';
+    const judgeWaitMs = Math.max(0, (rt.judgeAvailableAt || 0) - Date.now());
     return `
       <div class="host-control-bar">
         <div class="host-secret-answer">
@@ -1982,12 +1935,13 @@ class SvoyaIgraApp {
           ` : ''}
 
           ${(rt.substate === 'answering' || rt.substate === 'special_answering') ? `
-            <button class="btn btn-correct btn-lg" id="btn-judge-yes">
+            <button class="btn btn-correct btn-lg" id="btn-judge-yes" ${judgeWaitMs > 0 ? 'disabled' : ''}>
               ✅ Засчитать (+${formatScore(qv.effectiveCost)}) <kbd>1</kbd>
             </button>
-            <button class="btn btn-wrong btn-lg" id="btn-judge-no">
+            <button class="btn btn-wrong btn-lg" id="btn-judge-no" ${judgeWaitMs > 0 ? 'disabled' : ''}>
               ❌ Неверно <kbd>2</kbd>
             </button>
+            ${judgeWaitMs > 0 ? `<span class="judge-wait-note">⏳ Подождите 1,5 с перед оценкой ответа</span>` : ''}
           ` : ''}
 
           ${qv.hints?.enabled && !qv.hints?.publicHintRevealed ? `
@@ -2021,6 +1975,9 @@ class SvoyaIgraApp {
               value="${escapeHtml(this.drafts.answerText)}">
             <button type="submit" class="btn btn-gold">Отправить</button>
           </form>
+          <button type="button" class="btn btn-secondary btn-sm answer-done-btn" id="btn-player-answer-done">
+            🎙️ Закончил отвечать — подождать 1,5 с
+          </button>
         </div>
       `;
     }
@@ -2498,8 +2455,6 @@ class SvoyaIgraApp {
       const muted = sound.toggleMute();
       if (muted) {
         this.qAudio.pause();
-        this.qVoiceAudio.pause();
-        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
       }
       this.render();
     });
@@ -2690,6 +2645,9 @@ class SvoyaIgraApp {
       e.preventDefault();
       if (!this.drafts.answerText.trim()) return;
       this.playerNet?.send({ action: 'SUBMIT_ANSWER_TEXT', text: this.drafts.answerText.trim() });
+    });
+    document.getElementById('btn-player-answer-done')?.addEventListener('click', () => {
+      this.playerNet?.send({ action: 'ANSWER_DONE' });
     });
 
     // Кнопки подсказок игроков
