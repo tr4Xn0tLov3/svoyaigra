@@ -2034,9 +2034,21 @@
           "name": "Что было дальше?",
           "questions": [
             {
+              "rotationId": "what-next-kitten-1",
+              "rotationGroup": "kitten",
+              "cost": 500,
+              "text": "Котёнок заметил розовую игрушку и тянется к ней. Что произойдёт дальше?",
+              "video": "./packs/media/video/what-next/what-next-kitten.webm",
+              "videoSourceUrl": "https://www.pexels.com/video/playful-kitten-enjoys-toy-in-cozy-living-room-35124856/",
+              "videoCredit": "nilay ortanca · Pexels",
+              "hint": "Малыш уже тянется к игрушке — не отводите взгляд от лап.",
+              "answer": "Котёнок подхватит розовую игрушку лапами, завалится на бок и продолжит с ней играть.",
+              "comment": "Короткий фрагмент с котёнком; видео обрывается до продолжения игры."
+            },
+            {
               "rotationId": "what-next-skateboard-1",
               "rotationGroup": "skateboard",
-              "cost": 500,
+              "cost": 1000,
               "text": "Скейтбордист разгоняется и взлетает у рампы. Удастся ли ему приземлиться на доску?",
               "video": "./packs/media/video/what-next/what-next-skateboard.webm",
               "videoSourceUrl": "https://www.pexels.com/video/a-skateboarder-is-riding-down-a-ramp-at-a-skate-park-20315562/",
@@ -2048,7 +2060,7 @@
             {
               "rotationId": "what-next-basketball-1",
               "rotationGroup": "basketball",
-              "cost": 1000,
+              "cost": 1500,
               "text": "Мяч летит прямо к кольцу. Попадёт ли он в корзину?",
               "video": "./packs/media/video/what-next/what-next-basketball.webm",
               "videoSourceUrl": "https://www.pexels.com/video/shooting-a-basketball-in-the-hoop-5192151/",
@@ -2060,7 +2072,7 @@
             {
               "rotationId": "what-next-dominoes-1",
               "rotationGroup": "dominoes",
-              "cost": 1500,
+              "cost": 2000,
               "text": "Первая костяшка уже начала падать. Что произойдёт дальше с длинным рядом домино?",
               "video": "./packs/media/video/what-next/what-next-dominoes.webm",
               "videoSourceUrl": "https://www.pexels.com/video/set-of-dominoes-1793414/",
@@ -2072,7 +2084,7 @@
             {
               "rotationId": "what-next-dice-1",
               "rotationGroup": "dice",
-              "cost": 2000,
+              "cost": 2500,
               "text": "Башня из красных кубиков начинает шататься. Устоит ли она?",
               "video": "./packs/media/video/what-next/what-next-dice.webm",
               "videoSourceUrl": "https://www.pexels.com/video/red-dice-falling-in-slow-motion-34805935/",
@@ -2080,25 +2092,37 @@
               "hint": "Посмотрите на верхние кубики — равновесие уже нарушено.",
               "answer": "Башня не удерживается: кубики падают и разъезжаются по столу.",
               "comment": "Клип обрывается в момент, когда башня начинает заваливаться."
-            },
-            {
-              "rotationId": "what-next-coin-1",
-              "rotationGroup": "coin",
-              "cost": 2500,
-              "text": "Монета всё ещё крутится на ребре. Чем закончится вращение?",
-              "video": "./packs/media/video/what-next/what-next-coin.webm",
-              "videoSourceUrl": "https://www.pexels.com/video/spinning-coin-853779/",
-              "videoCredit": "Coverr · Pexels",
-              "hint": "Вращение становится медленнее, монета начинает покачиваться.",
-              "answer": "Монета теряет скорость и в конце концов падает плашмя на стол.",
-              "comment": "Предскажите, чем завершится вращение монеты."
             }
           ],
           "questionPool": [
             {
+              "rotationId": "what-next-kitten-1",
+              "rotationGroup": "kitten",
+              "cost": 500,
+              "text": "Котёнок заметил розовую игрушку и тянется к ней. Что произойдёт дальше?",
+              "video": "./packs/media/video/what-next/what-next-kitten.webm",
+              "videoSourceUrl": "https://www.pexels.com/video/playful-kitten-enjoys-toy-in-cozy-living-room-35124856/",
+              "videoCredit": "nilay ortanca · Pexels",
+              "hint": "Малыш уже тянется к игрушке — не отводите взгляд от лап.",
+              "answer": "Котёнок подхватит розовую игрушку лапами, завалится на бок и продолжит с ней играть.",
+              "comment": "Короткий фрагмент с котёнком; видео обрывается до продолжения игры."
+            },
+            {
+              "rotationId": "what-next-kitten-2",
+              "rotationGroup": "kitten",
+              "cost": 500,
+              "text": "Котёнок уже поймал игрушку лапой. Бросит её или продолжит охотиться?",
+              "video": "./packs/media/video/what-next/what-next-kitten.webm",
+              "videoSourceUrl": "https://www.pexels.com/video/playful-kitten-enjoys-toy-in-cozy-living-room-35124856/",
+              "videoCredit": "nilay ortanca · Pexels",
+              "hint": "Малыш уже тянется к игрушке — не отводите взгляд от лап.",
+              "answer": "Котёнок подхватит розовую игрушку лапами, завалится на бок и продолжит с ней играть.",
+              "comment": "Короткий фрагмент с котёнком; видео обрывается до продолжения игры."
+            },
+            {
               "rotationId": "what-next-skateboard-1",
               "rotationGroup": "skateboard",
-              "cost": 500,
+              "cost": 1000,
               "text": "Скейтбордист разгоняется и взлетает у рампы. Удастся ли ему приземлиться на доску?",
               "video": "./packs/media/video/what-next/what-next-skateboard.webm",
               "videoSourceUrl": "https://www.pexels.com/video/a-skateboarder-is-riding-down-a-ramp-at-a-skate-park-20315562/",
@@ -2110,7 +2134,7 @@
             {
               "rotationId": "what-next-skateboard-2",
               "rotationGroup": "skateboard",
-              "cost": 500,
+              "cost": 1000,
               "text": "Трюк уже в воздухе: что произойдёт в следующую секунду — падение или чистое приземление?",
               "video": "./packs/media/video/what-next/what-next-skateboard.webm",
               "videoSourceUrl": "https://www.pexels.com/video/a-skateboarder-is-riding-down-a-ramp-at-a-skate-park-20315562/",
@@ -2122,7 +2146,7 @@
             {
               "rotationId": "what-next-basketball-1",
               "rotationGroup": "basketball",
-              "cost": 1000,
+              "cost": 1500,
               "text": "Мяч летит прямо к кольцу. Попадёт ли он в корзину?",
               "video": "./packs/media/video/what-next/what-next-basketball.webm",
               "videoSourceUrl": "https://www.pexels.com/video/shooting-a-basketball-in-the-hoop-5192151/",
@@ -2134,7 +2158,7 @@
             {
               "rotationId": "what-next-basketball-2",
               "rotationGroup": "basketball",
-              "cost": 1000,
+              "cost": 1500,
               "text": "Предскажите финал броска: мяч пройдёт через сетку или отскочит от кольца?",
               "video": "./packs/media/video/what-next/what-next-basketball.webm",
               "videoSourceUrl": "https://www.pexels.com/video/shooting-a-basketball-in-the-hoop-5192151/",
@@ -2146,7 +2170,7 @@
             {
               "rotationId": "what-next-dominoes-1",
               "rotationGroup": "dominoes",
-              "cost": 1500,
+              "cost": 2000,
               "text": "Первая костяшка уже начала падать. Что произойдёт дальше с длинным рядом домино?",
               "video": "./packs/media/video/what-next/what-next-dominoes.webm",
               "videoSourceUrl": "https://www.pexels.com/video/set-of-dominoes-1793414/",
@@ -2158,7 +2182,7 @@
             {
               "rotationId": "what-next-dominoes-2",
               "rotationGroup": "dominoes",
-              "cost": 1500,
+              "cost": 2000,
               "text": "Дойдёт ли цепная реакция до конца дорожки или остановится на первых костяшках?",
               "video": "./packs/media/video/what-next/what-next-dominoes.webm",
               "videoSourceUrl": "https://www.pexels.com/video/set-of-dominoes-1793414/",
@@ -2170,7 +2194,7 @@
             {
               "rotationId": "what-next-dice-1",
               "rotationGroup": "dice",
-              "cost": 2000,
+              "cost": 2500,
               "text": "Башня из красных кубиков начинает шататься. Устоит ли она?",
               "video": "./packs/media/video/what-next/what-next-dice.webm",
               "videoSourceUrl": "https://www.pexels.com/video/red-dice-falling-in-slow-motion-34805935/",
@@ -2182,7 +2206,7 @@
             {
               "rotationId": "what-next-dice-2",
               "rotationGroup": "dice",
-              "cost": 2000,
+              "cost": 2500,
               "text": "Что случится с верхними кубиками: они останутся на башне или всё сооружение развалится?",
               "video": "./packs/media/video/what-next/what-next-dice.webm",
               "videoSourceUrl": "https://www.pexels.com/video/red-dice-falling-in-slow-motion-34805935/",
@@ -2194,7 +2218,7 @@
             {
               "rotationId": "what-next-coin-1",
               "rotationGroup": "coin",
-              "cost": 2500,
+              "cost": 3000,
               "text": "Монета всё ещё крутится на ребре. Чем закончится вращение?",
               "video": "./packs/media/video/what-next/what-next-coin.webm",
               "videoSourceUrl": "https://www.pexels.com/video/spinning-coin-853779/",
@@ -2206,7 +2230,7 @@
             {
               "rotationId": "what-next-coin-2",
               "rotationGroup": "coin",
-              "cost": 2500,
+              "cost": 3000,
               "text": "Монета продолжит стоять на ребре или замедлится и ляжет на стол?",
               "video": "./packs/media/video/what-next/what-next-coin.webm",
               "videoSourceUrl": "https://www.pexels.com/video/spinning-coin-853779/",
