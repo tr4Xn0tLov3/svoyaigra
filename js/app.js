@@ -1760,7 +1760,7 @@ class SvoyaIgraApp {
 
     return `
       <div class="question-stage-layout">
-        <div class="question-card giant-question-window ${rt.substate === 'buzzing' ? 'buzz-ready-glow' : ''} ${openingQuestion ? 'question-opening' : ''} ${isRevealed ? 'question-fold-after-answer' : ''} ${noOneAnswered ? 'no-answer-revealed' : ''}">
+        <div class="question-card giant-question-window ${rt.substate === 'buzzing' ? 'buzz-ready-glow' : ''} ${openingQuestion ? 'question-opening' : ''} ${noOneAnswered ? 'no-answer-revealed' : ''}">
           <div class="question-header">
             <div class="q-theme-title">
               ${badges.join('')}
@@ -1789,13 +1789,13 @@ class SvoyaIgraApp {
                   </div>
                   <div class="audio-card-info">
                     <div class="audio-card-head-row">
-                      <strong>${/только мелодия/i.test(qv.themeName) || qv.audio.includes('melody-') ? '🎹 Только мелодия (без слов) — угадайте хит!' : '🎵 Музыкальный вопрос — угадайте трек!'}</strong>
+                      <strong>${qv.audioType === 'sfx' ? '🔊 Звуковая загадка — угадайте чемпиона!' : (/только мелодия/i.test(qv.themeName) || qv.audio.includes('melody-') ? '🎹 Только мелодия (без слов) — угадайте хит!' : '🎵 Музыкальный вопрос — угадайте трек!')}</strong>
                       <span class="audio-time-label" id="q-audio-time-label">${this._formatAudioTime(this._audioElapsedForUi())} / ${this._formatAudioTime(this._audioDurationForUi())}</span>
                     </div>
                     <div class="audio-progress-track">
                       <div class="audio-progress-fill" id="q-audio-progress-fill" style="width:${this._audioDurationForUi() ? Math.min(100, (this._audioElapsedForUi() / this._audioDurationForUi()) * 100).toFixed(1) : 0}%"></div>
                     </div>
-                    <span class="muted-sm">При нажатии кнопки ответа трек ставится на паузу</span>
+                    <span class="muted-sm">При нажатии кнопки ответа аудио ставится на паузу</span>
                     ${qv.audioCredit ? `<a class="audio-credit" href="${escapeHtml(qv.audioCreditUrl || '#')}" target="_blank" rel="noopener">Источник: ${escapeHtml(qv.audioCredit)}${qv.audioLicense ? ` · ${escapeHtml(qv.audioLicense)}` : ''}</a>` : ''}
                   </div>
                   <div class="audio-card-btns">
@@ -1848,7 +1848,7 @@ class SvoyaIgraApp {
               <div class="ans-value">${escapeHtml(qv.answer || '')}</div>
               ${qv.answerImage ? `
                 <div class="ans-reveal-media">
-                  <img src="${escapeHtml(qv.answerImage)}" alt="Разрез / разоблачение" class="ans-reveal-image zoomable" id="btn-zoom-ans-img" title="Нажмите, чтобы увеличить фото ответа">
+                  <img src="${escapeHtml(qv.answerImage)}" alt="Изображение персонажа из ответа" class="ans-reveal-image zoomable" id="btn-zoom-ans-img" title="Нажмите, чтобы увеличить фото ответа">
                 </div>
               ` : ''}
               ${qv.comment ? `<div class="ans-comment">💡 ${escapeHtml(qv.comment)}</div>` : ''}
