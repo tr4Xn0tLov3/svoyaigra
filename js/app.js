@@ -198,14 +198,39 @@ class SvoyaIgraApp {
           previousIds = Array.isArray(saved.ids) ? saved.ids : [];
         } catch (_) {}
 
-        let candidates = pool.filter((question) => !previousIds.includes(getId(question)));
-        const hadEnoughFreshQuestions = candidates.length >= count;
-        if (!hadEnoughFreshQuestions) candidates = pool.slice();
-        for (let i = candidates.length - 1; i > 0; i -= 1) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
+        const groupedPool = pool.every((question) => typeof question.rotationGroup === 'string' && question.rotationGroup);
+        let selectedQuestions = [];
+        let hadEnoughFreshQuestions = false;
+        if (groupedPool) {
+          const groupMap = new Map();
+          for (const question of pool) {
+            if (!groupMap.has(question.rotationGroup)) groupMap.set(question.rotationGroup, []);
+            groupMap.get(question.rotationGroup).push(question);
+          }
+          const groups = [...groupMap.values()];
+          if (groups.length >= count) {
+            selectedQuestions = groups.map((group) => {
+              const freshInGroup = group.filter((question) => !previousIds.includes(getId(question)));
+              const choices = freshInGroup.length ? freshInGroup : group;
+              return choices[Math.floor(Math.random() * choices.length)];
+            }).slice(0, count);
+            hadEnoughFreshQuestions = selectedQuestions.every((question) => !previousIds.includes(getId(question)));
+          }
         }
-        let selectedQuestions = candidates.slice(0, count);
+        if (selectedQuestions.length !== count) {
+          let candidates = pool.filter((question) => !previousIds.includes(getId(question)));
+          hadEnoughFreshQuestions = candidates.length >= count;
+          if (!hadEnoughFreshQuestions) candidates = pool.slice();
+          for (let i = candidates.length - 1; i > 0; i -= 1) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
+          }
+          selectedQuestions = candidates.slice(0, count);
+        }
+        for (let i = selectedQuestions.length - 1; i > 0; i -= 1) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [selectedQuestions[i], selectedQuestions[j]] = [selectedQuestions[j], selectedQuestions[i]];
+        }
         if (!hadEnoughFreshQuestions && pool.length > count && previousIds.length) {
           const previousSet = [...previousIds].sort().join('|');
           const selectedSet = selectedQuestions.map(getId).sort().join('|');
@@ -1820,7 +1845,8 @@ class SvoyaIgraApp {
                 </div>
               ` : qv.video ? `
                 <div class="q-media-box">
-                  <video controls autoplay src="${escapeHtml(qv.video)}" class="q-video"></video>
+                  <video controls autoplay playsinline preload="metadata" src="${escapeHtml(qv.video)}" class="q-video"></video>
+                  ${qv.videoCredit ? `<a class="audio-credit" href="${escapeHtml(qv.videoSourceUrl || '#')}" target="_blank" rel="noopener">Видео: ${escapeHtml(qv.videoCredit)} ↗</a>` : ''}
                 </div>
               ` : ''}
 
