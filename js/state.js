@@ -1,6 +1,6 @@
 // Авторитетный игровой движок «Своей игры» (работает на стороне Ведущего)
 
-export const AVATARS = ['🦊', '🐻', '🐯', '🦁', '🐼', '🐨', '🐸', '🦉', '🐙', '🦄', '🐲', '🚀'];
+export const AVATARS = ['👩🏻‍🦰', '👨🏽‍🦱', '👩🏾‍🦱', '👨🏻‍🦲', '👩🏼‍🦳', '👨🏿‍🦰', '🧑🏻‍🦱', '👩🏽‍🎤', '👨🏻‍🎤', '👩🏿‍🎓', '👨🏽‍🎓', '🧑🏼‍💻', '👩🏻‍🦲', '👨🏾‍🦳', '👩🏽‍🦰', '👨🏼‍🦱', '🧑🏿‍🦲', '👩🏼‍🎤'];
 export const COLORS = ['#f5c451', '#ef4444', '#22c55e', '#ea580c', '#ec4899', '#a855f7', '#eab308', '#84cc16'];
 
 // Базовый шаг цены вопроса по уровням (Уровень 1 = от 100, Уровень 2 = от 500, Уровень 3 = от 1000)
@@ -237,6 +237,7 @@ export class GameEngine {
           catTheme: q.catTheme || '',
           catCost: q.catCost !== undefined ? q.catCost : null,
           text: String(q.text || ''),
+          speechText: String(q.speechText || ''),
           image: q.image || '',
           audio: q.audio || '',
           video: q.video || '',

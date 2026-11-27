@@ -34,9 +34,10 @@ class SvoyaIgraApp {
     this.playerId = getTabPlayerId();
     this.isSpectator = false;
 
+    const savedAvatar = localStorage.getItem('si_player_avatar');
     this.profile = {
       name: localStorage.getItem('si_player_name') || '',
-      avatar: localStorage.getItem('si_player_avatar') || AVATARS[Math.floor(Math.random() * AVATARS.length)],
+      avatar: AVATARS.includes(savedAvatar) ? savedAvatar : AVATARS[Math.floor(Math.random() * AVATARS.length)],
       color: localStorage.getItem('si_player_color') || COLORS[Math.floor(Math.random() * COLORS.length)]
     };
 
@@ -51,7 +52,8 @@ class SvoyaIgraApp {
     this.netStatus = { connected: false, mode: 'idle', text: '' };
 
     this.view = null;
-    this.timerSync = { durationMs: 0, remainingMs: 0, running: false, syncedAt: 0 };
+    this.timerSync = { kind: '', durationMs: 0, remainingMs: 0, running: false, syncedAt: 0 };
+    this.scoreValues = new Map();
     this.lastPlayedSoundSeq = 0;
     this.lastBannerTs = 0;
     this.lastSpokenQuestionKey = null;
@@ -129,7 +131,7 @@ class SvoyaIgraApp {
         const parsed = JSON.parse(savedSession);
         if (parsed.roomCode && (!roomParam || roomParam === parsed.roomCode)) {
           this.profile.name = parsed.name || this.profile.name;
-          this.profile.avatar = parsed.avatar || this.profile.avatar;
+          this.profile.avatar = AVATARS.includes(parsed.avatar) ? parsed.avatar : this.profile.avatar;
           this.profile.color = parsed.color || this.profile.color;
           this.isSpectator = Boolean(parsed.isSpectator);
           this._joinRoomAsPlayer(parsed.roomCode);
@@ -625,6 +627,7 @@ class SvoyaIgraApp {
   _syncLocalTimerFromView() {
     if (!this.view?.timer) return;
     this.timerSync = {
+      kind: this.view.timer.kind || '',
       durationMs: this.view.timer.durationMs || 0,
       remainingMs: this.view.timer.remainingMs || 0,
       running: Boolean(this.view.timer.running),
@@ -636,15 +639,28 @@ class SvoyaIgraApp {
     const step = () => {
       const bar = document.getElementById('live-timer-fill');
       const label = document.getElementById('live-timer-sec');
-      if (bar && this.timerSync.durationMs > 0) {
-        const elapsed = this.timerSync.running ? performance.now() - this.timerSync.syncedAt : 0;
-        const rem = Math.max(0, this.timerSync.remainingMs - elapsed);
-        const pct = Math.max(0, Math.min(100, (rem / this.timerSync.durationMs) * 100));
+      const card = this.root.querySelector('.question-card.giant-question-window');
+      const duration = this.timerSync.durationMs;
+      let rem = this.timerSync.remainingMs;
+      if (this.timerSync.running && duration > 0) {
+        rem = Math.max(0, rem - (performance.now() - this.timerSync.syncedAt));
+      }
+      const ratio = duration > 0 ? Math.max(0, Math.min(1, rem / duration)) : 1;
+      const hue = Math.round(120 * ratio); // green at start -> red as the timer runs out
+      const timerActive = Boolean(card && this.view?.phase === 'question' && this.timerSync.running && duration > 0);
+
+      if (bar && duration > 0) {
+        const pct = ratio * 100;
         bar.style.width = `${pct}%`;
+        bar.style.setProperty('--timer-hue', hue);
         bar.classList.toggle('urgent', rem <= 4500 && rem > 0);
-        if (label) {
-          label.textContent = `${Math.ceil(rem / 1000)} сек`;
-        }
+        if (label) label.textContent = `${Math.ceil(rem / 1000)} сек`;
+      }
+
+      if (card) {
+        card.style.setProperty('--timer-hue', hue);
+        card.classList.toggle('timer-active', timerActive);
+        card.classList.toggle('timer-critical', timerActive && ratio <= 0.25);
       }
       requestAnimationFrame(step);
     };
@@ -800,6 +816,8 @@ class SvoyaIgraApp {
       this._bindRoomEvents();
     }
 
+    this._animateScoreValues();
+
     if (activeDataKey) {
       const restored = this.root.querySelector(`[data-keep-focus="${activeDataKey}"]`);
       if (restored) {
@@ -809,6 +827,39 @@ class SvoyaIgraApp {
         }
       }
     }
+  }
+
+  _animateScoreValues() {
+    const nodes = this.root.querySelectorAll('[data-score-player]');
+    nodes.forEach((node) => {
+      const playerId = node.dataset.scorePlayer;
+      const target = Number(node.dataset.scoreValue) || 0;
+      const previous = this.scoreValues.get(playerId);
+      this.scoreValues.set(playerId, target);
+      if (previous === undefined || previous === target) return;
+
+      const direction = target > previous ? 'score-up' : 'score-down';
+      node.classList.remove('score-up', 'score-down');
+      void node.offsetWidth;
+      node.classList.add(direction);
+
+      const startedAt = performance.now();
+      const duration = 560;
+      const animate = (now) => {
+        if (!node.isConnected) return;
+        const progress = Math.min(1, (now - startedAt) / duration);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const value = Math.round(previous + (target - previous) * eased);
+        node.textContent = formatScore(value);
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          node.textContent = formatScore(target);
+          setTimeout(() => node.classList.remove('score-up', 'score-down'), 260);
+        }
+      };
+      requestAnimationFrame(animate);
+    });
   }
 
   // --- 1. Главный экран ---
@@ -822,8 +873,8 @@ class SvoyaIgraApp {
           <div class="brand-logo">
             <span class="logo-diamond">◆</span>
             <div>
-              <h1>СВОЯ ИГРА <span class="gold-badge">ДЛЯ ДРУЗЕЙ</span></h1>
-              <p class="subtitle">Мемы, кадры, звуки, школьная база и «Ничего личного» (работает на GitHub Pages)</p>
+              <h1>Broken Brain <span class="brand-brain" role="img" aria-label="мозг">🧠</span></h1>
+              <p class="subtitle">Викторина на скорость, память и сообразительность</p>
             </div>
           </div>
           <div class="topbar-actions">
@@ -2296,7 +2347,7 @@ class SvoyaIgraApp {
                   ${escapeHtml(p.name)}${isMe ? ' (Вы)' : ''}
                 </div>
                 <div class="podium-score ${p.score < 0 ? 'negative' : ''}">
-                  ${formatScore(p.score)}
+                  <span class="score-value" data-score-player="${escapeHtml(p.id)}" data-score-value="${Number(p.score) || 0}">${formatScore(p.score)}</span>
                   ${showHintsCount ? `<span class="hints-left-pill" title="Осталось подсказок: 💡${p.hints?.clue || 0} · 🔤${p.hints?.letters || 0} · 🛡️${p.hints?.shield || 0}">💡${totalHintsLeft}</span>` : ''}
                   ${hasShieldOnQ ? `<span class="hints-left-pill shield-on" title="Страховка от минуса активна на этом вопросе">🛡️</span>` : ''}
                   ${wasJustZeroed ? `<span class="zeroed-pill">💥!</span>` : ''}
