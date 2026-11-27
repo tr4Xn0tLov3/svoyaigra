@@ -107,6 +107,21 @@ button {
   padding: 14px 24px;
   font-size: 1.06rem;
 }
+
+/* Не даём длинным подписям кнопок раздвигать карточки на узких экранах. */
+.host-setup-panel,
+.join-panel,
+.glass-panel {
+  min-width: 0;
+}
+#btn-create-room {
+  max-width: 100%;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
+  line-height: 1.25;
+}
 .btn-sm {
   padding: 7px 13px;
   font-size: 0.86rem;
@@ -673,11 +688,12 @@ input:focus, select:focus, textarea:focus {
 
 /* Полоса таймера */
 .timer-strip {
-  height: 8px;
+  height: 10px;
   position: relative;
   background: #232328;
   opacity: 0;
   transition: opacity 0.2s ease;
+  overflow: visible;
 }
 .timer-strip.visible {
   opacity: 1;
@@ -685,19 +701,34 @@ input:focus, select:focus, textarea:focus {
 .timer-track {
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow: visible;
+  background: linear-gradient(180deg, #292521, #1c1a19);
+  border-radius: 999px;
 }
 .timer-fill {
   height: 100%;
   width: 100%;
-  --timer-hue: 45;
-  background: linear-gradient(90deg,
-    hsl(var(--timer-hue) 92% 45%),
-    hsl(var(--timer-hue) 92% 60%));
-  transition: background 0.2s ease;
+  position: relative;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #bd5724 0%, #e4872f 62%, #ffd16c 100%);
+  box-shadow: 0 0 5px rgba(255, 155, 62, 0.2);
+}
+.timer-fill::after {
+  content: '🔥';
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-57%);
+  font-size: 15px;
+  line-height: 1;
+  filter: drop-shadow(0 0 3px rgba(255, 142, 47, 0.38));
 }
 .timer-fill.urgent {
-  background: linear-gradient(90deg, #ef4444, #f97316);
+  background: linear-gradient(90deg, #98422d 0%, #d65d2f 68%, #ffc05b 100%);
+  box-shadow: 0 0 6px rgba(255, 111, 57, 0.25);
+}
+.timer-fill.urgent::after {
+  content: '🔥';
 }
 .timer-sec-label {
   position: absolute;
@@ -962,33 +993,19 @@ input:focus, select:focus, textarea:focus {
 }
 
 .question-card.buzz-ready-glow {
-  border-color: var(--gold);
-  box-shadow: 0 0 42px rgba(245, 196, 81, 0.32), var(--shadow-studio);
+  border-color: rgba(245, 196, 81, 0.72);
+  box-shadow: 0 0 12px rgba(245, 196, 81, 0.11), var(--shadow-studio);
 }
 
+/* Таймер заметен по полоске-фитилю; карточка не мигает и не перетягивает внимание. */
 .question-card.giant-question-window.timer-active {
-  --timer-hue: 120;
-  border: 2.5px solid transparent;
-  background:
-    linear-gradient(165deg, rgba(35, 34, 38, 0.97), rgba(19, 19, 22, 0.98)) padding-box,
-    linear-gradient(125deg,
-      hsl(var(--timer-hue) 92% 48%),
-      hsl(var(--timer-hue) 78% 62%),
-      hsl(var(--timer-hue) 92% 48%)) border-box;
-  animation: questionFramePulse 1.05s ease-in-out infinite;
+  border-color: rgba(245, 196, 81, 0.3);
+  animation: none;
+  box-shadow: var(--shadow-studio);
 }
-
 .question-card.giant-question-window.timer-critical {
-  animation-duration: 0.52s;
-}
-
-@keyframes questionFramePulse {
-  0%, 100% {
-    box-shadow: 0 0 13px hsla(var(--timer-hue), 92%, 50%, 0.2), var(--shadow-studio);
-  }
-  50% {
-    box-shadow: 0 0 32px hsla(var(--timer-hue), 92%, 50%, 0.48), var(--shadow-studio);
-  }
+  border-color: rgba(229, 120, 55, 0.48);
+  box-shadow: var(--shadow-studio);
 }
 
 .question-header {
@@ -2558,11 +2575,81 @@ input:focus, select:focus, textarea:focus {
 }
 
 @media (max-width: 600px) {
+  html, body, #app {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  .home-page {
+    padding: 14px 12px 24px;
+    gap: 16px;
+  }
+  .home-topbar {
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .brand-logo {
+    min-width: 0;
+    gap: 10px;
+  }
+  .brand-logo h1 {
+    font-size: clamp(1.2rem, 6vw, 1.55rem);
+  }
+  .subtitle {
+    font-size: 0.78rem;
+    line-height: 1.3;
+  }
+  .topbar-actions {
+    width: 100%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+  .topbar-actions .btn {
+    white-space: normal;
+    max-width: calc(100% - 50px);
+    text-align: center;
+  }
+  .home-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  .glass-panel {
+    padding: 18px 15px;
+  }
+  .packs-section-head {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  #btn-create-room {
+    display: flex;
+    width: 100%;
+    padding: 13px 12px;
+    font-size: 0.96rem;
+  }
+  .avatar-picker {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .avatar-btn {
+    min-height: 46px;
+    padding: 5px 0;
+    font-size: 1.35rem;
+  }
   .studio-stage {
     padding: 10px 10px;
   }
   .question-card {
     padding: 16px;
+    border-radius: 16px;
+    gap: 14px;
+  }
+  .question-card.giant-question-window {
+    min-height: 0;
+  }
+  .question-header {
+    flex-wrap: wrap;
+    align-items: flex-start;
   }
   .settings-grid,
   .q-form-grid {
@@ -2581,6 +2668,12 @@ input:focus, select:focus, textarea:focus {
   .answer-input-row,
   .invite-url-box {
     flex-direction: column;
+  }
+  .answer-input-row .btn,
+  .invite-url-box .btn,
+  .host-tools-section .btn {
+    max-width: 100%;
+    white-space: normal;
   }
 }
 
