@@ -71,6 +71,13 @@ class SvoyaIgraApp {
     this.qAudio.addEventListener('timeupdate', () => this._updateAudioProgressUi());
     this.qAudio.addEventListener('loadedmetadata', () => this._updateAudioProgressUi());
 
+    // Голосовой клип вопроса; музыкальный фрагмент начнётся только после его окончания.
+    this.qVoiceAudio = new Audio();
+    this.qVoiceAudio.preload = 'auto';
+    this.questionNarrationKey = null;
+    this.questionNarrationDoneKey = null;
+    this.pendingQuestionMusicKey = null;
+
     // Зум картинки по клику
     this.zoomedImageUrl = null;
 
@@ -195,7 +202,18 @@ class SvoyaIgraApp {
 
   _speakQuestionOnce(view) {
     const question = view?.phase === 'question' ? view.questionView : null;
-    const rawText = question?.speechText || question?.text;
+    if (!question) {
+      this.qVoiceAudio.pause();
+      this.qVoiceAudio.onended = null;
+      this.qVoiceAudio.onerror = null;
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      this.questionNarrationKey = null;
+      this.questionNarrationDoneKey = null;
+      this.pendingQuestionMusicKey = null;
+      return;
+    }
+
+    const rawText = question.speechText || question.text;
     const text = String(rawText || '')
       .replace(/<br\s*\/?\s*>/gi, '. ')
       .replace(/<[^>]*>/g, ' ')
@@ -205,27 +223,80 @@ class SvoyaIgraApp {
       .replace(/&#39;/gi, "'")
       .replace(/\s+/g, ' ')
       .trim();
-    if (!text) return;
-
     const questionKey = question.questionKey || `${question.themeName}::${question.nominalCost}::${text}`;
     const speechKey = `${view.roomCode || ''}::${questionKey}`;
     if (speechKey === this.lastSpokenQuestionKey) return;
-    this.lastSpokenQuestionKey = speechKey;
 
-    if (!('speechSynthesis' in window) || typeof window.SpeechSynthesisUtterance !== 'function') return;
+    this.lastSpokenQuestionKey = speechKey;
+    this.questionNarrationKey = speechKey;
+    this.questionNarrationDoneKey = null;
+    this.qVoiceAudio.pause();
+    this.qVoiceAudio.currentTime = 0;
+    this.qVoiceAudio.onended = null;
+    this.qVoiceAudio.onerror = null;
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+
+    if (!text) {
+      this._completeQuestionNarration(speechKey);
+      return;
+    }
+
+    if (question.speechAudio) {
+      this.qVoiceAudio.src = question.speechAudio;
+      this.qVoiceAudio.onended = () => this._completeQuestionNarration(speechKey);
+      const fallbackToBrowserVoice = () => {
+        if (this.questionNarrationKey !== speechKey || this.questionNarrationDoneKey === speechKey) return;
+        this.qVoiceAudio.onended = null;
+        this.qVoiceAudio.onerror = null;
+        this._speakWithBrowserVoice(text, speechKey);
+      };
+      this.qVoiceAudio.onerror = fallbackToBrowserVoice;
+      const playAttempt = this.qVoiceAudio.play();
+      if (playAttempt?.catch) playAttempt.catch(fallbackToBrowserVoice);
+      return;
+    }
+
+    this._speakWithBrowserVoice(text, speechKey);
+  }
+
+  _speakWithBrowserVoice(text, speechKey) {
+    if (!('speechSynthesis' in window) || typeof window.SpeechSynthesisUtterance !== 'function') {
+      this._completeQuestionNarration(speechKey);
+      return;
+    }
 
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'ru-RU';
     utterance.rate = 0.92;
     utterance.pitch = 1;
+    utterance.onend = () => this._completeQuestionNarration(speechKey);
+    utterance.onerror = () => this._completeQuestionNarration(speechKey);
 
     const voices = window.speechSynthesis.getVoices();
     const russianVoice = voices.find((voice) => /^ru-ru$/i.test(voice.lang))
       || voices.find((voice) => /^ru(?:-|$)/i.test(voice.lang));
     if (russianVoice) utterance.voice = russianVoice;
 
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(utterance);
+    try {
+      window.speechSynthesis.speak(utterance);
+    } catch (_) {
+      this._completeQuestionNarration(speechKey);
+    }
+  }
+
+  _completeQuestionNarration(speechKey) {
+    if (this.questionNarrationKey !== speechKey) return;
+    this.questionNarrationDoneKey = speechKey;
+    this._maybeStartQuestionMusic(speechKey);
+  }
+
+  _maybeStartQuestionMusic(speechKey) {
+    if (!speechKey || this.pendingQuestionMusicKey !== speechKey) return;
+    if (this.questionNarrationDoneKey !== speechKey || !this.qAudioKey || sound.muted) return;
+    const substate = this.view?.questionView?.runtime?.substate;
+    if (substate === 'answering' || substate === 'special_answering' || substate === 'revealed') return;
+    this.pendingQuestionMusicKey = null;
+    this.qAudio.play().catch(() => {});
   }
 
   _handlePlayerBuzzAttempt() {
@@ -261,34 +332,40 @@ class SvoyaIgraApp {
         this.qAudioKey = null;
         this.qAudioPlaying = false;
       }
+      this.pendingQuestionMusicKey = null;
       return;
     }
 
-    const newKey = `${qv.themeName}::${qv.nominalCost}::${audioSrc}`;
+    const questionKey = qv.questionKey || `${qv.themeName}::${qv.nominalCost}::${qv.text || ''}`;
+    const speechKey = `${v.roomCode || ''}::${questionKey}`;
+    const audioKey = `${questionKey}::${audioSrc}`;
     const substate = qv.runtime?.substate;
 
-    if (this.qAudioKey !== newKey) {
-      this.qAudioKey = newKey;
+    if (this.qAudioKey !== audioKey) {
+      this.qAudioKey = audioKey;
       this.qAudioPausedByBuzz = false;
       this.qAudio.src = audioSrc;
       this.qAudio.currentTime = 0;
       this.qAudio.volume = this.qAudioVolume;
-      if (!sound.muted && substate !== 'revealed') {
+
+      const waitingForNarration = this.questionNarrationKey === speechKey
+        && this.questionNarrationDoneKey !== speechKey;
+      this.pendingQuestionMusicKey = waitingForNarration ? speechKey : null;
+      if (!sound.muted && substate !== 'revealed' && !waitingForNarration) {
         this.qAudio.play().catch(() => {});
       }
     } else {
-      // Как в настоящей музыкальной игре: когда игрок нажал кнопку ответа, ставим трек на паузу,
-      // а если ответ неверный и снова открылся приём кнопок — продолжаем играть трек дальше!
-      if (substate === 'answering') {
+      // Музыка идёт после озвучки; при ответе ставим её на паузу и продолжаем после неверного ответа.
+      if (substate === 'answering' || substate === 'special_answering') {
         if (!this.qAudio.paused) {
           this.qAudioPausedByBuzz = true;
           this.qAudio.pause();
         }
       } else if (substate === 'buzzing' && this.qAudioPausedByBuzz) {
         this.qAudioPausedByBuzz = false;
-        if (!sound.muted) {
-          this.qAudio.play().catch(() => {});
-        }
+        if (!sound.muted) this.qAudio.play().catch(() => {});
+      } else if (substate === 'buzzing') {
+        this._maybeStartQuestionMusic(speechKey);
       } else if (substate === 'revealed') {
         this.qAudioPausedByBuzz = false;
         if (!this.qAudio.paused) this.qAudio.pause();
@@ -587,6 +664,14 @@ class SvoyaIgraApp {
     this.qAudio.pause();
     this.qAudio.src = '';
     this.qAudioKey = null;
+    this.qVoiceAudio.pause();
+    this.qVoiceAudio.src = '';
+    this.qVoiceAudio.onended = null;
+    this.qVoiceAudio.onerror = null;
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    this.questionNarrationKey = null;
+    this.questionNarrationDoneKey = null;
+    this.pendingQuestionMusicKey = null;
     if (this.engine) {
       this.engine.destroy();
       this.engine = null;
@@ -646,19 +731,16 @@ class SvoyaIgraApp {
         rem = Math.max(0, rem - (performance.now() - this.timerSync.syncedAt));
       }
       const ratio = duration > 0 ? Math.max(0, Math.min(1, rem / duration)) : 1;
-      const hue = Math.round(120 * ratio); // green at start -> red as the timer runs out
       const timerActive = Boolean(card && this.view?.phase === 'question' && this.timerSync.running && duration > 0);
 
       if (bar && duration > 0) {
         const pct = ratio * 100;
         bar.style.width = `${pct}%`;
-        bar.style.setProperty('--timer-hue', hue);
         bar.classList.toggle('urgent', rem <= 4500 && rem > 0);
         if (label) label.textContent = `${Math.ceil(rem / 1000)} сек`;
       }
 
       if (card) {
-        card.style.setProperty('--timer-hue', hue);
         card.classList.toggle('timer-active', timerActive);
         card.classList.toggle('timer-critical', timerActive && ratio <= 0.25);
       }
@@ -2414,7 +2496,11 @@ class SvoyaIgraApp {
 
     document.getElementById('btn-mute-room')?.addEventListener('click', () => {
       const muted = sound.toggleMute();
-      if (muted) this.qAudio.pause();
+      if (muted) {
+        this.qAudio.pause();
+        this.qVoiceAudio.pause();
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      }
       this.render();
     });
 
