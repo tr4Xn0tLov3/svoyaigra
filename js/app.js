@@ -189,21 +189,44 @@ class SvoyaIgraApp {
         const pool = theme.questionPool;
         if (!Array.isArray(pool) || pool.length <= (theme.questions?.length || 5)) return;
         const count = theme.questions?.length || 5;
-        const storageKey = `bb_music_rotation:${packId}:${roundIndex}:${themeIndex}`;
-        const getId = (question) => String(question.musicId || question.audio || question.text || '');
+        const storageKey = `bb_question_rotation:${packId}:${roundIndex}:${themeIndex}`;
+        const legacyMusicStorageKey = `bb_music_rotation:${packId}:${roundIndex}:${themeIndex}`;
+        const getId = (question) => String(question.rotationId || question.musicId || question.audio || question.text || '');
         let previousIds = [];
         try {
-          const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+          const saved = JSON.parse(localStorage.getItem(storageKey) || localStorage.getItem(legacyMusicStorageKey) || '{}');
           previousIds = Array.isArray(saved.ids) ? saved.ids : [];
         } catch (_) {}
 
         let candidates = pool.filter((question) => !previousIds.includes(getId(question)));
-        if (candidates.length < count) candidates = pool.slice();
+        const hadEnoughFreshQuestions = candidates.length >= count;
+        if (!hadEnoughFreshQuestions) candidates = pool.slice();
         for (let i = candidates.length - 1; i > 0; i -= 1) {
           const j = Math.floor(Math.random() * (i + 1));
           [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
         }
-        theme.questions = candidates.slice(0, count);
+        let selectedQuestions = candidates.slice(0, count);
+        if (!hadEnoughFreshQuestions && pool.length > count && previousIds.length) {
+          const previousSet = [...previousIds].sort().join('|');
+          const selectedSet = selectedQuestions.map(getId).sort().join('|');
+          if (selectedSet === previousSet) {
+            const replacement = pool.find((question) => !previousIds.includes(getId(question))
+              && !selectedQuestions.some((selected) => getId(selected) === getId(question)));
+            if (replacement) selectedQuestions[count - 1] = replacement;
+          }
+        }
+        let visibleCosts = (theme.questions || []).map((question) => Number(question.cost) || 0);
+        const hasAscendingStakes = visibleCosts.length >= count
+          && visibleCosts.slice(0, count).every((cost, index, all) => cost > 0 && (index === 0 || cost > all[index - 1]));
+        if (!hasAscendingStakes) {
+          const roundBase = [100, 500, 1000][roundIndex] || 100;
+          visibleCosts = Array.from({ length: count }, (_, index) => roundBase * (index + 1));
+        }
+        theme.questions = selectedQuestions.map((question, index) => ({
+          ...question,
+          // Keep the original board's ascending stakes even when different prompts are selected.
+          cost: visibleCosts[index] ?? ((index + 1) * 100)
+        }));
         try {
           localStorage.setItem(storageKey, JSON.stringify({ ids: theme.questions.map(getId), updatedAt: Date.now() }));
         } catch (_) {}
@@ -695,6 +718,7 @@ class SvoyaIgraApp {
   _playSoundByName(name) {
     const map = {
       cellOpen: () => sound.playCellOpen(),
+      categoryShot: () => sound.playTargetShot(),
       buzzReady: () => sound.playBuzzReady(),
       buzz: () => sound.playBuzz(),
       falseStart: () => sound.playFalseStart(),
@@ -1181,6 +1205,7 @@ class SvoyaIgraApp {
 
   _getStageTitle(v) {
     if (v.phase === 'lobby') return `Лобби · ${v.packMeta?.title || 'Ожидание'}`;
+    if (v.phase === 'category_select') return `Выбор категорий · ${v.categorySelection?.roundName || 'Раунд'}`;
     if (v.phase === 'board' || v.phase === 'question' || v.phase === 'cat_select' || v.phase === 'auction' || v.phase === 'nothing_personal') {
       return v.board?.name || 'Раунд';
     }
@@ -1193,6 +1218,8 @@ class SvoyaIgraApp {
     switch (v.phase) {
       case 'lobby':
         return this._renderLobbyStage(v);
+      case 'category_select':
+        return this._renderCategorySelectionStage(v);
       case 'board':
         return this._renderBoardStage(v);
       case 'nothing_personal':
@@ -1357,6 +1384,75 @@ class SvoyaIgraApp {
 
   // --- Сцена: Игровое табло ---
 
+  _renderCategorySelectionStage(v) {
+    const selection = v.categorySelection;
+    if (!selection) return '';
+    const isHost = this.role === 'host';
+    const count = selection.selectedThemeIndexes.length;
+    const required = selection.requiredCount;
+    const canUndo = isHost && count > 0;
+    const canConfirm = isHost && count === required;
+
+    return `
+      <section class="category-select-screen">
+        <header class="category-select-header">
+          <div>
+            <div class="panel-tag">🎯 ПОДГОТОВКА ${escapeHtml(selection.roundName)}</div>
+            <h2>Выстрели по пяти категориям</h2>
+            <p>${isHost
+              ? 'Нажми на мишень — попадание добавит категорию на табло.'
+              : 'Ведущий выбирает категории для этого раунда. Смотри на попадания!'}
+            </p>
+          </div>
+          <div class="category-hit-counter"><strong>${count}</strong><span>из ${required}</span></div>
+        </header>
+
+        <div class="category-wheel-shell">
+          <div class="category-wheel-dial" aria-hidden="true"></div>
+          <div class="category-wheel-hub">
+            <span class="hub-crosshair">⌖</span>
+            <strong>${count}/${required}</strong>
+            <small>попаданий</small>
+          </div>
+          <div class="category-targets">
+            ${selection.themes.map((theme, index) => {
+              const angle = (-90 + (360 * index) / Math.max(1, selection.themes.length)) * Math.PI / 180;
+              const left = 50 + Math.cos(angle) * 37;
+              const top = 50 + Math.sin(angle) * 37;
+              const hit = theme.selected;
+              const lastShot = selection.lastShotThemeIndex === theme.themeIndex;
+              const canShoot = isHost && !hit && count < required;
+              return `
+                <button type="button" class="category-target ${hit ? 'target-hit' : ''} ${lastShot ? 'target-last-shot' : ''}"
+                  style="--target-left:${left.toFixed(2)}%;--target-top:${top.toFixed(2)}%"
+                  data-shoot-theme="${theme.themeIndex}" ${canShoot ? '' : 'disabled'}
+                  aria-label="${hit ? 'Попадание: ' : 'Выбрать категорию: '}${escapeHtml(theme.name)}">
+                  <span class="target-art" aria-hidden="true">
+                    <span class="target-rings">◎</span>
+                    ${hit ? '<span class="target-bullet-hole">●</span>' : '<span class="target-crosshair">＋</span>'}
+                    ${lastShot ? '<span class="target-impact">✦</span>' : ''}
+                  </span>
+                  <span class="target-label">${escapeHtml(theme.name)}</span>
+                  <span class="target-state">${hit ? 'ПОПАДАНИЕ' : 'МИШЕНЬ'}</span>
+                </button>
+              `;
+            }).join('')}
+          </div>
+        </div>
+
+        <footer class="category-select-actions">
+          <div class="category-select-note">${count < required ? `Осталось выбрать: ${required - count}` : 'Пять категорий готовы к игре!'}</div>
+          ${isHost ? `
+            <div class="category-action-buttons">
+              <button type="button" class="btn btn-secondary" id="btn-undo-category-shot" ${canUndo ? '' : 'disabled'}>↶ Отменить выстрел</button>
+              <button type="button" class="btn btn-gold btn-lg" id="btn-confirm-categories" ${canConfirm ? '' : 'disabled'}>Начать раунд →</button>
+            </div>
+          ` : '<div class="muted-sm">Ожидаем ведущего…</div>'}
+        </footer>
+      </section>
+    `;
+  }
+
   _renderBoardStage(v) {
     const b = v.board;
     if (!b) return '';
@@ -1398,7 +1494,7 @@ class SvoyaIgraApp {
               return `
                 <button type="button"
                   class="si-price-cell ${canClickCells ? 'clickable' : 'readonly'}"
-                  ${canClickCells ? `data-cell="${tIdx}:${qIdx}"` : 'disabled'}>
+                  ${canClickCells ? `data-cell="${theme.themeIndex ?? tIdx}:${qIdx}"` : 'disabled'}>
                   <span class="price-digits">${cell.cost}</span>
                   ${secretIcons ? `<span class="host-cell-secret" title="Секрет ячейки (видно только ведущему)">${secretIcons}</span>` : ''}
                 </button>
@@ -1717,7 +1813,12 @@ class SvoyaIgraApp {
                 </div>
               ` : ''}
 
-              ${qv.video ? `
+              ${qv.videoEmbedUrl ? `
+                <div class="q-media-box q-video-embed-box">
+                  <iframe class="q-video-embed" src="${escapeHtml(qv.videoEmbedUrl)}" title="Видеофрагмент вопроса" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                  ${qv.videoCredit ? `<a class="audio-credit" href="${escapeHtml(qv.videoSourceUrl || qv.videoEmbedUrl)}" target="_blank" rel="noopener">${escapeHtml(qv.videoCredit)} ↗</a>` : ''}
+                </div>
+              ` : qv.video ? `
                 <div class="q-media-box">
                   <video controls autoplay src="${escapeHtml(qv.video)}" class="q-video"></video>
                 </div>
@@ -2534,6 +2635,18 @@ class SvoyaIgraApp {
 
     document.getElementById('btn-start-game')?.addEventListener('click', () => {
       this.engine?.startGame();
+    });
+
+    document.querySelectorAll('[data-shoot-theme]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (this.role === 'host') this.engine?.shootCategory('__host__', Number(btn.dataset.shootTheme));
+      });
+    });
+    document.getElementById('btn-undo-category-shot')?.addEventListener('click', () => {
+      this.engine?.undoLastCategoryShot('__host__');
+    });
+    document.getElementById('btn-confirm-categories')?.addEventListener('click', () => {
+      this.engine?.confirmCategorySelection('__host__');
     });
 
     // Выбор ячейки на табло

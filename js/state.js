@@ -121,9 +121,11 @@ export class GameEngine {
   _createInitialState() {
     return {
       roomCode: this.roomCode,
-      // Фазы: lobby | board | nothing_personal | cat_select | auction | question | final_no_players | final_themes | final_bets | final_question | final_reveal | podium
+      // Фазы: lobby | category_select | board | nothing_personal | cat_select | auction | question | final_no_players | final_themes | final_bets | final_question | final_reveal | podium
       phase: 'lobby',
       roundIndex: 0,
+      categorySelection: null,
+      selectedThemeIndexesByRound: [],
       playedCells: [],
       runtimeModifiers: [], // [roundIdx][themeIdx][qIdx] = null | 'nothing_personal'
       players: [],
@@ -245,6 +247,9 @@ export class GameEngine {
           audioCreditUrl: q.audioCreditUrl || '',
           audioLicense: String(q.audioLicense || ''),
           video: q.video || '',
+          videoEmbedUrl: q.videoEmbedUrl || '',
+          videoSourceUrl: q.videoSourceUrl || '',
+          videoCredit: String(q.videoCredit || ''),
           hint: String(q.hint || ''),
           answer: String(q.answer || ''),
           answerImage: q.answerImage || '',
@@ -387,6 +392,7 @@ export class GameEngine {
   startGame() {
     if (!this.pack) return;
     this.state.roundIndex = 0;
+    this.state.selectedThemeIndexesByRound = [];
     this._rebuildCellsAndModifiers();
 
     for (const p of this.state.players) {
@@ -407,7 +413,7 @@ export class GameEngine {
     if (!this.state.chooserId && this.state.players.length > 0) {
       this.state.chooserId = this.state.players[0].id;
     }
-    this.state.phase = 'board';
+    this._beginCategorySelection(0);
     this.state.activeCell = null;
     this.state.modifierState = null;
     this.state.activeCurse = null;
@@ -417,7 +423,55 @@ export class GameEngine {
     this.state.finalState = null;
     this.state.lastZeroedPlayerId = null;
     this._stopTimer();
-    this._banner(`${this.pack.rounds[0].name} — погнали!`, 'gold');
+    this._banner(`${this.pack.rounds[0].name}: ведущий выбирает 5 категорий`, 'gold');
+    this._emit();
+  }
+
+  _beginCategorySelection(roundIndex) {
+    const themes = this.pack?.rounds?.[roundIndex]?.themes || [];
+    this.state.roundIndex = roundIndex;
+    this.state.categorySelection = {
+      roundIndex,
+      selectedThemeIndexes: [],
+      requiredCount: Math.min(5, themes.length),
+      lastShotThemeIndex: null,
+      shotSeq: 0
+    };
+    this.state.phase = 'category_select';
+  }
+
+  shootCategory(actorId, themeIndex) {
+    const cs = this.state.categorySelection;
+    if (actorId !== '__host__' || this.state.phase !== 'category_select' || !cs) return;
+    const themes = this.pack?.rounds?.[cs.roundIndex]?.themes || [];
+    const target = Number(themeIndex);
+    if (!Number.isInteger(target) || !themes[target]) return;
+    if (cs.selectedThemeIndexes.includes(target) || cs.selectedThemeIndexes.length >= cs.requiredCount) return;
+    cs.selectedThemeIndexes.push(target);
+    cs.lastShotThemeIndex = target;
+    cs.shotSeq += 1;
+    this._sound('categoryShot');
+    this._emit();
+  }
+
+  undoLastCategoryShot(actorId) {
+    const cs = this.state.categorySelection;
+    if (actorId !== '__host__' || this.state.phase !== 'category_select' || !cs || !cs.selectedThemeIndexes.length) return;
+    cs.selectedThemeIndexes.pop();
+    cs.lastShotThemeIndex = cs.selectedThemeIndexes.at(-1) ?? null;
+    cs.shotSeq += 1;
+    this._emit();
+  }
+
+  confirmCategorySelection(actorId) {
+    const cs = this.state.categorySelection;
+    if (actorId !== '__host__' || this.state.phase !== 'category_select' || !cs) return;
+    if (cs.selectedThemeIndexes.length !== cs.requiredCount) return;
+    this.state.selectedThemeIndexesByRound[cs.roundIndex] = [...cs.selectedThemeIndexes];
+    const roundName = this.pack?.rounds?.[cs.roundIndex]?.name || `Раунд ${cs.roundIndex + 1}`;
+    this.state.categorySelection = null;
+    this.state.phase = 'board';
+    this._banner(`${roundName} — выбрано 5 категорий, погнали!`, 'gold');
     this._sound('roundStart');
     this._emit();
   }
@@ -425,6 +479,8 @@ export class GameEngine {
   resetToLobby() {
     this._stopTimer();
     this.state.phase = 'lobby';
+    this.state.categorySelection = null;
+    this.state.selectedThemeIndexesByRound = [];
     this.state.activeCell = null;
     this.state.modifierState = null;
     this.state.activeCurse = null;
@@ -1313,7 +1369,8 @@ export class GameEngine {
 
     const rIdx = this.state.roundIndex;
     const roundGrid = this.state.playedCells[rIdx] || [];
-    const hasUnplayed = roundGrid.some((row) => row.some((played) => !played));
+    const selectedThemes = this.state.selectedThemeIndexesByRound[rIdx] || roundGrid.map((_, index) => index);
+    const hasUnplayed = selectedThemes.some((themeIndex) => roundGrid[themeIndex]?.some((played) => !played));
 
     if (hasUnplayed) {
       this.state.phase = 'board';
@@ -1336,15 +1393,14 @@ export class GameEngine {
     if (!this.pack) return;
 
     if (this.state.roundIndex + 1 < this.pack.rounds.length) {
-      this.state.roundIndex += 1;
+      const nextRoundIndex = this.state.roundIndex + 1;
       if (this.state.players.length > 0) {
         const lowest = [...this.state.players].sort((a, b) => a.score - b.score)[0];
         this.state.chooserId = lowest.id;
       }
-      this.state.phase = 'board';
-      const nextRoundName = this.pack.rounds[this.state.roundIndex].name;
-      this._banner(`${nextRoundName}! Первым выбирает отстающий игрок`, 'gold');
-      this._sound('roundStart');
+      this._beginCategorySelection(nextRoundIndex);
+      const nextRoundName = this.pack.rounds[nextRoundIndex].name;
+      this._banner(`${nextRoundName}: ведущий выбирает 5 категорий`, 'gold');
       this._emit();
       return;
     }
@@ -1681,22 +1737,30 @@ export class GameEngine {
     let currentRoundBoard = null;
     if (this.pack && this.pack.rounds[s.roundIndex]) {
       const r = this.pack.rounds[s.roundIndex];
+      const pickedIndexes = s.selectedThemeIndexesByRound[s.roundIndex];
+      const boardThemeIndexes = Array.isArray(pickedIndexes) && pickedIndexes.length
+        ? pickedIndexes
+        : r.themes.map((_, index) => index);
       currentRoundBoard = {
         roundIndex: s.roundIndex,
         totalRounds: this.pack.rounds.length,
         name: r.name,
-        themes: r.themes.map((t, tIdx) => ({
-          name: t.name,
-          cells: t.questions.map((q, qIdx) => {
-            const mod = s.runtimeModifiers[s.roundIndex]?.[tIdx]?.[qIdx] || null;
-            return {
-              cost: this._getEffectiveCellCost(s.roundIndex, qIdx, q.cost),
-              played: Boolean(s.playedCells[s.roundIndex]?.[tIdx]?.[qIdx]),
-              hostHintType: isHost ? q.type : undefined,
-              hostHintModifier: isHost ? mod : undefined
-            };
-          })
-        }))
+        themes: boardThemeIndexes.map((tIdx) => {
+          const t = r.themes[tIdx];
+          return {
+            themeIndex: tIdx,
+            name: t.name,
+            cells: t.questions.map((q, qIdx) => {
+              const mod = s.runtimeModifiers[s.roundIndex]?.[tIdx]?.[qIdx] || null;
+              return {
+                cost: this._getEffectiveCellCost(s.roundIndex, qIdx, q.cost),
+                played: Boolean(s.playedCells[s.roundIndex]?.[tIdx]?.[qIdx]),
+                hostHintType: isHost ? q.type : undefined,
+                hostHintModifier: isHost ? mod : undefined
+              };
+            })
+          };
+        })
       };
     }
 
@@ -1727,6 +1791,9 @@ export class GameEngine {
         audioCreditUrl: showQuestionBody ? (q.audioCreditUrl || '') : '',
         audioLicense: showQuestionBody ? (q.audioLicense || '') : '',
         video: showQuestionBody ? q.video : '',
+        videoEmbedUrl: showQuestionBody ? (q.videoEmbedUrl || '') : '',
+        videoSourceUrl: showQuestionBody ? (q.videoSourceUrl || '') : '',
+        videoCredit: showQuestionBody ? (q.videoCredit || '') : '',
         answer: (isHost || isRevealed) ? q.answer : null,
         answerImage: (isHost || isRevealed) ? q.answerImage : null,
         comment: (isHost || isRevealed) ? q.comment : null,
@@ -1815,6 +1882,19 @@ export class GameEngine {
       roomCode: s.roomCode,
       phase: s.phase,
       settings: this.settings,
+      categorySelection: s.categorySelection ? {
+        roundIndex: s.categorySelection.roundIndex,
+        roundName: this.pack?.rounds?.[s.categorySelection.roundIndex]?.name || `Раунд ${s.categorySelection.roundIndex + 1}`,
+        requiredCount: s.categorySelection.requiredCount,
+        selectedThemeIndexes: [...s.categorySelection.selectedThemeIndexes],
+        lastShotThemeIndex: s.categorySelection.lastShotThemeIndex,
+        shotSeq: s.categorySelection.shotSeq,
+        themes: (this.pack?.rounds?.[s.categorySelection.roundIndex]?.themes || []).map((theme, themeIndex) => ({
+          themeIndex,
+          name: theme.name,
+          selected: s.categorySelection.selectedThemeIndexes.includes(themeIndex)
+        }))
+      } : null,
       packMeta: this.pack ? {
         id: this.pack.id,
         title: this.pack.title,
