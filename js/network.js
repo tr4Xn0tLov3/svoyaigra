@@ -1,234 +1,164 @@
-// Сетевой уровень P2P для GitHub Pages:
-// 1) PeerJS (WebRTC DataChannel) — игра с друзьями через интернет с разных телефонов и ПК без своего бэкенда
-// 2) BroadcastChannel — мгновенный локальный мост для вкладок одного браузера и оффлайн-теста
-// Дедупликация по msgId исключает дублирование пакетов при одновременной работе обоих каналов.
+// WebSocket transport for the hosted realtime server. The server relays packets
+// between players and the host so clients don't depend on direct WebRTC/NAT paths.
+import { REALTIME_WS_URL } from './config.js';
 
-const PEER_PREFIX = 'svoya-igra-2026-';
 const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-
-const ICE_SERVERS = [
-  { urls: 'stun:stun.l.google.com:19302' },
-  { urls: 'stun:stun1.l.google.com:19302' },
-  { urls: 'stun:stun2.l.google.com:19302' },
-  { urls: 'stun:stun.cloudflare.com:3478' }
-];
 
 export function generateRoomCode(len = 5) {
   let code = '';
   const arr = new Uint8Array(len);
   crypto.getRandomValues(arr);
-  for (let i = 0; i < len; i++) {
-    code += CODE_CHARS[arr[i] % CODE_CHARS.length];
-  }
+  for (let i = 0; i < len; i++) code += CODE_CHARS[arr[i] % CODE_CHARS.length];
   return code;
+}
+
+export function generateHostToken() {
+  const bytes = new Uint8Array(24);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
 }
 
 function makeMsgId() {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
-class SeenBuffer {
-  constructor(limit = 400) {
-    this.limit = limit;
-    this.set = new Set();
-    this.queue = [];
-  }
-  checkAndAdd(id) {
-    if (!id) return false;
-    if (this.set.has(id)) return true;
-    this.set.add(id);
-    this.queue.push(id);
-    if (this.queue.length > this.limit) {
-      const oldest = this.queue.shift();
-      this.set.delete(oldest);
-    }
-    return false;
-  }
+function makeSocketUrl(roomCode, role, playerId = '', hostToken = '') {
+  const url = new URL(REALTIME_WS_URL, window.location.href);
+  url.searchParams.set('room', roomCode);
+  url.searchParams.set('role', role);
+  if (playerId) url.searchParams.set('pid', playerId);
+  if (hostToken) url.searchParams.set('token', hostToken);
+  return url.toString();
 }
 
 export class HostNetwork {
-  constructor({ roomCode, onPlayerMessage, onStatusChange, onPeerConnectionChange }) {
+  constructor({ roomCode, hostToken, onPlayerMessage, onStatusChange, onPeerConnectionChange }) {
     this.roomCode = (roomCode || generateRoomCode()).toUpperCase();
+    this.hostToken = hostToken;
     this.onPlayerMessage = onPlayerMessage;
     this.onStatusChange = onStatusChange || (() => {});
     this.onPeerConnectionChange = onPeerConnectionChange || (() => {});
-
-    this.peer = null;
-    this.connections = new Map(); // playerId -> PeerJS DataConnection
-    this.rawConns = new Set();
-    this.bc = null;
-    this.seen = new SeenBuffer();
+    this.socket = null;
     this.destroyed = false;
-    this.p2pReady = false;
+    this.reconnectTimer = null;
+    this.reconnectDelay = 1000;
     this.heartbeatTimer = null;
-    this.lastSeenByPlayer = new Map();
+    this.lastBroadcast = null;
+    this.onlinePlayers = new Set();
   }
 
   start() {
-    this._setupBroadcastChannel();
-    this._setupPeerJS();
-    this.heartbeatTimer = setInterval(() => this._checkHeartbeats(), 4000);
+    this._connect();
+    this.heartbeatTimer = setInterval(() => {
+      if (this.socket?.readyState === WebSocket.OPEN) this._send({ type: 'HEARTBEAT' });
+    }, 20_000);
   }
 
-  _setupBroadcastChannel() {
-    if (typeof BroadcastChannel !== 'undefined') {
-      this.bc = new BroadcastChannel(`si_room_${this.roomCode}`);
-      this.bc.onmessage = (ev) => {
-        const pkt = ev.data;
-        if (!pkt || pkt.direction !== 'to_host') return;
-        this._handleIncoming(pkt, null);
-      };
-    }
-  }
-
-  _setupPeerJS() {
-    if (typeof window.Peer === 'undefined') {
-      this.onStatusChange({ mode: 'local_only', text: 'Локальный режим (PeerJS недоступен)' });
+  _connect() {
+    if (this.destroyed) return;
+    this.onStatusChange({ mode: 'connecting', text: 'Подключение к игровому серверу…' });
+    let socket;
+    try { socket = new WebSocket(makeSocketUrl(this.roomCode, 'host', '', this.hostToken)); }
+    catch {
+      this._scheduleReconnect();
       return;
     }
-
-    this.onStatusChange({ mode: 'connecting', text: 'Подключение P2P-комнаты…' });
-
-    try {
-      this.peer = new window.Peer(PEER_PREFIX + this.roomCode, {
-        debug: 0,
-        config: { iceServers: ICE_SERVERS }
-      });
-    } catch (err) {
-      this.onStatusChange({ mode: 'local_only', text: 'Локальный мост активен' });
-      return;
-    }
-
-    this.peer.on('open', () => {
-      if (this.destroyed) return;
-      this.p2pReady = true;
-      this.onStatusChange({ mode: 'online', text: 'Онлайн P2P готов' });
+    this.socket = socket;
+    socket.addEventListener('open', () => {
+      if (this.destroyed || this.socket !== socket) return;
+      this.reconnectDelay = 1000;
+      this.onStatusChange({ mode: 'online', text: 'Онлайн: сервер готов' });
+      this._flushLatestViews();
     });
-
-    this.peer.on('connection', (conn) => {
-      this.rawConns.add(conn);
-      conn.on('data', (pkt) => {
-        if (!pkt || pkt.direction !== 'to_host') return;
-        if (pkt.playerId) {
-          this.connections.set(pkt.playerId, conn);
-          conn._playerId = pkt.playerId;
-        }
-        this._handleIncoming(pkt, conn);
-      });
-
-      const handleClose = () => {
-        this.rawConns.delete(conn);
-        if (conn._playerId && this.connections.get(conn._playerId) === conn) {
-          this.connections.delete(conn._playerId);
-        }
-      };
-      conn.on('close', handleClose);
-      conn.on('error', handleClose);
-    });
-
-    this.peer.on('disconnected', () => {
-      if (this.destroyed || !this.peer) return;
-      this.p2pReady = false;
-      this.onStatusChange({ mode: 'reconnecting', text: 'Переподключение к серверу комнат…' });
-      setTimeout(() => {
-        if (!this.destroyed && this.peer && this.peer.disconnected) {
-          try { this.peer.reconnect(); } catch (_) {}
-        }
-      }, 1800);
-    });
-
-    this.peer.on('error', (err) => {
-      if (this.destroyed) return;
-      if (err && err.type === 'unavailable-id') {
-        // Код случайно занят — генерируем новый
-        this.roomCode = generateRoomCode();
-        if (this.bc) {
-          this.bc.close();
-          this._setupBroadcastChannel();
-        }
-        try { this.peer.destroy(); } catch (_) {}
-        this._setupPeerJS();
-        this.onStatusChange({ mode: 'code_changed', roomCode: this.roomCode, text: 'Обновлён код комнаты' });
-      } else {
-        this.onStatusChange({ mode: 'degraded', text: 'Сеть: резервный канал' });
+    socket.addEventListener('message', (event) => {
+      let packet;
+      try { packet = JSON.parse(event.data); } catch { return; }
+      if (packet.type === 'HOST_READY') {
+        // Keep existing player tabs synced if host/browser server reconnects.
+        this._flushLatestViews();
+        return;
       }
+      if (packet.type === 'PLAYER_ONLINE' && packet.playerId) {
+        this.onlinePlayers.add(packet.playerId);
+        this.onPeerConnectionChange(packet.playerId, true);
+        return;
+      }
+      if (packet.type === 'PLAYER_OFFLINE' && packet.playerId) {
+        this.onlinePlayers.delete(packet.playerId);
+        this.onPeerConnectionChange(packet.playerId, false);
+        return;
+      }
+      if (packet.direction !== 'to_host') return;
+      if (packet.playerId && !this.onlinePlayers.has(packet.playerId)) {
+        this.onlinePlayers.add(packet.playerId);
+        this.onPeerConnectionChange(packet.playerId, true);
+      }
+      this._handleIncoming(packet);
+    });
+    socket.addEventListener('close', () => {
+      if (this.destroyed || this.socket !== socket) return;
+      this.socket = null;
+      this.onStatusChange({ mode: 'reconnecting', text: 'Переподключение к игровому серверу…' });
+      this._scheduleReconnect();
+    });
+    socket.addEventListener('error', () => {
+      try { socket.close(); } catch { /* ignore */ }
     });
   }
 
-  _handleIncoming(pkt, conn) {
-    if (this.seen.checkAndAdd(pkt.msgId)) return;
-    if (pkt.playerId) {
-      const wasOnline = this.lastSeenByPlayer.has(pkt.playerId);
-      this.lastSeenByPlayer.set(pkt.playerId, Date.now());
-      if (!wasOnline) {
-        this.onPeerConnectionChange(pkt.playerId, true);
-      }
-    }
-    if (pkt.type === 'PING') {
-      this.sendToPlayer(pkt.playerId, { type: 'PONG', ts: pkt.ts });
-      return;
-    }
-    this.onPlayerMessage(pkt.playerId, pkt.payload, conn);
+  _scheduleReconnect() {
+    if (this.destroyed || this.reconnectTimer) return;
+    const delay = this.reconnectDelay;
+    this.reconnectDelay = Math.min(15_000, Math.round(this.reconnectDelay * 1.7));
+    this.reconnectTimer = setTimeout(() => {
+      this.reconnectTimer = null;
+      this._connect();
+    }, delay);
   }
 
-  _checkHeartbeats() {
-    const now = Date.now();
-    for (const [playerId, lastTs] of this.lastSeenByPlayer.entries()) {
-      if (now - lastTs > 14000) {
-        this.lastSeenByPlayer.delete(playerId);
-        this.onPeerConnectionChange(playerId, false);
-      }
+  _handleIncoming(packet) {
+    if (packet.type === 'PING') {
+      this.sendToPlayer(packet.playerId, { type: 'PONG', ts: packet.ts });
+      return;
+    }
+    this.onPlayerMessage(packet.playerId, packet.payload);
+  }
+
+  _send(packet) {
+    if (this.socket?.readyState === WebSocket.OPEN) {
+      try { this.socket.send(JSON.stringify(packet)); } catch { /* reconnect will recover */ }
     }
   }
 
   sendToPlayer(playerId, payload) {
-    const pkt = {
+    this._send({
       msgId: makeMsgId(),
       direction: 'to_player',
       targetId: playerId,
       payload
-    };
-    const conn = this.connections.get(playerId);
-    if (conn && conn.open) {
-      try { conn.send(pkt); } catch (_) {}
-    }
-    if (this.bc) {
-      try { this.bc.postMessage(pkt); } catch (_) {}
-    }
+    });
   }
 
   broadcastCustom(builderFn, playerIds) {
-    // builderFn(playerId) -> индивидуально подготовленный state без спойлеров!
-    for (const pid of playerIds) {
-      const payload = builderFn(pid);
-      this.sendToPlayer(pid, payload);
-    }
-    // Плюс общий пакет для зрителей
-    const spectatorPayload = builderFn('__spectator__');
-    const specPkt = {
-      msgId: makeMsgId(),
-      direction: 'to_player',
-      targetId: '__spectator__',
-      payload: spectatorPayload
-    };
-    for (const conn of this.rawConns) {
-      if (!conn._playerId && conn.open) {
-        try { conn.send(specPkt); } catch (_) {}
-      }
-    }
-    if (this.bc) {
-      try { this.bc.postMessage(specPkt); } catch (_) {}
-    }
+    this.lastBroadcast = { builderFn, playerIds: [...playerIds] };
+    this._flushLatestViews();
+  }
+
+  _flushLatestViews() {
+    if (!this.lastBroadcast || this.socket?.readyState !== WebSocket.OPEN) return;
+    const { builderFn, playerIds } = this.lastBroadcast;
+    for (const pid of playerIds) this.sendToPlayer(pid, builderFn(pid));
+    this.sendToPlayer('__spectator__', builderFn('__spectator__'));
   }
 
   destroy() {
     this.destroyed = true;
     clearInterval(this.heartbeatTimer);
-    if (this.bc) {
-      try { this.bc.close(); } catch (_) {}
-    }
-    if (this.peer) {
-      try { this.peer.destroy(); } catch (_) {}
+    clearTimeout(this.reconnectTimer);
+    if (this.socket) {
+      this.socket.onclose = null;
+      try { this.socket.close(1000, 'Host left room'); } catch { /* ignore */ }
+      this.socket = null;
     }
   }
 }
@@ -239,174 +169,104 @@ export class PlayerNetwork {
     this.playerId = playerId;
     this.onHostMessage = onHostMessage;
     this.onStatusChange = onStatusChange || (() => {});
-
-    this.peer = null;
-    this.conn = null;
-    this.bc = null;
-    this.seen = new SeenBuffer();
+    this.socket = null;
     this.connected = false;
     this.destroyed = false;
-    this.pingTimer = null;
     this.reconnectTimer = null;
-    this.lastPongAt = 0;
+    this.reconnectDelay = 1000;
+    this.pingTimer = null;
+    this.helloPayload = null;
+    this.isSpectator = false;
   }
 
   start() {
-    this._setupBroadcastChannel();
-    this._setupPeerJS();
-
+    this._connect();
     this.pingTimer = setInterval(() => {
       this._sendRaw({ type: 'PING', ts: Date.now() });
-      if (this.connected && Date.now() - this.lastPongAt > 15000) {
-        this.connected = false;
-        this.onStatusChange({ connected: false, text: 'Связь с ведущим потеряна, переподключение…' });
-        this._schedulePeerReconnect();
-      }
-    }, 3500);
-
-    this._onVisibility = () => {
-      if (document.visibilityState === 'visible' && !this.destroyed) {
-        this._sendRaw({ type: 'PING', ts: Date.now() });
-        if (!this.conn || !this.conn.open) {
-          this._schedulePeerReconnect(200);
-        }
-      }
-    };
-    document.addEventListener('visibilitychange', this._onVisibility);
+    }, 5000);
   }
 
-  _setupBroadcastChannel() {
-    if (typeof BroadcastChannel !== 'undefined') {
-      this.bc = new BroadcastChannel(`si_room_${this.roomCode}`);
-      this.bc.onmessage = (ev) => {
-        const pkt = ev.data;
-        if (!pkt || pkt.direction !== 'to_player') return;
-        if (pkt.targetId !== this.playerId && pkt.targetId !== '__all__' && !(this.isSpectator && pkt.targetId === '__spectator__')) {
-          return;
-        }
-        this._handleIncoming(pkt);
-      };
-      // Пробуем сразу пингануть локальную вкладку ведущего
-      setTimeout(() => this._sendRaw({ type: 'PING', ts: Date.now() }), 30);
-    }
-  }
-
-  _setupPeerJS() {
-    if (typeof window.Peer === 'undefined') return;
-
-    this.onStatusChange({ connected: this.connected, text: 'Поиск комнаты…' });
-
-    try {
-      this.peer = new window.Peer({
-        debug: 0,
-        config: { iceServers: ICE_SERVERS }
-      });
-    } catch (_) {
+  _connect() {
+    if (this.destroyed) return;
+    this.onStatusChange({ connected: false, text: 'Подключение к игровому серверу…' });
+    let socket;
+    try { socket = new WebSocket(makeSocketUrl(this.roomCode, 'player', this.playerId)); }
+    catch {
+      this._scheduleReconnect();
       return;
     }
-
-    this.peer.on('open', () => {
-      if (this.destroyed) return;
-      this._connectToHostPeer();
+    this.socket = socket;
+    socket.addEventListener('open', () => {
+      if (this.destroyed || this.socket !== socket) return;
+      this.reconnectDelay = 1000;
+      if (this.helloPayload) this._sendHello();
     });
-
-    this.peer.on('disconnected', () => {
-      if (this.destroyed) return;
-      try { this.peer.reconnect(); } catch (_) {}
-      this._schedulePeerReconnect(1500);
-    });
-
-    this.peer.on('error', () => {
-      if (this.destroyed) return;
-      this._schedulePeerReconnect(2500);
-    });
-  }
-
-  _connectToHostPeer() {
-    if (this.destroyed || !this.peer || !this.peer.open) return;
-    if (this.conn) {
-      try { this.conn.close(); } catch (_) {}
-    }
-
-    const conn = this.peer.connect(PEER_PREFIX + this.roomCode, { reliable: true });
-    this.conn = conn;
-
-    conn.on('open', () => {
-      if (this.destroyed) return;
-      this._markConnected();
-      this._sendRaw({ type: 'PING', ts: Date.now() });
-      if (this._helloPayload) {
-        this.send(this._helloPayload);
-      }
-    });
-
-    conn.on('data', (pkt) => {
-      if (!pkt || pkt.direction !== 'to_player') return;
-      if (pkt.targetId !== this.playerId && pkt.targetId !== '__all__' && !(this.isSpectator && pkt.targetId === '__spectator__')) {
+    socket.addEventListener('message', (event) => {
+      let packet;
+      try { packet = JSON.parse(event.data); } catch { return; }
+      if (packet.type === 'HOST_READY') {
+        if (this.helloPayload) this._sendHello();
         return;
       }
-      this._handleIncoming(pkt);
+      if (packet.type === 'HOST_OFFLINE') {
+        this.onStatusChange({ connected: false, text: 'Ведущий пока не подключён к серверу' });
+        return;
+      }
+      if (packet.type === 'TRANSPORT_READY') return;
+      if (packet.direction !== 'to_player') return;
+      if (packet.targetId !== this.playerId && packet.targetId !== '__all__' && !(this.isSpectator && packet.targetId === '__spectator__')) return;
+      if (packet.payload?.type === 'PONG') {
+        this.connected = true;
+        this.onStatusChange({ connected: true, text: 'Связь с ведущим есть' });
+        return;
+      }
+      this.connected = true;
+      this.onStatusChange({ connected: true, text: 'В комнате' });
+      this.onHostMessage(packet.payload);
     });
-
-    conn.on('close', () => {
-      if (!this.destroyed) this._schedulePeerReconnect(2000);
+    socket.addEventListener('close', () => {
+      if (this.destroyed || this.socket !== socket) return;
+      this.socket = null;
+      this.connected = false;
+      this.onStatusChange({ connected: false, text: 'Связь прервана, подключаюсь снова…' });
+      this._scheduleReconnect();
     });
-    conn.on('error', () => {
-      if (!this.destroyed) this._schedulePeerReconnect(2500);
+    socket.addEventListener('error', () => {
+      try { socket.close(); } catch { /* ignore */ }
     });
   }
 
-  _schedulePeerReconnect(delay = 2000) {
+  _scheduleReconnect() {
     if (this.destroyed || this.reconnectTimer) return;
+    const delay = this.reconnectDelay;
+    this.reconnectDelay = Math.min(15_000, Math.round(this.reconnectDelay * 1.7));
     this.reconnectTimer = setTimeout(() => {
       this.reconnectTimer = null;
-      if (this.destroyed) return;
-      if (!this.peer || this.peer.destroyed) {
-        this._setupPeerJS();
-      } else if (this.peer.disconnected) {
-        try { this.peer.reconnect(); } catch (_) { this._setupPeerJS(); }
-      } else {
-        this._connectToHostPeer();
-      }
+      this._connect();
     }, delay);
   }
 
-  _markConnected() {
-    this.lastPongAt = Date.now();
-    if (!this.connected) {
-      this.connected = true;
-      this.onStatusChange({ connected: true, text: 'Подключено к комнате' });
-    }
-  }
-
-  _handleIncoming(pkt) {
-    if (this.seen.checkAndAdd(pkt.msgId)) return;
-    this._markConnected();
-    if (pkt.payload && pkt.payload.type === 'PONG') {
-      return;
-    }
-    this.onHostMessage(pkt.payload);
-  }
-
   _sendRaw(inner) {
-    const pkt = {
+    const packet = {
       msgId: makeMsgId(),
       direction: 'to_host',
       playerId: this.playerId,
       ...inner
     };
-    if (this.conn && this.conn.open) {
-      try { this.conn.send(pkt); } catch (_) {}
-    }
-    if (this.bc) {
-      try { this.bc.postMessage(pkt); } catch (_) {}
+    if (this.socket?.readyState === WebSocket.OPEN) {
+      try { this.socket.send(JSON.stringify(packet)); } catch { /* reconnect will recover */ }
     }
   }
 
+  _sendHello() {
+    if (!this.helloPayload) return;
+    this._sendRaw({ type: 'ACTION', payload: this.helloPayload });
+  }
+
   sendHello(joinData) {
-    this._helloPayload = { action: 'JOIN', ...joinData };
+    this.helloPayload = { action: 'JOIN', ...joinData };
     this.isSpectator = Boolean(joinData.isSpectator);
-    this.send(this._helloPayload);
+    this._sendHello();
   }
 
   send(payload) {
@@ -417,12 +277,10 @@ export class PlayerNetwork {
     this.destroyed = true;
     clearInterval(this.pingTimer);
     clearTimeout(this.reconnectTimer);
-    document.removeEventListener('visibilitychange', this._onVisibility);
-    if (this.bc) {
-      try { this.bc.close(); } catch (_) {}
-    }
-    if (this.peer) {
-      try { this.peer.destroy(); } catch (_) {}
+    if (this.socket) {
+      this.socket.onclose = null;
+      try { this.socket.close(1000, 'Player left room'); } catch { /* ignore */ }
+      this.socket = null;
     }
   }
 }

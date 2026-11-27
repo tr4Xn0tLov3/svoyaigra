@@ -1,7 +1,7 @@
 // Главный контроллер интерфейса «Своя Игра Онлайн» (Ведущий + Игрок + Зритель)
 
 import { sound } from './audio.js';
-import { HostNetwork, PlayerNetwork, generateRoomCode } from './network.js';
+import { HostNetwork, PlayerNetwork, generateRoomCode, generateHostToken } from './network.js';
 import { GameEngine, AVATARS, COLORS, MODIFIER_CATALOG } from './state.js';
 import { PackBuilderModal } from './editor.js';
 
@@ -91,6 +91,8 @@ class SvoyaIgraApp {
       onUsePack: (packObj) => this._applyCustomPackObject(packObj)
     });
 
+    // Keep a same-device recovery copy so a host refresh can resume the room.
+    window.addEventListener('pagehide', () => this._saveHostBackup());
     this._init();
   }
 
@@ -102,6 +104,23 @@ class SvoyaIgraApp {
     }
 
     await this._loadRepoPacksIndex();
+
+    // Refreshing the host tab restores its last engine snapshot and reconnects
+    // with the same room code instead of silently starting a new game.
+    if (!roomParam && sessionStorage.getItem('si_host_room_active') === '1') {
+      try {
+        const backup = JSON.parse(localStorage.getItem('si_host_room_backup') || 'null');
+        if (backup?.roomCode && backup?.hostToken && backup?.pack && backup?.state && Date.now() - backup.savedAt < 12 * 60 * 60 * 1000) {
+          await this._createHostRoom(backup);
+          this._startSmoothTimerLoop();
+          this._bindGlobalKeys();
+          return;
+        }
+      } catch (err) {
+        console.warn('Не удалось восстановить комнату ведущего:', err);
+      }
+      sessionStorage.removeItem('si_host_room_active');
+    }
 
     const savedSession = sessionStorage.getItem('si_active_player_session');
     if (savedSession && !params.get('fresh')) {
@@ -282,30 +301,44 @@ class SvoyaIgraApp {
 
   // --- Создание комнаты (Ведущий) ---
 
-  async _createHostRoom() {
+  async _createHostRoom(restore = null) {
     sound.init();
-    const roomCode = generateRoomCode(5);
+    const roomCode = (restore?.roomCode || generateRoomCode(5)).toUpperCase();
+    const hostToken = restore?.hostToken || generateHostToken();
+    this.hostToken = hostToken;
     this.role = 'host';
+    sessionStorage.setItem('si_host_room_active', '1');
 
     this.engine = new GameEngine({
       roomCode,
-      onChange: () => this._onHostEngineChange(),
+      onChange: () => {},
       onSound: (soundName) => this._playSoundByName(soundName)
     });
 
-    try {
-      if (this.customUploadedPack) {
-        this.engine.setPack(this.customUploadedPack);
-      } else if (this.selectedPackMeta) {
-        const packJson = await this._fetchPackJson(this.selectedPackMeta);
-        if (packJson) this.engine.setPack(packJson);
+    if (restore?.pack && restore?.state) {
+      this.engine.pack = restore.pack;
+      this.engine.settings = { ...this.engine.settings, ...(restore.settings || {}) };
+      this.engine.state = restore.state;
+      this.engine.state.roomCode = roomCode;
+      this.selectedPackMeta = this.repoPacks.find((p) => p.id === restore.pack.id) || this.selectedPackMeta;
+      this.engine.onChange = () => this._onHostEngineChange();
+    } else {
+      this.engine.onChange = () => this._onHostEngineChange();
+      try {
+        if (this.customUploadedPack) {
+          this.engine.setPack(this.customUploadedPack);
+        } else if (this.selectedPackMeta) {
+          const packJson = await this._fetchPackJson(this.selectedPackMeta);
+          if (packJson) this.engine.setPack(packJson);
+        }
+      } catch (err) {
+        this._toast('Ошибка загрузки пака: ' + err.message, 'red');
       }
-    } catch (err) {
-      this._toast('Ошибка загрузки пака: ' + err.message, 'red');
     }
 
     this.hostNet = new HostNetwork({
       roomCode,
+      hostToken,
       onPlayerMessage: (playerId, payload) => this._handlePlayerActionOnHost(playerId, payload),
       onPeerConnectionChange: (playerId, online) => {
         if (this.engine) this.engine.setPlayerOnline(playerId, online);
@@ -324,8 +357,33 @@ class SvoyaIgraApp {
     this._onHostEngineChange();
   }
 
+  _saveHostBackup() {
+    if (this.role !== 'host' || !this.engine?.pack) return;
+    try {
+      localStorage.setItem('si_host_room_backup', JSON.stringify({
+        roomCode: this.engine.roomCode,
+        hostToken: this.hostNet?.hostToken || this.hostToken || null,
+        pack: this.engine.pack,
+        settings: this.engine.settings,
+        state: this.engine.state,
+        savedAt: Date.now()
+      }));
+    } catch (err) {
+      console.warn('Не удалось сохранить резервное состояние комнаты:', err);
+    }
+  }
+
+  _scheduleHostBackup() {
+    if (this.hostBackupTimer || this.role !== 'host') return;
+    this.hostBackupTimer = setTimeout(() => {
+      this.hostBackupTimer = null;
+      this._saveHostBackup();
+    }, 1000);
+  }
+
   _onHostEngineChange() {
     if (!this.engine) return;
+    this._scheduleHostBackup();
     this.view = this.engine.buildViewFor('__host__');
     this._syncLocalTimerFromView();
     this._syncQuestionAudio(this.view);
@@ -478,7 +536,14 @@ class SvoyaIgraApp {
   }
 
   _leaveRoom() {
+    const wasHost = this.role === 'host';
     sessionStorage.removeItem('si_active_player_session');
+    if (wasHost) {
+      sessionStorage.removeItem('si_host_room_active');
+      localStorage.removeItem('si_host_room_backup');
+    }
+    clearTimeout(this.hostBackupTimer);
+    this.hostBackupTimer = null;
     this.qAudio.pause();
     this.qAudio.src = '';
     this.qAudioKey = null;
@@ -495,6 +560,7 @@ class SvoyaIgraApp {
       this.playerNet = null;
     }
     this.role = null;
+    this.hostToken = null;
     this.view = null;
     window.history.replaceState({}, '', window.location.pathname);
     this.render();
@@ -671,10 +737,10 @@ class SvoyaIgraApp {
     if (this.role === 'host') {
       const online = this.netStatus.mode === 'online';
       badge.className = `net-pill ${online ? 'ok' : 'warn'}`;
-      badge.textContent = online ? '● Онлайн P2P' : '● Комната активна';
+      badge.textContent = online ? '● Онлайн · сервер' : `● ${this.netStatus.text || 'Подключаем сервер…'}`;
     } else if (this.role === 'player') {
       badge.className = `net-pill ${this.netStatus.connected ? 'ok' : 'warn'}`;
-      badge.textContent = this.netStatus.connected ? '● В комнате' : '● Подключение…';
+      badge.textContent = this.netStatus.connected ? '● В комнате' : `● ${this.netStatus.text || 'Подключение…'}`;
     }
   }
 
@@ -927,7 +993,7 @@ class SvoyaIgraApp {
         <div class="connecting-screen">
           <div class="spinner-ring"></div>
           <h2>Подключение к комнате <code>${escapeHtml(this.playerNet?.roomCode || '')}</code>…</h2>
-          <p class="muted-sm">Убедитесь, что вкладка ведущего открыта и код введён верно.</p>
+          <p class="muted-sm">${escapeHtml(this.netStatus.text || 'Ищем ведущего…')}<br>Проверьте, что ведущий открыл комнату с кодом ${escapeHtml(this.playerNet?.roomCode || '')}.</p>
           <button class="btn btn-ghost" id="btn-cancel-connect">← На главную</button>
         </div>
       `;
@@ -949,7 +1015,7 @@ class SvoyaIgraApp {
               Код: <strong>${escapeHtml(v.roomCode)}</strong> 📋
             </button>
             <span id="net-status-pill" class="net-pill ok">
-              ${isHost ? (this.netStatus.mode === 'online' ? '● Онлайн P2P' : '● Комната активна') : (this.netStatus.connected ? '● В комнате' : '● Связь…')}
+              ${isHost ? (this.netStatus.mode === 'online' ? '● Онлайн · сервер' : `● ${escapeHtml(this.netStatus.text || 'Подключаем сервер…')}`) : (this.netStatus.connected ? '● В комнате' : '● Связь…')}
             </span>
           </div>
 
