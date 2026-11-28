@@ -1543,7 +1543,7 @@ class SvoyaIgraApp {
         <header class="category-select-header">
           <div>
             <div class="panel-tag">🎯 ПОДГОТОВКА ${escapeHtml(selection.roundName)}</div>
-            <h2>Выстрели по пяти категориям</h2>
+            <h2>Выстрели по ${required} категориям</h2>
             <p>${turnCaption} ${isHost ? 'Игроки и ведущий стреляют по очереди; промах не меняет порядок.' : ''}</p>
             ${isHost ? `
               <div class="category-starter-picker">

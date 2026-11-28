@@ -452,7 +452,7 @@ export class GameEngine {
     this.state.finalState = null;
     this.state.lastZeroedPlayerId = null;
     this._stopTimer();
-    this._banner(`${this.pack.rounds[0].name}: ведущий выбирает 5 категорий`, 'gold');
+    this._banner(`${this.pack.rounds[0].name}: ведущий выбирает ${Math.min(6, this.pack.rounds[0].themes.length)} категорий`, 'gold');
     this._emit();
   }
 
@@ -468,7 +468,7 @@ export class GameEngine {
     this.state.categorySelection = {
       roundIndex,
       selectedThemeIndexes: [],
-      requiredCount: Math.min(5, themes.length),
+      requiredCount: Math.min(6, themes.length),
       lastShotThemeIndex: null,
       shotSeq: 0,
       turnPlayerIds,
@@ -524,7 +524,7 @@ export class GameEngine {
     const roundName = this.pack?.rounds?.[cs.roundIndex]?.name || `Раунд ${cs.roundIndex + 1}`;
     this.state.categorySelection = null;
     this.state.phase = 'board';
-    this._banner(`${roundName} — выбрано 5 категорий, погнали!`, 'gold');
+    this._banner(`${roundName} — выбрано ${cs.requiredCount} категорий, погнали!`, 'gold');
     this._sound('roundStart');
     this._emit();
   }
@@ -1450,7 +1450,7 @@ export class GameEngine {
       }
       this._beginCategorySelection(nextRoundIndex);
       const nextRoundName = this.pack.rounds[nextRoundIndex].name;
-      this._banner(`${nextRoundName}: ведущий выбирает 5 категорий`, 'gold');
+      this._banner(`${nextRoundName}: ведущий выбирает ${Math.min(6, this.pack.rounds[nextRoundIndex].themes.length)} категорий`, 'gold');
       this._emit();
       return;
     }

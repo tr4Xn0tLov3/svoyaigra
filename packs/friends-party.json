@@ -1,9 +1,9 @@
 {
   "id": "friends-party",
-  "title": "🎉 Вечеринка с друзьями: Мемы, Музыка, Аниме и врОЧКА",
+  "title": "🎉 Вечеринка с друзьями: Музыка, мемы и полный абсурд",
   "author": "Своя Игра Online",
   "difficulty": "Для компании (3 уровня: от 100 до 5000 очков)",
-  "description": "Простая музыкальная игра: знакомые мелодии плюс бодрые открыто-лицензированные свинг/рок-н-ролл/танцевальные треки. Все короткие аудиофрагменты лежат локально в проекте; внешняя загрузка при игре не нужна. В каждой теме на табло остаётся 5 вопросов, варианты ротируются между партиями.",
+  "description": "Большая вечеринка на 3 уровня: ровно 6 тем × 5 вопросов (30 на уровень, 90 на игру). Музыкальные угадайки по аудио, музыканты по фото, мемы, Wild Rift, торты-обманки, словесные мутанты вроде «Крысало», звери на работе, кино и абсурдная техподдержка. В открытых заданиях ведущий может засчитать самый смешной ответ.",
   "rounds": [
     {
       "name": "Уровень 1. Разгон (цены 100–500)",
@@ -119,7 +119,7 @@
               "rotationId": "r0-user-akon-feat-eminem-smack-that",
               "musicId": "r0-user-akon-feat-eminem-smack-that",
               "cost": 100,
-              "text": "Угадайте песню по короткому аудиофрагменту.",
+              "text": "Что за композиция звучит? Назовите исполнителя и название.",
               "answer": "Akon feat. Eminem — «Smack That»",
               "audio": "./packs/media/audio/tracks/akon-feat-eminem-smack-that.mp3",
               "audioStartSeconds": 0,
@@ -129,7 +129,7 @@
               "rotationId": "r0-user-hit-max-korzh-zakat",
               "musicId": "r0-user-hit-max-korzh-zakat",
               "cost": 200,
-              "text": "Что за композиция звучит? Назовите исполнителя и название.",
+              "text": "Узнайте песню по этому короткому фрагменту.",
               "answer": "Макс Корж — «Закат»",
               "audio": "./packs/media/audio/tracks/hit-max-korzh-zakat.m4a",
               "audioStartSeconds": 0,
@@ -139,7 +139,7 @@
               "rotationId": "r0-user-hu-been-to-hell",
               "musicId": "r0-user-hu-been-to-hell",
               "cost": 300,
-              "text": "Определите трек по этому отрывку: кто его исполняет?",
+              "text": "Кто исполняет этот трек?",
               "answer": "Hollywood Undead — «Been to Hell»",
               "audio": "./packs/media/audio/tracks/hu-been-to-hell.m4a",
               "audioStartSeconds": 0,
@@ -149,7 +149,7 @@
               "rotationId": "r0-user-hu-bullet",
               "musicId": "r0-user-hu-bullet",
               "cost": 400,
-              "text": "Как называется песня, которую вы сейчас слышите?",
+              "text": "Как называется хит, который сейчас играет?",
               "answer": "Hollywood Undead — «Bullet»",
               "audio": "./packs/media/audio/tracks/hu-bullet.m4a",
               "audioStartSeconds": 0,
@@ -159,7 +159,7 @@
               "rotationId": "r0-user-hu-everywhere-i-go",
               "musicId": "r0-user-hu-everywhere-i-go",
               "cost": 500,
-              "text": "Назовите артиста и композицию по звучащему фрагменту.",
+              "text": "Определите песню по её звучанию.",
               "answer": "Hollywood Undead — «Everywhere I Go»",
               "audio": "./packs/media/audio/tracks/hu-everywhere-i-go.m4a",
               "audioStartSeconds": 0,
@@ -169,7 +169,7 @@
               "rotationId": "r0-user-hu-hear-me-now",
               "musicId": "r0-user-hu-hear-me-now",
               "cost": 100,
-              "text": "Узнайте мелодию и вспомните, какой песне она принадлежит.",
+              "text": "Прослушайте отрывок и назовите группу или артиста.",
               "answer": "Hollywood Undead — «Hear Me Now»",
               "audio": "./packs/media/audio/tracks/hu-hear-me-now.m4a",
               "audioStartSeconds": 0,
@@ -179,7 +179,7 @@
               "rotationId": "r0-user-hu-undead",
               "musicId": "r0-user-hu-undead",
               "cost": 200,
-              "text": "Какой музыкальный трек скрывается за этим аудио?",
+              "text": "Чья композиция спряталась в аудио?",
               "answer": "Hollywood Undead — «Undead»",
               "audio": "./packs/media/audio/tracks/hu-undead.m4a",
               "audioStartSeconds": 0,
@@ -189,7 +189,7 @@
               "rotationId": "r0-user-hu-we-are",
               "musicId": "r0-user-hu-we-are",
               "cost": 300,
-              "text": "Прослушайте фрагмент и назовите песню.",
+              "text": "Узнаёте мелодию? Назовите трек.",
               "answer": "Hollywood Undead — «We Are»",
               "audio": "./packs/media/audio/tracks/hu-we-are.m4a",
               "audioStartSeconds": 0,
@@ -199,7 +199,7 @@
               "rotationId": "r0-user-melody-bad-guy",
               "musicId": "r0-user-melody-bad-guy",
               "cost": 400,
-              "text": "Кто исполняет эту композицию и как она называется?",
+              "text": "Какой исполнитель звучит в этом вопросе?",
               "answer": "Billie Eilish — «Bad Guy» (мелодия)",
               "audio": "./packs/media/audio/tracks/melody-bad-guy.m4a",
               "audioStartSeconds": 0,
@@ -209,11 +209,168 @@
               "rotationId": "r0-user-melody-feel-good",
               "musicId": "r0-user-melody-feel-good",
               "cost": 500,
-              "text": "Вспомните название песни по нескольким секундам звучания.",
+              "text": "Назовите песню по нескольким секундам записи.",
               "answer": "Gorillaz — «Feel Good Inc.» (мелодия)",
               "audio": "./packs/media/audio/tracks/melody-feel-good.m4a",
               "audioStartSeconds": 0,
               "audioClipSeconds": 12
+            }
+          ]
+        },
+        {
+          "name": "Кто на фото? Музыканты",
+          "questions": [
+            {
+              "cost": 100,
+              "text": "Кто из легенд русского рока изображён на фото? Подсказка: его группа называется «Кино».",
+              "image": "./packs/media/images/music-quiz/viktor-tsoi.jpg",
+              "answer": "Виктор Цой",
+              "comment": "Фото Игоря Мухина (кадрирование Beaumain), Wikimedia Commons. Автор посвятил работу общественному достоянию: https://commons.wikimedia.org/wiki/File:Victor_Tsoi_1986_cropped.jpg",
+              "rotationId": "fp-r0-photo-00"
+            },
+            {
+              "cost": 200,
+              "text": "Назовите фронтмена Limp Bizkit на фото — того самого исполнителя «Rollin’», о котором мы говорили.",
+              "image": "./packs/media/images/music-quiz/fred-durst.jpg",
+              "answer": "Фред Дёрст (Fred Durst)",
+              "comment": "Фото Quintin Soloviev, CC BY-SA 4.0: https://commons.wikimedia.org/wiki/File:Fred_Durst_performing_at_The_Roxy_on_December_3,_2019_(Quintin_Soloviev).jpg",
+              "rotationId": "fp-r0-photo-01"
+            },
+            {
+              "cost": 300,
+              "text": "Кто изображён? Он — вокалист Imagine Dragons; в их большом хите радиоактивность стала припевом.",
+              "image": "./packs/media/images/music-quiz/dan-reynolds.jpg",
+              "answer": "Дэн Рейнольдс (Dan Reynolds)",
+              "comment": "Фото Sven-Sebastian Sajak, CC BY-SA 3.0: https://commons.wikimedia.org/wiki/File:RiP2013_ImagineDragons_Dan_Reynolds_0019.jpg",
+              "rotationId": "fp-r0-photo-02"
+            },
+            {
+              "cost": 400,
+              "text": "Этот музыкант — фронтмен Blur. Подсказка к песне группы: в припеве все знают громкое «Woo-hoo!».",
+              "image": "./packs/media/images/music-quiz/damon-albarn.jpg",
+              "answer": "Деймон Албарн (Damon Albarn)",
+              "comment": "Фото Σπάρτακος, кадрирование Lazz R, CC BY-SA 3.0: https://commons.wikimedia.org/wiki/File:Damon_Albarn_live29.07.2013_in_Rome_4_(cropped).JPG",
+              "rotationId": "fp-r0-photo-03"
+            },
+            {
+              "cost": 500,
+              "text": "На переднем плане фото с MTV Video Music Awards 1992 — фронтмен Nirvana. Кто это?",
+              "image": "./packs/media/images/music-quiz/kurt-cobain.jpg",
+              "answer": "Курт Кобейн (Kurt Cobain)",
+              "comment": "Фото P.B. Rage, CC BY-SA 2.0: https://commons.wikimedia.org/wiki/File:Kurt_Cobain_1992.jpg",
+              "rotationId": "fp-r0-photo-04"
+            }
+          ]
+        },
+        {
+          "name": "Крысало: словесный блендер",
+          "questions": [
+            {
+              "cost": 100,
+              "text": "🐀 КРЫСА + 🥓 САЛО. Склей названия и получи продукт, который запрещено подавать на приличном банкете.",
+              "answer": "КРЫСАЛО",
+              "comment": "Да, это именно то слово из примера. Составитель меню уже вызвал санитарную службу.",
+              "rotationId": "fp-r0-word-00"
+            },
+            {
+              "cost": 200,
+              "text": "🐓 ПЕТУХ + 🛞 ШИНА. Как называется гибрид, который орёт в пять утра и сам себя подкачивает?",
+              "answer": "ПЕТУШИНА",
+              "comment": "Прекрасный транспорт для деревни: будильник, сигнализация и запаска в одном организме.",
+              "rotationId": "fp-r0-word-01"
+            },
+            {
+              "cost": 300,
+              "text": "🐈 КОТ + 🎂 ТОРТ. Собери слово для десерта, который сам залез на стол и теперь требует свечку.",
+              "answer": "КОТОРТ",
+              "comment": "Которт. Не путать с тортом, который просто уронили.",
+              "rotationId": "fp-r0-word-02"
+            },
+            {
+              "cost": 400,
+              "text": "🪿 ГУСЬ + 🧉 ТЕРМОС. Склей их и получи птицу, которая приносит чай, но сдачу клюёт.",
+              "answer": "ГУСЕРМОС",
+              "comment": "Гусермос — идеальный спутник для пикника, если пикник не против шипения.",
+              "rotationId": "fp-r0-word-03"
+            },
+            {
+              "cost": 500,
+              "text": "🐟 РЫБА + 🍌 БАНАН. Придумай название существу, которое скользит даже в воде.",
+              "answer": "РЫБАНАН",
+              "comment": "Рыбанан. Научное название: «я не знаю, как это получилось».",
+              "rotationId": "fp-r0-word-04"
+            }
+          ],
+          "questionPool": [
+            {
+              "cost": 100,
+              "text": "🐀 КРЫСА + 🥓 САЛО. Склей названия и получи продукт, который запрещено подавать на приличном банкете.",
+              "answer": "КРЫСАЛО",
+              "comment": "Да, это именно то слово из примера. Составитель меню уже вызвал санитарную службу.",
+              "rotationId": "fp-r0-word-00"
+            },
+            {
+              "cost": 200,
+              "text": "🐓 ПЕТУХ + 🛞 ШИНА. Как называется гибрид, который орёт в пять утра и сам себя подкачивает?",
+              "answer": "ПЕТУШИНА",
+              "comment": "Прекрасный транспорт для деревни: будильник, сигнализация и запаска в одном организме.",
+              "rotationId": "fp-r0-word-01"
+            },
+            {
+              "cost": 300,
+              "text": "🐈 КОТ + 🎂 ТОРТ. Собери слово для десерта, который сам залез на стол и теперь требует свечку.",
+              "answer": "КОТОРТ",
+              "comment": "Которт. Не путать с тортом, который просто уронили.",
+              "rotationId": "fp-r0-word-02"
+            },
+            {
+              "cost": 400,
+              "text": "🪿 ГУСЬ + 🧉 ТЕРМОС. Склей их и получи птицу, которая приносит чай, но сдачу клюёт.",
+              "answer": "ГУСЕРМОС",
+              "comment": "Гусермос — идеальный спутник для пикника, если пикник не против шипения.",
+              "rotationId": "fp-r0-word-03"
+            },
+            {
+              "cost": 500,
+              "text": "🐟 РЫБА + 🍌 БАНАН. Придумай название существу, которое скользит даже в воде.",
+              "answer": "РЫБАНАН",
+              "comment": "Рыбанан. Научное название: «я не знаю, как это получилось».",
+              "rotationId": "fp-r0-word-04"
+            },
+            {
+              "cost": 100,
+              "text": "🐊 КРОКОДИЛ + 💳 КРЕДИТКА. Склей и назови хищный финансовый продукт.",
+              "answer": "КРОКРЕДИТКА",
+              "comment": "Берёт процент и кусает за просрочку.",
+              "rotationId": "fp-r0-word-05"
+            },
+            {
+              "cost": 200,
+              "text": "🐧 ПИНГВИН + 🚗 ПРОБКА. Как называется дорожное явление, когда все едут, но никто не знает куда?",
+              "answer": "ПИНГВИНОПРОБКА",
+              "comment": "Особенно опасно на скользкой дороге и в очереди за рыбой.",
+              "rotationId": "fp-r0-word-06"
+            },
+            {
+              "cost": 300,
+              "text": "🐐 КОЗА + 📶 WI‑FI. Назови сеть, пароль к которой знает только коза.",
+              "answer": "КОЗАЙФАЙ",
+              "comment": "Если связь пропала, просто позови: «Меее-роутер!»",
+              "rotationId": "fp-r0-word-07"
+            },
+            {
+              "cost": 400,
+              "text": "🐉 ДРАКОН + 🥘 ЗАПЕКАНКА. Как называется блюдо, которое поджигает духовку изнутри?",
+              "answer": "ДРАКОНЗАПЕКАНКА",
+              "comment": "Подаётся горячей. Очень горячей. С огнетушителем.",
+              "rotationId": "fp-r0-word-08"
+            },
+            {
+              "cost": 500,
+              "text": "🐕 ПЁС + 💼 СОВЕЩАНИЕ. Как называется встреча, на которой все лают, но решение принимает тот, у кого вкусняшка?",
+              "answer": "ПЁСОВЕЩАНИЕ",
+              "comment": "Повестка дня: кто хороший мальчик и где лежит мяч.",
+              "rotationId": "fp-r0-word-09"
             }
           ]
         },
@@ -531,493 +688,6 @@
               "hint": "Подсказка: экран не светится, зато есть коржи.",
               "comment": "Кондитеры создают съедобные копии техники.",
               "cost": 500
-            }
-          ]
-        },
-        {
-          "name": "Откуда этот кадр?",
-          "questions": [
-            {
-              "cost": 100,
-              "text": "Чей уютный домик под корнями дерева и самодельные таблички с рожицами изображены на этом кадре?",
-              "image": "./packs/media/images/frame-shrek-swamp.jpg",
-              "hint": "Зелёный великан-огр, который больше всего на свете ценит покой на своём родном болоте.",
-              "answer": "«Шрек» (болото Шрека)",
-              "comment": "Оскароносный мультфильм студии DreamWorks 2001 года.",
-              "rotationId": "r0-t4-base-0"
-            },
-            {
-              "cost": 200,
-              "text": "Из какого знаменитого новогоднего фильма этот кадр с испуганным мальчиком?",
-              "image": "./packs/media/images/frame-home-alone.png",
-              "hint": "Вся семья улетела на Рождество в Париж, забыв младшего сына в огромном особняке.",
-              "answer": "«Один дома» (Home Alone)",
-              "comment": "Маколей Калкин в роли Кевина Маккаллистера.",
-              "rotationId": "r0-t4-base-1"
-            },
-            {
-              "cost": 300,
-              "text": "Из какого легендарного мультфильма Disney 1994 года этот торжественный кадр на Скале Предков?",
-              "image": "./packs/media/images/frame-lion-king.jpg",
-              "hint": "Африканская саванна, песня Circle of Life и маленький наследник Муфасы.",
-              "answer": "«Король Лев» (The Lion King)",
-              "comment": "Рафики поднимает новорождённого Симбу над саванной.",
-              "rotationId": "r0-t4-base-2"
-            },
-            {
-              "cost": 400,
-              "text": "Чей подводный дом-ананас изображён на этом кадре? Назовите мультсериал!",
-              "image": "./packs/media/images/frame-spongebob.jpg",
-              "hint": "Жёлтый повар «Красти Краба», живущий на дне океана в городке Бикини-Боттом.",
-              "answer": "«Губка Боб Квадратные Штаны» (SpongeBob SquarePants)",
-              "comment": "Бикини-Боттом, дом Спанч Боба и улитки Гэри.",
-              "rotationId": "r0-t4-base-3"
-            },
-            {
-              "cost": 500,
-              "modifier": "nothing_personal",
-              "text": "Из какого фильма Джеймса Кэмерона (1997) эта культовая сцена на носу корабля?",
-              "image": "./packs/media/images/frame-titanic.jpg",
-              "hint": "Океанский лайнер 1912 года, песня Селин Дион и фраза «Я король мира!».",
-              "answer": "«Титаник»",
-              "comment": "Джек (Леонардо Ди Каприо) и Роза (Кейт Уинслет).",
-              "rotationId": "r0-t4-base-4"
-            }
-          ],
-          "questionPool": [
-            {
-              "cost": 100,
-              "text": "Чей уютный домик под корнями дерева и самодельные таблички с рожицами изображены на этом кадре?",
-              "image": "./packs/media/images/frame-shrek-swamp.jpg",
-              "hint": "Зелёный великан-огр, который больше всего на свете ценит покой на своём родном болоте.",
-              "answer": "«Шрек» (болото Шрека)",
-              "comment": "Оскароносный мультфильм студии DreamWorks 2001 года.",
-              "rotationId": "r0-t4-base-0"
-            },
-            {
-              "cost": 200,
-              "text": "Из какого знаменитого новогоднего фильма этот кадр с испуганным мальчиком?",
-              "image": "./packs/media/images/frame-home-alone.png",
-              "hint": "Вся семья улетела на Рождество в Париж, забыв младшего сына в огромном особняке.",
-              "answer": "«Один дома» (Home Alone)",
-              "comment": "Маколей Калкин в роли Кевина Маккаллистера.",
-              "rotationId": "r0-t4-base-1"
-            },
-            {
-              "cost": 300,
-              "text": "Из какого легендарного мультфильма Disney 1994 года этот торжественный кадр на Скале Предков?",
-              "image": "./packs/media/images/frame-lion-king.jpg",
-              "hint": "Африканская саванна, песня Circle of Life и маленький наследник Муфасы.",
-              "answer": "«Король Лев» (The Lion King)",
-              "comment": "Рафики поднимает новорождённого Симбу над саванной.",
-              "rotationId": "r0-t4-base-2"
-            },
-            {
-              "cost": 400,
-              "text": "Чей подводный дом-ананас изображён на этом кадре? Назовите мультсериал!",
-              "image": "./packs/media/images/frame-spongebob.jpg",
-              "hint": "Жёлтый повар «Красти Краба», живущий на дне океана в городке Бикини-Боттом.",
-              "answer": "«Губка Боб Квадратные Штаны» (SpongeBob SquarePants)",
-              "comment": "Бикини-Боттом, дом Спанч Боба и улитки Гэри.",
-              "rotationId": "r0-t4-base-3"
-            },
-            {
-              "cost": 500,
-              "modifier": "nothing_personal",
-              "text": "Из какого фильма Джеймса Кэмерона (1997) эта культовая сцена на носу корабля?",
-              "image": "./packs/media/images/frame-titanic.jpg",
-              "hint": "Океанский лайнер 1912 года, песня Селин Дион и фраза «Я король мира!».",
-              "answer": "«Титаник»",
-              "comment": "Джек (Леонардо Ди Каприо) и Роза (Кейт Уинслет).",
-              "rotationId": "r0-t4-base-4"
-            },
-            {
-              "rotationId": "r0-t4-alt-1",
-              "text": "Как зовут осла, который становится спутником Шрека?",
-              "answer": "Осёл (Donkey)",
-              "hint": "Подсказка: осёл — его громкий спутник.",
-              "comment": "Фильм DreamWorks вышел в 2001 году.",
-              "cost": 100,
-              "image": "./packs/media/images/frame-shrek-swamp.jpg"
-            },
-            {
-              "rotationId": "r0-t4-alt-2",
-              "text": "Как зовут мальчика, оставшегося дома одного на Рождество?",
-              "answer": "Кевин Маккаллистер (Kevin McCallister)",
-              "hint": "Подсказка: фамилия семьи — Маккаллистер.",
-              "comment": "Комедия Криса Коламбуса вышла в 1990 году.",
-              "cost": 200,
-              "image": "./packs/media/images/frame-home-alone.png"
-            },
-            {
-              "rotationId": "r0-t4-alt-3",
-              "text": "Как зовут отца Симбы?",
-              "answer": "Муфаса (Mufasa)",
-              "hint": "Подсказка: его отец — Муфаса.",
-              "comment": "Анимационный фильм Disney вышел в 1994 году.",
-              "cost": 300,
-              "image": "./packs/media/images/frame-lion-king.jpg"
-            },
-            {
-              "rotationId": "r0-t4-alt-4",
-              "text": "Как называется подводный город, где живёт Губка Боб?",
-              "answer": "Бикини-Боттом (Bikini Bottom)",
-              "hint": "Подсказка: его сосед — осьминог Сквидвард.",
-              "comment": "Сериал Nickelodeon стартовал в 1999 году.",
-              "cost": 400,
-              "image": "./packs/media/images/frame-spongebob.jpg"
-            },
-            {
-              "rotationId": "r0-t4-alt-5",
-              "text": "Как зовут героя Леонардо Ди Каприо в «Титанике»?",
-              "answer": "Джек Доусон (Jack Dawson)",
-              "hint": "Подсказка: это название реального лайнера.",
-              "comment": "Фильм вышел в 1997 году.",
-              "cost": 500,
-              "image": "./packs/media/images/frame-titanic.jpg"
-            }
-          ]
-        },
-        {
-          "name": "Школьная база",
-          "questions": [
-            {
-              "cost": 100,
-              "text": "Какое вещество скрывается за самой известной в мире химической формулой H₂O?",
-              "hint": "Без неё не вскипятить чайник и не прожить ни дня — прозрачная жидкость в каждом стакане.",
-              "answer": "Вода",
-              "comment": "Два атома водорода и один атом кислорода.",
-              "rotationId": "r0-t5-base-0"
-            },
-            {
-              "cost": 200,
-              "text": "Теорема какого древнегреческого математика гласит, что квадрат гипотенузы равен сумме квадратов катетов (a² + b² = c²)?",
-              "image": "./packs/media/pythagoras.svg",
-              "hint": "У этого античного учёного, по школьной присказке, «штаны во все стороны равны»!",
-              "answer": "Пифагор (теорема Пифагора)",
-              "comment": "«Пифагоровы штаны во все стороны равны!»",
-              "rotationId": "r0-t5-base-1"
-            },
-            {
-              "cost": 300,
-              "type": "cat",
-              "catTheme": "Биология за минуту",
-              "catCost": 300,
-              "text": "Какой органоид в школьных мемах называют «энергетической станцией клетки»?",
-              "image": "./packs/media/mitochondria.svg",
-              "hint": "Длинное слово на букву «М» из учебника биологии с внутренними складочками-кристами.",
-              "answer": "Митохондрия",
-              "comment": "Именно митохондрии синтезируют АТФ — универсальный источник энергии клетки.",
-              "rotationId": "r0-t5-base-2"
-            },
-            {
-              "cost": 400,
-              "type": "noRisk",
-              "text": "Какому английскому физику, по знаменитой легенде, упавшее с ветки яблоко помогло открыть закон всемирного тяготения?",
-              "image": "./packs/media/newton-apple.svg",
-              "hint": "Сэр Исаак, чьей фамилией в физике измеряют силу (буква Н).",
-              "answer": "Исаак Ньютон",
-              "comment": "В его честь названа и единица измерения силы — ньютон (Н).",
-              "rotationId": "r0-t5-base-3"
-            },
-            {
-              "cost": 500,
-              "text": "Какое знаменитое слово произнёс Юрий Гагарин 12 апреля 1961 года в момент старта корабля «Восток-1»?",
-              "hint": "Одно бодрое слово из 7 букв, с которого до сих пор хочется начинать любое большое дело.",
-              "answer": "«Поехали!»",
-              "comment": "Первый полёт человека в космос длился 108 минут.",
-              "rotationId": "r0-t5-base-4"
-            }
-          ],
-          "questionPool": [
-            {
-              "cost": 100,
-              "text": "Какое вещество скрывается за самой известной в мире химической формулой H₂O?",
-              "hint": "Без неё не вскипятить чайник и не прожить ни дня — прозрачная жидкость в каждом стакане.",
-              "answer": "Вода",
-              "comment": "Два атома водорода и один атом кислорода.",
-              "rotationId": "r0-t5-base-0"
-            },
-            {
-              "cost": 200,
-              "text": "Теорема какого древнегреческого математика гласит, что квадрат гипотенузы равен сумме квадратов катетов (a² + b² = c²)?",
-              "image": "./packs/media/pythagoras.svg",
-              "hint": "У этого античного учёного, по школьной присказке, «штаны во все стороны равны»!",
-              "answer": "Пифагор (теорема Пифагора)",
-              "comment": "«Пифагоровы штаны во все стороны равны!»",
-              "rotationId": "r0-t5-base-1"
-            },
-            {
-              "cost": 300,
-              "type": "cat",
-              "catTheme": "Биология за минуту",
-              "catCost": 300,
-              "text": "Какой органоид в школьных мемах называют «энергетической станцией клетки»?",
-              "image": "./packs/media/mitochondria.svg",
-              "hint": "Длинное слово на букву «М» из учебника биологии с внутренними складочками-кристами.",
-              "answer": "Митохондрия",
-              "comment": "Именно митохондрии синтезируют АТФ — универсальный источник энергии клетки.",
-              "rotationId": "r0-t5-base-2"
-            },
-            {
-              "cost": 400,
-              "type": "noRisk",
-              "text": "Какому английскому физику, по знаменитой легенде, упавшее с ветки яблоко помогло открыть закон всемирного тяготения?",
-              "image": "./packs/media/newton-apple.svg",
-              "hint": "Сэр Исаак, чьей фамилией в физике измеряют силу (буква Н).",
-              "answer": "Исаак Ньютон",
-              "comment": "В его честь названа и единица измерения силы — ньютон (Н).",
-              "rotationId": "r0-t5-base-3"
-            },
-            {
-              "cost": 500,
-              "text": "Какое знаменитое слово произнёс Юрий Гагарин 12 апреля 1961 года в момент старта корабля «Восток-1»?",
-              "hint": "Одно бодрое слово из 7 букв, с которого до сих пор хочется начинать любое большое дело.",
-              "answer": "«Поехали!»",
-              "comment": "Первый полёт человека в космос длился 108 минут.",
-              "rotationId": "r0-t5-base-4"
-            },
-            {
-              "rotationId": "r0-t5-alt-1",
-              "text": "Как называется ближайшая к Солнцу планета?",
-              "answer": "Меркурий",
-              "hint": "Подсказка: это самая маленькая планета Солнечной системы.",
-              "comment": "Меркурий совершает оборот вокруг Солнца примерно за 88 земных дней.",
-              "cost": 100
-            },
-            {
-              "rotationId": "r0-t5-alt-2",
-              "text": "Какой газ растения поглощают при фотосинтезе?",
-              "answer": "Углекислый газ (CO₂)",
-              "hint": "Подсказка: он состоит из углерода и кислорода.",
-              "comment": "При фотосинтезе растения выделяют кислород.",
-              "cost": 200
-            },
-            {
-              "rotationId": "r0-t5-alt-3",
-              "text": "Сколько градусов составляет сумма углов треугольника на евклидовой плоскости?",
-              "answer": "180 градусов",
-              "hint": "Подсказка: два прямых угла.",
-              "comment": "Это базовое свойство евклидовой геометрии.",
-              "cost": 300
-            },
-            {
-              "rotationId": "r0-t5-alt-4",
-              "text": "Какой океан самый большой на Земле?",
-              "answer": "Тихий океан",
-              "hint": "Подсказка: он лежит между Азией, Австралией и Америками.",
-              "comment": "Тихий океан занимает около трети поверхности Земли.",
-              "cost": 400
-            },
-            {
-              "rotationId": "r0-t5-alt-5",
-              "text": "Как называется процесс, при котором жидкая вода превращается в водяной пар?",
-              "answer": "Испарение",
-              "hint": "Подсказка: нагрев ускоряет этот процесс.",
-              "comment": "Испарение происходит с поверхности жидкости.",
-              "cost": 500
-            }
-          ]
-        },
-        {
-          "name": "Кто говорит? Wild Rift",
-          "questions": [
-            {
-              "rotationId": "wr-voice-1",
-              "cost": 100,
-              "text": "Какая чемпионка спрашивает: “Don’t you trust me?”",
-              "answer": "Ahri",
-              "audio": "./packs/media/audio/wild-rift/ahri-dont-you-trust-me.mp3",
-              "audioType": "voice",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 0,
-              "audioCredit": "MyInstants · Ahri voice clip",
-              "audioCreditUrl": "https://www.myinstants.com/en/instant/dont-you-trust-me-ahri-70472/",
-              "audioLicense": "Права на публичное использование подтверждены пользователем"
-            },
-            {
-              "rotationId": "wr-voice-2",
-              "cost": 200,
-              "text": "Узнайте чемпиона по его короткому театральному смеху.",
-              "answer": "Jhin",
-              "audio": "./packs/media/audio/wild-rift/jhin-laugh.mp3",
-              "audioType": "voice",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 0,
-              "audioCredit": "MyInstants · Jhin voice clip",
-              "audioCreditUrl": "https://myinstants.com/instant/jhins-laugh-13709",
-              "audioLicense": "Права на публичное использование подтверждены пользователем"
-            },
-            {
-              "rotationId": "wr-voice-3",
-              "cost": 300,
-              "text": "Кто произносит: “I will swallow your soul”?",
-              "answer": "Veigar",
-              "audio": "./packs/media/audio/wild-rift/veigar-swallow-soul.mp3",
-              "audioType": "voice",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 0,
-              "audioCredit": "MyInstants · Veigar voice clip",
-              "audioCreditUrl": "https://www.myinstants.com/en/instant/veigar-i-will-swallow-your-soul-66539/",
-              "audioLicense": "Права на публичное использование подтверждены пользователем"
-            },
-            {
-              "rotationId": "wr-voice-4",
-              "cost": 400,
-              "text": "Какой чемпион смеётся в этом аудиофрагменте?",
-              "answer": "Lux",
-              "audio": "./packs/media/audio/wild-rift/lux-laugh.mp3",
-              "audioType": "voice",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 0,
-              "audioCredit": "MyInstants · Lux voice clip",
-              "audioCreditUrl": "https://myinstants.com/instant/lux-laugh",
-              "audioLicense": "Права на публичное использование подтверждены пользователем"
-            },
-            {
-              "rotationId": "wr-voice-5",
-              "cost": 500,
-              "text": "Узнайте йордла по голосу и смеху.",
-              "answer": "Lulu",
-              "audio": "./packs/media/audio/wild-rift/lulu-laugh.mp3",
-              "audioType": "voice",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 0,
-              "audioCredit": "MyInstants · Lulu voice clip",
-              "audioCreditUrl": "https://myinstants.com/instant/league-of-legends-lulu-laugh-4",
-              "audioLicense": "Права на публичное использование подтверждены пользователем"
-            }
-          ],
-          "questionPool": [
-            {
-              "rotationId": "wr-voice-1",
-              "cost": 100,
-              "text": "Какая чемпионка спрашивает: “Don’t you trust me?”",
-              "answer": "Ahri",
-              "audio": "./packs/media/audio/wild-rift/ahri-dont-you-trust-me.mp3",
-              "audioType": "voice",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 0,
-              "audioCredit": "MyInstants · Ahri voice clip",
-              "audioCreditUrl": "https://www.myinstants.com/en/instant/dont-you-trust-me-ahri-70472/",
-              "audioLicense": "Права на публичное использование подтверждены пользователем"
-            },
-            {
-              "rotationId": "wr-voice-2",
-              "cost": 200,
-              "text": "Узнайте чемпиона по его короткому театральному смеху.",
-              "answer": "Jhin",
-              "audio": "./packs/media/audio/wild-rift/jhin-laugh.mp3",
-              "audioType": "voice",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 0,
-              "audioCredit": "MyInstants · Jhin voice clip",
-              "audioCreditUrl": "https://myinstants.com/instant/jhins-laugh-13709",
-              "audioLicense": "Права на публичное использование подтверждены пользователем"
-            },
-            {
-              "rotationId": "wr-voice-3",
-              "cost": 300,
-              "text": "Кто произносит: “I will swallow your soul”?",
-              "answer": "Veigar",
-              "audio": "./packs/media/audio/wild-rift/veigar-swallow-soul.mp3",
-              "audioType": "voice",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 0,
-              "audioCredit": "MyInstants · Veigar voice clip",
-              "audioCreditUrl": "https://www.myinstants.com/en/instant/veigar-i-will-swallow-your-soul-66539/",
-              "audioLicense": "Права на публичное использование подтверждены пользователем"
-            },
-            {
-              "rotationId": "wr-voice-4",
-              "cost": 400,
-              "text": "Какой чемпион смеётся в этом аудиофрагменте?",
-              "answer": "Lux",
-              "audio": "./packs/media/audio/wild-rift/lux-laugh.mp3",
-              "audioType": "voice",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 0,
-              "audioCredit": "MyInstants · Lux voice clip",
-              "audioCreditUrl": "https://myinstants.com/instant/lux-laugh",
-              "audioLicense": "Права на публичное использование подтверждены пользователем"
-            },
-            {
-              "rotationId": "wr-voice-5",
-              "cost": 500,
-              "text": "Узнайте йордла по голосу и смеху.",
-              "answer": "Lulu",
-              "audio": "./packs/media/audio/wild-rift/lulu-laugh.mp3",
-              "audioType": "voice",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 0,
-              "audioCredit": "MyInstants · Lulu voice clip",
-              "audioCreditUrl": "https://myinstants.com/instant/league-of-legends-lulu-laugh-4",
-              "audioLicense": "Права на публичное использование подтверждены пользователем"
-            },
-            {
-              "rotationId": "wr-voice-6",
-              "cost": 600,
-              "text": "Кто говорит: “Sometimes you’re the catch, sometimes you’re the bait”?",
-              "answer": "Nami",
-              "audio": "./packs/media/audio/wild-rift/nami-catch-or-bait.mp3",
-              "audioType": "voice",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 0,
-              "audioCredit": "MyInstants · Nami voice clip",
-              "audioCreditUrl": "https://myinstants.com/instant/nami-league-of-legends-39442",
-              "audioLicense": "Права на публичное использование подтверждены пользователем"
-            },
-            {
-              "rotationId": "wr-voice-7",
-              "cost": 700,
-              "text": "Кто объявляет: “Welcome to the League of Draven!”?",
-              "answer": "Draven",
-              "audio": "./packs/media/audio/wild-rift/draven-welcome.mp3",
-              "audioType": "voice",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 0,
-              "audioCredit": "MyInstants · Draven voice clip",
-              "audioCreditUrl": "https://myinstants.com/instant/when-im-draven",
-              "audioLicense": "Права на публичное использование подтверждены пользователем"
-            },
-            {
-              "rotationId": "wr-voice-8",
-              "cost": 800,
-              "text": "Какой чемпион отвечает: “Why? Because I can”?",
-              "answer": "Katarina",
-              "audio": "./packs/media/audio/wild-rift/katarina-why.mp3",
-              "audioType": "voice",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 0,
-              "audioCredit": "MyInstants · Katarina voice clip",
-              "audioCreditUrl": "https://www.myinstants.com/en/instant/lol-katarina-why-because-i-can-39573/",
-              "audioLicense": "Права на публичное использование подтверждены пользователем"
-            },
-            {
-              "rotationId": "wr-voice-9",
-              "cost": 900,
-              "text": "Кто спрашивает: “Is it the moustache?”",
-              "answer": "Braum",
-              "audio": "./packs/media/audio/wild-rift/braum-is-it-moustache.mp3",
-              "audioType": "voice",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 0,
-              "audioCredit": "MyInstants · Braum voice clip",
-              "audioCreditUrl": "https://myinstants.com/instant/braum-is-it-the-moustache-2828/",
-              "audioLicense": "Права на публичное использование подтверждены пользователем"
-            },
-            {
-              "rotationId": "wr-voice-zed",
-              "cost": 1000,
-              "text": "Узнайте чемпиона по его спокойному, слегка насмешливому смеху.",
-              "answer": "Zed",
-              "audio": "./packs/media/audio/wild-rift/zed-laugh.mp3",
-              "audioType": "voice",
-              "audioStartSeconds": 0,
-              "audioClipSeconds": 0,
-              "audioCredit": "MyInstants · Zed laugh (LoL)",
-              "audioCreditUrl": "https://myinstants.com/instant/zed-laugh-lol",
-              "audioLicense": "Права на публичное использование подтверждены пользователем"
             }
           ]
         }
@@ -1575,279 +1245,114 @@
           ]
         },
         {
-          "name": "Кадры кино и игр",
+          "name": "Звери устроились на работу",
           "questions": [
             {
               "cost": 500,
-              "text": "Из какой культовой серии фильмов эта белоснежная полярная сова Букля (Хедвиг)?",
-              "image": "./packs/media/images/frame-hedwig.jpg",
-              "hint": "Волшебная почта школы чародейства и волшебства Хогвартс.",
-              "answer": "«Гарри Поттер»",
-              "comment": "Сову Гарри подарил Рубеус Хагрид на одиннадцатый день рождения.",
-              "rotationId": "r1-t4-base-0"
+              "text": "Кота наняли тестировщиком клавиатур. Как он проверяет качество?",
+              "answer": "Ложится на клавиши и ждёт, пока разработчик сам найдёт ошибку",
+              "comment": "Кот говорит, что это нагрузочное тестирование.",
+              "rotationId": "fp-r1-animals-00"
             },
             {
               "cost": 1000,
-              "text": "Из какого фантастического боевика 1999 года этот судьбоносный выбор между синей и красной таблетками?",
-              "image": "./packs/media/images/frame-matrix.jpg",
-              "hint": "Киану Ривз, кожаные плащи, уклонение от пуль в слоу-мо и зелёный цифровой дождь.",
-              "answer": "«Матрица» (The Matrix)",
-              "comment": "Морфеус предлагает Нео узнать, насколько глубока кроличья нора.",
-              "rotationId": "r1-t4-base-1"
+              "text": "Голубь устроился курьером. Как он строит маршрут?",
+              "answer": "Летит туда, где кто-то ест булку",
+              "comment": "Навигация премиум-класса: крошки обновляются в реальном времени.",
+              "rotationId": "fp-r1-animals-01"
             },
             {
               "cost": 1500,
-              "text": "Из какой легендарной видеоигры Rockstar 2004 года этот мемный проход Си-Джея («Ah shit, here we go again»)?",
-              "image": "./packs/media/images/frame-gta-sa.jpg",
-              "hint": "Улица Гроув-стрит, зелёные цвета банды и вымышленный штат в солнечной Калифорнии.",
-              "answer": "GTA: San Andreas (Grand Theft Auto: San Andreas)",
-              "comment": "Карл «CJ» Джонсон возвращается в родной Лос-Сантос.",
-              "rotationId": "r1-t4-base-2"
+              "text": "Капибара стала HR-директором. Как она проводит собеседование?",
+              "answer": "Молча сидит рядом, пока кандидат сам не успокоится",
+              "comment": "Вопрос номер один: «Ты умеешь не создавать лишнюю суету?»",
+              "rotationId": "fp-r1-animals-02"
             },
             {
               "cost": 2000,
-              "text": "Из какого культового сериала про учителя химии и его бывшего ученика эти жёлтые защитные костюмы и фургон посреди пустыни?",
-              "image": "./packs/media/images/frame-breaking-bad.jpg",
-              "hint": "Герой под псевдонимом Хайзенберг и крик «Йоу, мистер Уайт, да это же наука!».",
-              "answer": "«Во все тяжкие» (Breaking Bad)",
-              "comment": "Уолтер Уайт и Джесси Пинкман в пустыне Нью-Мексико.",
-              "rotationId": "r1-t4-base-3"
+              "text": "Енот устроился бухгалтером. Как он закрывает квартал?",
+              "answer": "Пересчитывает всё, что удалось утащить в лапах",
+              "comment": "Аудит проходит ночью и почему-то в мусорном баке.",
+              "rotationId": "fp-r1-animals-03"
             },
             {
               "cost": 2500,
-              "text": "Из какой знаменитой фэнтези-RPG 2011 года эта вступительная сцена в повозке («Эй, ты! Не спишь?..» / «Hey, you. You're finally awake»)?",
-              "image": "./packs/media/images/frame-skyrim-wagon.webp",
-              "hint": "Пятая часть «Древних Свитков», северная провинция нордов, драконы и крик «Фус Ро Да!».",
-              "answer": "The Elder Scrolls V: Skyrim («Скайрим»)",
-              "comment": "Самое мемное вступление в истории компьютерных игр.",
-              "rotationId": "r1-t4-base-4"
+              "text": "Попугай стал начальником колл-центра. Как выглядит его обратная связь?",
+              "answer": "Повторяет сотруднику его же фразу, но громче",
+              "comment": "Планёрка короткая: «Повтори! Повтори! Молодец!»",
+              "rotationId": "fp-r1-animals-04"
             }
           ],
           "questionPool": [
             {
               "cost": 500,
-              "text": "Из какой культовой серии фильмов эта белоснежная полярная сова Букля (Хедвиг)?",
-              "image": "./packs/media/images/frame-hedwig.jpg",
-              "hint": "Волшебная почта школы чародейства и волшебства Хогвартс.",
-              "answer": "«Гарри Поттер»",
-              "comment": "Сову Гарри подарил Рубеус Хагрид на одиннадцатый день рождения.",
-              "rotationId": "r1-t4-base-0"
+              "text": "Кота наняли тестировщиком клавиатур. Как он проверяет качество?",
+              "answer": "Ложится на клавиши и ждёт, пока разработчик сам найдёт ошибку",
+              "comment": "Кот говорит, что это нагрузочное тестирование.",
+              "rotationId": "fp-r1-animals-00"
             },
             {
               "cost": 1000,
-              "text": "Из какого фантастического боевика 1999 года этот судьбоносный выбор между синей и красной таблетками?",
-              "image": "./packs/media/images/frame-matrix.jpg",
-              "hint": "Киану Ривз, кожаные плащи, уклонение от пуль в слоу-мо и зелёный цифровой дождь.",
-              "answer": "«Матрица» (The Matrix)",
-              "comment": "Морфеус предлагает Нео узнать, насколько глубока кроличья нора.",
-              "rotationId": "r1-t4-base-1"
+              "text": "Голубь устроился курьером. Как он строит маршрут?",
+              "answer": "Летит туда, где кто-то ест булку",
+              "comment": "Навигация премиум-класса: крошки обновляются в реальном времени.",
+              "rotationId": "fp-r1-animals-01"
             },
             {
               "cost": 1500,
-              "text": "Из какой легендарной видеоигры Rockstar 2004 года этот мемный проход Си-Джея («Ah shit, here we go again»)?",
-              "image": "./packs/media/images/frame-gta-sa.jpg",
-              "hint": "Улица Гроув-стрит, зелёные цвета банды и вымышленный штат в солнечной Калифорнии.",
-              "answer": "GTA: San Andreas (Grand Theft Auto: San Andreas)",
-              "comment": "Карл «CJ» Джонсон возвращается в родной Лос-Сантос.",
-              "rotationId": "r1-t4-base-2"
+              "text": "Капибара стала HR-директором. Как она проводит собеседование?",
+              "answer": "Молча сидит рядом, пока кандидат сам не успокоится",
+              "comment": "Вопрос номер один: «Ты умеешь не создавать лишнюю суету?»",
+              "rotationId": "fp-r1-animals-02"
             },
             {
               "cost": 2000,
-              "text": "Из какого культового сериала про учителя химии и его бывшего ученика эти жёлтые защитные костюмы и фургон посреди пустыни?",
-              "image": "./packs/media/images/frame-breaking-bad.jpg",
-              "hint": "Герой под псевдонимом Хайзенберг и крик «Йоу, мистер Уайт, да это же наука!».",
-              "answer": "«Во все тяжкие» (Breaking Bad)",
-              "comment": "Уолтер Уайт и Джесси Пинкман в пустыне Нью-Мексико.",
-              "rotationId": "r1-t4-base-3"
+              "text": "Енот устроился бухгалтером. Как он закрывает квартал?",
+              "answer": "Пересчитывает всё, что удалось утащить в лапах",
+              "comment": "Аудит проходит ночью и почему-то в мусорном баке.",
+              "rotationId": "fp-r1-animals-03"
             },
             {
               "cost": 2500,
-              "text": "Из какой знаменитой фэнтези-RPG 2011 года эта вступительная сцена в повозке («Эй, ты! Не спишь?..» / «Hey, you. You're finally awake»)?",
-              "image": "./packs/media/images/frame-skyrim-wagon.webp",
-              "hint": "Пятая часть «Древних Свитков», северная провинция нордов, драконы и крик «Фус Ро Да!».",
-              "answer": "The Elder Scrolls V: Skyrim («Скайрим»)",
-              "comment": "Самое мемное вступление в истории компьютерных игр.",
-              "rotationId": "r1-t4-base-4"
+              "text": "Попугай стал начальником колл-центра. Как выглядит его обратная связь?",
+              "answer": "Повторяет сотруднику его же фразу, но громче",
+              "comment": "Планёрка короткая: «Повтори! Повтори! Молодец!»",
+              "rotationId": "fp-r1-animals-04"
             },
             {
-              "rotationId": "r1-t4-alt-1",
-              "text": "Как зовут белую сову Гарри Поттера?",
-              "answer": "Букля (Hedwig)",
-              "hint": "Подсказка: его сову зовут Букля.",
-              "comment": "Серия основана на книгах Джоан Роулинг.",
+              "text": "Выдра стала сомелье. Как она оценивает напиток?",
+              "answer": "«Пахнет рыбой, наливайте в ракушку»",
+              "comment": "Профессиональный стандарт выдры: дегустация лёжа на спине.",
               "cost": 500,
-              "image": "./packs/media/images/frame-hedwig.jpg"
+              "rotationId": "fp-r1-animals-05"
             },
             {
-              "rotationId": "r1-t4-alt-2",
-              "text": "Как зовут героя Киану Ривза, который выбирает между красной и синей таблеткой?",
-              "answer": "Нео (Neo)",
-              "hint": "Подсказка: режиссёры — сёстры Вачовски.",
-              "comment": "Первый фильм вышел в 1999 году.",
+              "text": "Ленивец работает курьером. Какой статус заказа увидит клиент через час?",
+              "answer": "«Передан в лапы логистики. Логистика пока думает»",
+              "comment": "Доставка бесплатная, если заказ не срочный и не сегодня.",
               "cost": 1000,
-              "image": "./packs/media/images/frame-matrix.jpg"
+              "rotationId": "fp-r1-animals-06"
             },
             {
-              "rotationId": "r1-t4-alt-3",
-              "text": "Какими двумя буквами обычно называют Карла Джонсона из GTA: San Andreas?",
-              "answer": "CJ",
-              "hint": "Подсказка: его сокращённо зовут Си-Джей.",
-              "comment": "Игра Rockstar вышла в 2004 году.",
+              "text": "Сова устроилась ночным бухгалтером. Что она пишет в отчёте о расходах?",
+              "answer": "«Все траты подтверждены. Я видела их ночью»",
+              "comment": "Проверка документов проходит с 00:00 до рассвета.",
               "cost": 1500,
-              "image": "./packs/media/images/frame-gta-sa.jpg"
+              "rotationId": "fp-r1-animals-07"
             },
             {
-              "rotationId": "r1-t4-alt-4",
-              "text": "Какое прозвище использует Уолтер Уайт в криминальном мире?",
-              "answer": "Хайзенберг (Heisenberg)",
-              "hint": "Подсказка: его напарник — Джесси Пинкман.",
-              "comment": "Сериал создал Винс Гиллиган.",
+              "text": "Хомяк стал фитнес-тренером. Как звучит его главная мотивационная фраза?",
+              "answer": "«Ещё один круг в колесе — и можно перекусить»",
+              "comment": "Абонемент включает беговую дорожку и бесконечное зерно.",
               "cost": 2000,
-              "image": "./packs/media/images/frame-breaking-bad.jpg"
+              "rotationId": "fp-r1-animals-08"
             },
             {
-              "rotationId": "r1-t4-alt-5",
-              "text": "Как называют героя Skyrim, способного поглощать души драконов?",
-              "answer": "Довакин (Dovahkiin)",
-              "hint": "Подсказка: драконы и крики — ключевые элементы игры.",
-              "comment": "Игра Bethesda вышла в 2011 году.",
+              "text": "Пингвин стал свадебным ведущим. Как он объявляет первый танец?",
+              "answer": "«Просьба скользить к центру зала по одному»",
+              "comment": "Дресс-код — чёрно-белый, танцпол — лёд.",
               "cost": 2500,
-              "image": "./packs/media/images/frame-skyrim-wagon.webp"
-            }
-          ]
-        },
-        {
-          "name": "Вопросы с подвохом",
-          "questions": [
-            {
-              "cost": 500,
-              "text": "Что объективно тяжелее: ровно один килограмм пуха или ровно один килограмм чугунных гвоздей?",
-              "hint": "Не смотрите на объём мешка — перечитайте точную массу обоих предметов!",
-              "answer": "Они весят одинаково — ровно по 1 килограмму!",
-              "comment": "Вечная классика, на которой в спешке ловятся даже отличники.",
-              "rotationId": "r1-t5-base-0"
-            },
-            {
-              "cost": 1000,
-              "text": "Вы бежите марафон и прямо перед финишем обгоняете бегуна, который шёл на ВТОРОМ месте. На каком месте вы теперь находитесь?",
-              "hint": "Лидера гонки, бегущего впереди всех, вы ещё не обгоняли!",
-              "answer": "На втором месте!",
-              "comment": "Обогнав второго, вы заняли его позицию, а лидер всё ещё бежит первым.",
-              "rotationId": "r1-t5-base-1"
-            },
-            {
-              "cost": 1500,
-              "type": "cat",
-              "catTheme": "Семейная арифметика",
-              "catCost": 1500,
-              "text": "У отца Мэри есть ровно пять дочерей: Чача, Чече, Чичи, Чочо… Как зовут пятую дочь?",
-              "hint": "Забудьте про гласные буквы «у/ю» и внимательно прочитайте первые три слова вопроса!",
-              "answer": "Мэри!",
-              "comment": "Ведь в самом начале вопроса сказано: «У отца Мэри…»!",
-              "rotationId": "r1-t5-base-2"
-            },
-            {
-              "cost": 2000,
-              "modifier": "cursed_mark",
-              "text": "Сколько месяцев в году имеют 28 дней?",
-              "hint": "В вопросе НЕ написано слово «только» — откройте любой месяц календаря и поищите там число 28!",
-              "answer": "Все 12 месяцев!",
-              "comment": "28-е число есть абсолютно в каждом месяце года, а не только в феврале.",
-              "rotationId": "r1-t5-base-3"
-            },
-            {
-              "cost": 2500,
-              "text": "Ночной сторож умер посреди ясного солнечного дня. Дадут ли ему за это пенсию?",
-              "hint": "Кому вообще выплачивают пенсию, и сможет ли её получить человек после того, что случилось в первом предложении?",
-              "answer": "Нет — мёртвым пенсию не платят!",
-              "comment": "Время суток и профессия здесь только для отвода глаз.",
-              "rotationId": "r1-t5-base-4"
-            }
-          ],
-          "questionPool": [
-            {
-              "cost": 500,
-              "text": "Что объективно тяжелее: ровно один килограмм пуха или ровно один килограмм чугунных гвоздей?",
-              "hint": "Не смотрите на объём мешка — перечитайте точную массу обоих предметов!",
-              "answer": "Они весят одинаково — ровно по 1 килограмму!",
-              "comment": "Вечная классика, на которой в спешке ловятся даже отличники.",
-              "rotationId": "r1-t5-base-0"
-            },
-            {
-              "cost": 1000,
-              "text": "Вы бежите марафон и прямо перед финишем обгоняете бегуна, который шёл на ВТОРОМ месте. На каком месте вы теперь находитесь?",
-              "hint": "Лидера гонки, бегущего впереди всех, вы ещё не обгоняли!",
-              "answer": "На втором месте!",
-              "comment": "Обогнав второго, вы заняли его позицию, а лидер всё ещё бежит первым.",
-              "rotationId": "r1-t5-base-1"
-            },
-            {
-              "cost": 1500,
-              "type": "cat",
-              "catTheme": "Семейная арифметика",
-              "catCost": 1500,
-              "text": "У отца Мэри есть ровно пять дочерей: Чача, Чече, Чичи, Чочо… Как зовут пятую дочь?",
-              "hint": "Забудьте про гласные буквы «у/ю» и внимательно прочитайте первые три слова вопроса!",
-              "answer": "Мэри!",
-              "comment": "Ведь в самом начале вопроса сказано: «У отца Мэри…»!",
-              "rotationId": "r1-t5-base-2"
-            },
-            {
-              "cost": 2000,
-              "modifier": "cursed_mark",
-              "text": "Сколько месяцев в году имеют 28 дней?",
-              "hint": "В вопросе НЕ написано слово «только» — откройте любой месяц календаря и поищите там число 28!",
-              "answer": "Все 12 месяцев!",
-              "comment": "28-е число есть абсолютно в каждом месяце года, а не только в феврале.",
-              "rotationId": "r1-t5-base-3"
-            },
-            {
-              "cost": 2500,
-              "text": "Ночной сторож умер посреди ясного солнечного дня. Дадут ли ему за это пенсию?",
-              "hint": "Кому вообще выплачивают пенсию, и сможет ли её получить человек после того, что случилось в первом предложении?",
-              "answer": "Нет — мёртвым пенсию не платят!",
-              "comment": "Время суток и профессия здесь только для отвода глаз.",
-              "rotationId": "r1-t5-base-4"
-            },
-            {
-              "rotationId": "r1-t5-alt-1",
-              "text": "Сколько яиц можно съесть натощак?",
-              "answer": "Одно — после него вы уже не натощак",
-              "hint": "Подсказка: подумайте о значении слова «натощак».",
-              "comment": "Загадка проверяет буквальное прочтение.",
-              "cost": 500
-            },
-            {
-              "rotationId": "r1-t5-alt-2",
-              "text": "В комнате горело 10 свечей. Сквозняк задул 2, остальные догорели. Сколько свечей осталось?",
-              "answer": "Две задутые свечи",
-              "hint": "Подсказка: догоревшие исчезли.",
-              "comment": "Важно, какие свечи физически остались.",
-              "cost": 1000
-            },
-            {
-              "rotationId": "r1-t5-alt-3",
-              "text": "У квадратного стола отпилили один угол. Сколько углов стало?",
-              "answer": "Пять",
-              "hint": "Подсказка: при срезе появляются два новых угла.",
-              "comment": "Было четыре, один заменился двумя.",
-              "cost": 1500
-            },
-            {
-              "rotationId": "r1-t5-alt-4",
-              "text": "У пастуха было 17 овец, все, кроме 9, разбежались. Сколько осталось?",
-              "answer": "Девять",
-              "hint": "Подсказка: «все, кроме девяти».",
-              "comment": "Ответ прямо содержится в формулировке.",
-              "cost": 2000
-            },
-            {
-              "rotationId": "r1-t5-alt-5",
-              "text": "Что становится мокрее, пока сушит?",
-              "answer": "Полотенце",
-              "hint": "Подсказка: им вытирают воду.",
-              "comment": "Классическая словесная загадка.",
-              "cost": 2500
+              "rotationId": "fp-r1-animals-09"
             }
           ]
         },
@@ -1978,167 +1483,6 @@
               "answer": "«Твоё имя» (Your Name)",
               "hint": "Японское название — Kimi no Na wa.",
               "comment": "Анимационный фильм вышел в 2016 году."
-            }
-          ]
-        },
-        {
-          "name": "Что было дальше?",
-          "questions": [
-            {
-              "rotationId": "what-next-kitten-1",
-              "rotationGroup": "kitten",
-              "cost": 500,
-              "text": "Котёнок заметил розовую игрушку и тянется к ней. Что произойдёт дальше?",
-              "video": "./packs/media/video/what-next/what-next-kitten.webm",
-              "videoSourceUrl": "https://www.pexels.com/video/playful-kitten-enjoys-toy-in-cozy-living-room-35124856/",
-              "videoCredit": "nilay ortanca · Pexels",
-              "hint": "Малыш уже тянется к игрушке — не отводите взгляд от лап.",
-              "answer": "Котёнок цепляет игрушку лапами, переворачивается на бок и продолжает с ней играть.",
-              "comment": "В продолжении видно, как котёнок возится с розовой игрушкой.",
-              "answerVideo": "./packs/media/video/what-next/what-next-kitten-answer-joined.webm",
-              "image": "./packs/media/images/what-next/what-next-kitten-tension.jpg"
-            },
-            {
-              "rotationId": "what-next-skateboard-1",
-              "rotationGroup": "skateboard",
-              "cost": 1000,
-              "text": "Скейтбордист разгоняется и взлетает у рампы. Удастся ли ему приземлиться на доску?",
-              "video": "./packs/media/video/what-next/what-next-skateboard.webm",
-              "videoSourceUrl": "https://www.pexels.com/video/a-skateboarder-is-riding-down-a-ramp-at-a-skate-park-20315562/",
-              "videoCredit": "Kogi Kok · Pexels",
-              "hint": "Смотрите, останется ли доска под ногами после прыжка.",
-              "answer": "Не совсем: он приземляется на ноги рядом с доской, а скейт укатывается. Он идёт за ним.",
-              "comment": "Продолжение показывает неудачное приземление: доска уезжает отдельно.",
-              "answerVideo": "./packs/media/video/what-next/what-next-skateboard-answer-joined.webm",
-              "image": "./packs/media/images/what-next/what-next-skateboard-tension.jpg"
-            },
-            {
-              "rotationId": "what-next-basketball-1",
-              "rotationGroup": "basketball",
-              "cost": 1500,
-              "text": "Мяч летит прямо к кольцу. Попадёт ли он в корзину?",
-              "video": "./packs/media/video/what-next/what-next-basketball.webm",
-              "videoSourceUrl": "https://www.pexels.com/video/shooting-a-basketball-in-the-hoop-5192151/",
-              "videoCredit": "Pavel Danilyuk · Pexels",
-              "hint": "Мяч летит точно к корзине, но результат пока не показан.",
-              "answer": "Мяч проходит через кольцо. Попадание!",
-              "comment": "Фрагмент заканчивается до того, как становится ясно, попадёт ли мяч.",
-              "answerVideo": "./packs/media/video/what-next/what-next-basketball-answer-joined.webm",
-              "image": "./packs/media/images/what-next/what-next-basketball-tension.jpg"
-            },
-            {
-              "rotationId": "what-next-dominoes-1",
-              "rotationGroup": "dominoes",
-              "cost": 2000,
-              "text": "Первая костяшка уже начала падать. Что произойдёт дальше с длинным рядом домино?",
-              "video": "./packs/media/video/what-next/what-next-dominoes.webm",
-              "videoSourceUrl": "https://www.pexels.com/video/set-of-dominoes-1793414/",
-              "videoCredit": "Miguel Á. Padriñán · Pexels",
-              "hint": "Первая костяшка уже наклонилась к следующей.",
-              "answer": "Начинается цепная реакция: костяшки одна за другой падают по дорожке.",
-              "comment": "Вопрос о продолжении цепочки домино.",
-              "answerVideo": "./packs/media/video/what-next/what-next-dominoes-answer-joined.webm",
-              "image": "./packs/media/images/what-next/what-next-dominoes-tension.jpg"
-            },
-            {
-              "rotationId": "what-next-dice-1",
-              "rotationGroup": "dice",
-              "cost": 2500,
-              "text": "Башня из красных кубиков начинает шататься. Устоит ли она?",
-              "video": "./packs/media/video/what-next/what-next-dice.webm",
-              "videoSourceUrl": "https://www.pexels.com/video/red-dice-falling-in-slow-motion-34805935/",
-              "videoCredit": "Efrem Efre · Pexels",
-              "hint": "Посмотрите на верхние кубики — равновесие уже нарушено.",
-              "answer": "Башня заваливается: несколько кубиков падают и раскатываются, но часть остаётся стоять.",
-              "comment": "В продолжении видно, что не все кубики падают — часть башни остаётся на месте.",
-              "answerVideo": "./packs/media/video/what-next/what-next-dice-answer-joined.webm",
-              "image": "./packs/media/images/what-next/what-next-dice-tension.jpg"
-            }
-          ],
-          "questionPool": [
-            {
-              "rotationId": "what-next-kitten-1",
-              "rotationGroup": "kitten",
-              "cost": 500,
-              "text": "Котёнок заметил розовую игрушку и тянется к ней. Что произойдёт дальше?",
-              "video": "./packs/media/video/what-next/what-next-kitten.webm",
-              "videoSourceUrl": "https://www.pexels.com/video/playful-kitten-enjoys-toy-in-cozy-living-room-35124856/",
-              "videoCredit": "nilay ortanca · Pexels",
-              "hint": "Малыш уже тянется к игрушке — не отводите взгляд от лап.",
-              "answer": "Котёнок цепляет игрушку лапами, переворачивается на бок и продолжает с ней играть.",
-              "comment": "В продолжении видно, как котёнок возится с розовой игрушкой.",
-              "answerVideo": "./packs/media/video/what-next/what-next-kitten-answer-joined.webm",
-              "image": "./packs/media/images/what-next/what-next-kitten-tension.jpg"
-            },
-            {
-              "rotationId": "what-next-skateboard-1",
-              "rotationGroup": "skateboard",
-              "cost": 1000,
-              "text": "Скейтбордист разгоняется и взлетает у рампы. Удастся ли ему приземлиться на доску?",
-              "video": "./packs/media/video/what-next/what-next-skateboard.webm",
-              "videoSourceUrl": "https://www.pexels.com/video/a-skateboarder-is-riding-down-a-ramp-at-a-skate-park-20315562/",
-              "videoCredit": "Kogi Kok · Pexels",
-              "hint": "Смотрите, останется ли доска под ногами после прыжка.",
-              "answer": "Не совсем: он приземляется на ноги рядом с доской, а скейт укатывается. Он идёт за ним.",
-              "comment": "Продолжение показывает неудачное приземление: доска уезжает отдельно.",
-              "answerVideo": "./packs/media/video/what-next/what-next-skateboard-answer-joined.webm",
-              "image": "./packs/media/images/what-next/what-next-skateboard-tension.jpg"
-            },
-            {
-              "rotationId": "what-next-basketball-1",
-              "rotationGroup": "basketball",
-              "cost": 1500,
-              "text": "Мяч летит прямо к кольцу. Попадёт ли он в корзину?",
-              "video": "./packs/media/video/what-next/what-next-basketball.webm",
-              "videoSourceUrl": "https://www.pexels.com/video/shooting-a-basketball-in-the-hoop-5192151/",
-              "videoCredit": "Pavel Danilyuk · Pexels",
-              "hint": "Мяч летит точно к корзине, но результат пока не показан.",
-              "answer": "Мяч проходит через кольцо. Попадание!",
-              "comment": "Фрагмент заканчивается до того, как становится ясно, попадёт ли мяч.",
-              "answerVideo": "./packs/media/video/what-next/what-next-basketball-answer-joined.webm",
-              "image": "./packs/media/images/what-next/what-next-basketball-tension.jpg"
-            },
-            {
-              "rotationId": "what-next-dominoes-1",
-              "rotationGroup": "dominoes",
-              "cost": 2000,
-              "text": "Первая костяшка уже начала падать. Что произойдёт дальше с длинным рядом домино?",
-              "video": "./packs/media/video/what-next/what-next-dominoes.webm",
-              "videoSourceUrl": "https://www.pexels.com/video/set-of-dominoes-1793414/",
-              "videoCredit": "Miguel Á. Padriñán · Pexels",
-              "hint": "Первая костяшка уже наклонилась к следующей.",
-              "answer": "Начинается цепная реакция: костяшки одна за другой падают по дорожке.",
-              "comment": "Вопрос о продолжении цепочки домино.",
-              "answerVideo": "./packs/media/video/what-next/what-next-dominoes-answer-joined.webm",
-              "image": "./packs/media/images/what-next/what-next-dominoes-tension.jpg"
-            },
-            {
-              "rotationId": "what-next-dice-1",
-              "rotationGroup": "dice",
-              "cost": 2500,
-              "text": "Башня из красных кубиков начинает шататься. Устоит ли она?",
-              "video": "./packs/media/video/what-next/what-next-dice.webm",
-              "videoSourceUrl": "https://www.pexels.com/video/red-dice-falling-in-slow-motion-34805935/",
-              "videoCredit": "Efrem Efre · Pexels",
-              "hint": "Посмотрите на верхние кубики — равновесие уже нарушено.",
-              "answer": "Башня заваливается: несколько кубиков падают и раскатываются, но часть остаётся стоять.",
-              "comment": "В продолжении видно, что не все кубики падают — часть башни остаётся на месте.",
-              "answerVideo": "./packs/media/video/what-next/what-next-dice-answer-joined.webm",
-              "image": "./packs/media/images/what-next/what-next-dice-tension.jpg"
-            },
-            {
-              "rotationId": "what-next-coin-1",
-              "rotationGroup": "coin",
-              "cost": 3000,
-              "text": "Монета всё ещё крутится на ребре. Чем закончится вращение?",
-              "video": "./packs/media/video/what-next/what-next-coin.webm",
-              "videoSourceUrl": "https://www.pexels.com/video/spinning-coin-853779/",
-              "videoCredit": "Coverr · Pexels",
-              "hint": "Вращение становится медленнее, монета начинает покачиваться.",
-              "answer": "Монета теряет скорость и в конце концов падает плашмя на стол.",
-              "comment": "Предскажите, чем завершится вращение монеты.",
-              "answerVideo": "./packs/media/video/what-next/what-next-coin-answer-joined.webm",
-              "image": "./packs/media/images/what-next/what-next-coin-tension.jpg"
             }
           ]
         }
@@ -2719,131 +2063,114 @@
           ]
         },
         {
-          "name": "Верю — не верю!",
+          "name": "Техподдержка абсурда",
           "questions": [
             {
               "cost": 1000,
-              "text": "Верно ли, что знаменитый логотип леденцов «Chupa Chups» в форме ромашки в 1969 году нарисовал великий художник-сюрреалист Сальвадор Дали?",
-              "hint": "Оба родом из Испании — основатель бренда Энрик Бернат действительно обратился лично к усатому гению сюрреализма!",
-              "answer": "Да, это чистая правда!",
-              "comment": "Дали придумал форму ромашки и посоветовал разместить логотип сверху леденца, чтобы он не мялся при заворачивании.",
-              "rotationId": "r2-t4-base-0"
+              "text": "Клиент жалуется: «Микроволновка крутит тарелку, а меня не крутит». Что ответит поддержка?",
+              "answer": "Например: «Встаньте на тарелку и выберите режим “разморозка отношений”»",
+              "comment": "Принимается любой ответ, который поддержка не должна говорить вслух.",
+              "rotationId": "fp-r2-tech-00"
             },
             {
               "cost": 2000,
-              "text": "Правда ли, что компания Nintendo была основана в Японии в 1980-х годах специально для выпуска приставки Dendy/Famicom?",
-              "hint": "Задолго до электрических консолей эта фирма в Киото почти целый век печатала традиционные игральные карты!",
-              "answer": "Неправда! Nintendo основали ещё в 1889 году (в XIX веке!)",
-              "comment": "Первые десятилетия Nintendo производила бумажные игральные карты ханафуда ручной работы.",
-              "rotationId": "r2-t4-base-1"
+              "text": "Пользователь пишет: «Принтер не печатает». Какой первый совет даст техподдержка из параллельной вселенной?",
+              "answer": "Например: «Попросите принтер распечатать заявление, что он не будет печатать»",
+              "comment": "Заявление принтер зажуёт, и инцидент будет официально закрыт.",
+              "rotationId": "fp-r2-tech-01"
             },
             {
               "cost": 3000,
-              "text": "Верно ли, что создатель цилиндрической банки чипсов Pringles Фред Бор завещал после смерти похоронить часть своего праха прямо в банке Pringles — и семья выполнила его просьбу?",
-              "hint": "Химик так гордился своим изобретением-тубусом, что его дети даже спорили в супермаркете, какой вкус выбрать для дедушки!",
-              "answer": "Да, чистая правда! (Причём дети выбрали классический вкус Original!)",
-              "comment": "По пути на кладбище сыновья заехали в супермаркет и долго спорили, какой вкус выбрать для отца.",
-              "rotationId": "r2-t4-base-2"
+              "text": "Жалоба: «Wi‑Fi работает только в ванной». Объясни проблему так, будто ты очень дорогой консультант.",
+              "answer": "Например: «У вас роутер предпочитает влажный рынок»",
+              "comment": "Нужно произнести серьёзно и выставить счёт за диагностику.",
+              "rotationId": "fp-r2-tech-02"
             },
             {
               "cost": 4000,
-              "modifier": "score_steal",
-              "text": "Верно ли, что с ботанической точки зрения банан — это ягода, а клубника — НЕ ягода?",
-              "hint": "Ботаники смотрят на строение завязи и косточек снаружи/внутри мякоти — и здесь наука полностью ломает бытовую интуицию!",
-              "answer": "Да, абсолютно верно!",
-              "comment": "В ботанике банан (как и арбуз с помидором) — ягода, а клубника — многоорешек на разросшемся цветоложе.",
-              "rotationId": "r2-t4-base-3"
+              "text": "Клиент забыл пароль от холодильника с экраном. Как восстановить доступ?",
+              "answer": "Например: назвать девичью фамилию сыра и дату покупки майонеза",
+              "comment": "Если не сработает — ответить на секретный вопрос: «Что лежит в дальнем контейнере?»",
+              "rotationId": "fp-r2-tech-03"
             },
             {
               "cost": 5000,
-              "text": "Правда ли, что культовую игру «Тетрис» придумали в США в Кремниевой долине?",
-              "hint": "Вспомните фоновую мелодию «Коробейники» и компьютер «Электроника-60» в Академии наук СССР!",
-              "answer": "Неправда! «Тетрис» создал советский программист Алексей Пажитнов в Москве в 1984 году!",
-              "comment": "Первую версию Пажитнов написал на советском компьютере «Электроника-60» в Вычислительном центре АН СССР.",
-              "rotationId": "r2-t4-base-4"
+              "text": "В заявке написано: «В комнате пропал интернет, но роутер светится». Какое нелепое решение вы отправите?",
+              "answer": "Например: «Погладьте роутер по лампочкам и скажите ему, что он молодец»",
+              "comment": "Если не поможет, перезагрузить и сделать вид, что это был план с самого начала.",
+              "rotationId": "fp-r2-tech-04"
             }
           ],
           "questionPool": [
             {
               "cost": 1000,
-              "text": "Верно ли, что знаменитый логотип леденцов «Chupa Chups» в форме ромашки в 1969 году нарисовал великий художник-сюрреалист Сальвадор Дали?",
-              "hint": "Оба родом из Испании — основатель бренда Энрик Бернат действительно обратился лично к усатому гению сюрреализма!",
-              "answer": "Да, это чистая правда!",
-              "comment": "Дали придумал форму ромашки и посоветовал разместить логотип сверху леденца, чтобы он не мялся при заворачивании.",
-              "rotationId": "r2-t4-base-0"
+              "text": "Клиент жалуется: «Микроволновка крутит тарелку, а меня не крутит». Что ответит поддержка?",
+              "answer": "Например: «Встаньте на тарелку и выберите режим “разморозка отношений”»",
+              "comment": "Принимается любой ответ, который поддержка не должна говорить вслух.",
+              "rotationId": "fp-r2-tech-00"
             },
             {
               "cost": 2000,
-              "text": "Правда ли, что компания Nintendo была основана в Японии в 1980-х годах специально для выпуска приставки Dendy/Famicom?",
-              "hint": "Задолго до электрических консолей эта фирма в Киото почти целый век печатала традиционные игральные карты!",
-              "answer": "Неправда! Nintendo основали ещё в 1889 году (в XIX веке!)",
-              "comment": "Первые десятилетия Nintendo производила бумажные игральные карты ханафуда ручной работы.",
-              "rotationId": "r2-t4-base-1"
+              "text": "Пользователь пишет: «Принтер не печатает». Какой первый совет даст техподдержка из параллельной вселенной?",
+              "answer": "Например: «Попросите принтер распечатать заявление, что он не будет печатать»",
+              "comment": "Заявление принтер зажуёт, и инцидент будет официально закрыт.",
+              "rotationId": "fp-r2-tech-01"
             },
             {
               "cost": 3000,
-              "text": "Верно ли, что создатель цилиндрической банки чипсов Pringles Фред Бор завещал после смерти похоронить часть своего праха прямо в банке Pringles — и семья выполнила его просьбу?",
-              "hint": "Химик так гордился своим изобретением-тубусом, что его дети даже спорили в супермаркете, какой вкус выбрать для дедушки!",
-              "answer": "Да, чистая правда! (Причём дети выбрали классический вкус Original!)",
-              "comment": "По пути на кладбище сыновья заехали в супермаркет и долго спорили, какой вкус выбрать для отца.",
-              "rotationId": "r2-t4-base-2"
+              "text": "Жалоба: «Wi‑Fi работает только в ванной». Объясни проблему так, будто ты очень дорогой консультант.",
+              "answer": "Например: «У вас роутер предпочитает влажный рынок»",
+              "comment": "Нужно произнести серьёзно и выставить счёт за диагностику.",
+              "rotationId": "fp-r2-tech-02"
             },
             {
               "cost": 4000,
-              "modifier": "score_steal",
-              "text": "Верно ли, что с ботанической точки зрения банан — это ягода, а клубника — НЕ ягода?",
-              "hint": "Ботаники смотрят на строение завязи и косточек снаружи/внутри мякоти — и здесь наука полностью ломает бытовую интуицию!",
-              "answer": "Да, абсолютно верно!",
-              "comment": "В ботанике банан (как и арбуз с помидором) — ягода, а клубника — многоорешек на разросшемся цветоложе.",
-              "rotationId": "r2-t4-base-3"
+              "text": "Клиент забыл пароль от холодильника с экраном. Как восстановить доступ?",
+              "answer": "Например: назвать девичью фамилию сыра и дату покупки майонеза",
+              "comment": "Если не сработает — ответить на секретный вопрос: «Что лежит в дальнем контейнере?»",
+              "rotationId": "fp-r2-tech-03"
             },
             {
               "cost": 5000,
-              "text": "Правда ли, что культовую игру «Тетрис» придумали в США в Кремниевой долине?",
-              "hint": "Вспомните фоновую мелодию «Коробейники» и компьютер «Электроника-60» в Академии наук СССР!",
-              "answer": "Неправда! «Тетрис» создал советский программист Алексей Пажитнов в Москве в 1984 году!",
-              "comment": "Первую версию Пажитнов написал на советском компьютере «Электроника-60» в Вычислительном центре АН СССР.",
-              "rotationId": "r2-t4-base-4"
+              "text": "В заявке написано: «В комнате пропал интернет, но роутер светится». Какое нелепое решение вы отправите?",
+              "answer": "Например: «Погладьте роутер по лампочкам и скажите ему, что он молодец»",
+              "comment": "Если не поможет, перезагрузить и сделать вид, что это был план с самого начала.",
+              "rotationId": "fp-r2-tech-04"
             },
             {
-              "rotationId": "r2-t4-alt-1",
-              "text": "Правда ли, что у осьминога три сердца?",
-              "answer": "Правда: у осьминога три сердца.",
-              "hint": "Подсказка: художник создал дизайн в 1969 году.",
-              "comment": "Логотип был задуман как ромашка.",
-              "cost": 1000
+              "text": "Пользователь сообщает: «Мышка не двигается, хотя я её двигаю». Как ответит техподдержка?",
+              "answer": "«Попробуйте поставить мышке цель в жизни»",
+              "comment": "Если не поможет — проверить батарейку, а потом мотивацию пользователя.",
+              "cost": 1000,
+              "rotationId": "fp-r2-tech-05"
             },
             {
-              "rotationId": "r2-t4-alt-2",
-              "text": "Правда ли, что Венера вращается вокруг своей оси в направлении, противоположном большинству планет?",
-              "answer": "Правда: Венера вращается ретроградно.",
-              "hint": "Подсказка: компания начинала с игральных карт ханафуда.",
-              "comment": "Nintendo основана в Киото Фусадзиро Ямаути.",
-              "cost": 2000
+              "text": "Клиент: «Наушники работают только если держать провод под углом 37 градусов». Как называется эта функция?",
+              "answer": "Премиум-режим йоги для рук",
+              "comment": "Совместимость с локтем приобретается отдельно.",
+              "cost": 2000,
+              "rotationId": "fp-r2-tech-06"
             },
             {
-              "rotationId": "r2-t4-alt-3",
-              "text": "Правда ли, что молния никогда не ударяет в одно место дважды?",
-              "answer": "Неправда: молния может многократно ударять в одно и то же место.",
-              "hint": "Подсказка: ботаническое определение отличается от бытового.",
-              "comment": "А вот клубника ботанической ягодой не считается.",
-              "cost": 3000
+              "text": "Жалоба: «Телефон не узнаёт моё лицо после пробуждения». Что предложит поддержка?",
+              "answer": "«Сначала умойтесь и представьтесь заново»",
+              "comment": "Система распознавания тоже не ожидала увидеть вас в 6 утра.",
+              "cost": 3000,
+              "rotationId": "fp-r2-tech-07"
             },
             {
-              "rotationId": "r2-t4-alt-4",
-              "text": "Правда ли, что у золотой рыбки память длится всего три секунды?",
-              "answer": "Неправда: золотые рыбки способны помнить значительно дольше.",
-              "hint": "Подсказка: автор — советский программист Алексей Пажитнов.",
-              "comment": "Первая версия работала на компьютере «Электроника-60».",
-              "cost": 4000
+              "text": "Пользователь пишет: «У меня зависла вкладка с работой». Какой совет даст техподдержка?",
+              "answer": "«Не трогайте её. Возможно, работа тоже зависла и не заметила вас»",
+              "comment": "В крайнем случае открыть ещё одну вкладку и назвать её планом Б.",
+              "cost": 4000,
+              "rotationId": "fp-r2-tech-08"
             },
             {
-              "rotationId": "r2-t4-alt-5",
-              "text": "Правда ли, что Эйфелева башня в жару немного увеличивается из-за расширения металла?",
-              "answer": "Правда: нагрев вызывает небольшое тепловое расширение конструкции.",
-              "hint": "Подсказка: металл расширяется при нагревании.",
-              "comment": "Изменение высоты может составлять несколько сантиметров.",
-              "cost": 5000
+              "text": "Клиент спрашивает: «Можно ли перезагрузить понедельник?» Что ответить?",
+              "answer": "«Можно, но обновление установит вторник»",
+              "comment": "Отмена установки недоступна до пятницы.",
+              "cost": 5000,
+              "rotationId": "fp-r2-tech-09"
             }
           ]
         },
