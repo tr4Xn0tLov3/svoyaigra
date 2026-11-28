@@ -1024,7 +1024,7 @@ class SvoyaIgraApp {
       return;
     }
     if (!this.avatarStageManagerPromise) {
-      this.avatarStageManagerPromise = import('./avatars3d.js?v=3dprofile-20261128')
+      this.avatarStageManagerPromise = import('./avatars3d.js?v=animal-detail-rotation-20261128')
         .then(({ AvatarStageManager }) => {
           this.avatarStageManager = new AvatarStageManager();
           return this.avatarStageManager;
@@ -1077,22 +1077,16 @@ class SvoyaIgraApp {
   _renderHomeScreen() {
     const view = this.homeView || 'menu';
     const safeColor = /^#[0-9a-f]{6}$/i.test(this.profile.color || '') ? this.profile.color : '#f5c451';
-    const displayName = escapeHtml((this.profile.name || '').trim() || 'Ваш никнейм');
     const selectedAvatar = this.profile.avatar;
     const profilePreview = `
       <div class="profile-preview-frame profile-preview-3d-frame" style="--profile-accent:${safeColor}">
         <div class="profile-preview-stage-shell" data-avatar-stages-container>
           <div class="podium-avatar-stage profile-avatar-stage" data-avatar-stage data-player-id="profile-preview"
-            data-avatar="${escapeHtml(selectedAvatar)}" data-color="${safeColor}" data-score="12450" data-answering="false">
+            data-avatar="${escapeHtml(selectedAvatar)}" data-color="${safeColor}" data-score="0" data-answering="false" data-rotatable="true">
             <div class="podium-stage-glow" aria-hidden="true"></div>
             ${avatarMarkup(selectedAvatar, 'avatar-3d-fallback')}
           </div>
         </div>
-        <div class="profile-preview-copy">
-          <span class="profile-preview-kicker">ПРЕДПРОСМОТР ПРОФИЛЯ</span>
-          <strong id="profile-preview-name">${displayName}</strong>
-        </div>
-        <div class="profile-preview-scorebox"><span>СЧЁТ</span><strong class="profile-preview-score">12 450</strong></div>
       </div>
     `;
     const topbar = `
@@ -1161,7 +1155,7 @@ class SvoyaIgraApp {
                 <label class="custom-color-label">Свой цвет<input type="color" id="inp-profile-color" value="${safeColor}" aria-label="Выбрать свой цвет рамки"></label></div>
               <button class="btn btn-gold btn-lg" id="btn-profile-done">Готово</button>
             </div>
-            <aside class="profile-preview-pane"><span class="field-label">ПРЕДПРОСМОТР · ТАК ВАС УВИДЯТ</span>${profilePreview}<div class="profile-preview-caption">Рамка игрока и карточка счёта будут выделены выбранным цветом.</div></aside>
+            <aside class="profile-preview-pane"><span class="field-label">ПРЕДПРОСМОТР · ТАК ВАС УВИДЯТ</span>${profilePreview}<div class="profile-preview-caption">Потяни фигурку, чтобы осмотреть её со всех сторон. Цвет рамки обновляется сразу.</div></aside>
           </div>
         </section>
       `;
@@ -1244,9 +1238,6 @@ class SvoyaIgraApp {
     profileName?.addEventListener('input', () => {
       this.profile.name = profileName.value;
       localStorage.setItem('si_player_name', this.profile.name);
-      document.querySelectorAll('#profile-preview-name').forEach((node) => {
-        node.textContent = this.profile.name.trim() || 'Ваш никнейм';
-      });
     });
     document.querySelectorAll('[data-pick-avatar]').forEach((button) => {
       button.addEventListener('click', () => {
@@ -2770,7 +2761,7 @@ class SvoyaIgraApp {
               style="--p-color: ${playerColor}">
               <div class="podium-avatar-stage" data-avatar-stage data-player-id="${escapeHtml(p.id)}"
                 data-avatar="${escapeHtml(p.avatar || '')}" data-color="${playerColor}" data-score="${Number(p.score) || 0}"
-                data-answering="${isAnswering ? 'true' : 'false'}">
+                data-answering="${isAnswering ? 'true' : 'false'}" data-rotatable="true">
                 <div class="podium-stage-glow" aria-hidden="true"></div>
                 ${avatarMarkup(p.avatar, 'avatar-3d-fallback')}
                 <span class="online-dot ${p.online ? 'on' : 'off'}" title="${p.online ? 'Онлайн' : 'Оффлайн'}"></span>
