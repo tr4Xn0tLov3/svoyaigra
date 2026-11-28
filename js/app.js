@@ -62,11 +62,14 @@ class SvoyaIgraApp {
     this.isSpectator = false;
 
     const savedAvatar = localStorage.getItem('si_player_avatar');
+    const savedColor = localStorage.getItem('si_player_color');
     this.profile = {
       name: localStorage.getItem('si_player_name') || '',
       avatar: AVATARS.includes(savedAvatar) ? savedAvatar : AVATARS[Math.floor(Math.random() * AVATARS.length)],
-      color: localStorage.getItem('si_player_color') || COLORS[Math.floor(Math.random() * COLORS.length)]
+      color: /^#[0-9a-f]{6}$/i.test(savedColor || '') ? savedColor : COLORS[Math.floor(Math.random() * COLORS.length)]
     };
+    this.homeView = 'menu';
+    this.homeReturnView = 'menu';
 
     this.repoPacks = [];
     this.selectedPackMeta = null;
@@ -151,6 +154,7 @@ class SvoyaIgraApp {
     const roomParam = (params.get('room') || '').trim().toUpperCase();
     if (roomParam) {
       this.drafts.joinCode = roomParam;
+      this.homeView = 'player';
     }
 
     await this._loadRepoPacksIndex();
@@ -782,6 +786,8 @@ class SvoyaIgraApp {
       this.playerNet = null;
     }
     this.role = null;
+    this.homeView = 'menu';
+    this.homeReturnView = 'menu';
     this.hostToken = null;
     this.view = null;
     window.history.replaceState({}, '', window.location.pathname);
@@ -1046,124 +1052,121 @@ class SvoyaIgraApp {
   // --- 1. Главный экран ---
 
   _renderHomeScreen() {
-    const hasInviteCode = Boolean(this.drafts.joinCode);
-
-    return `
-      <div class="home-page">
-        <header class="home-topbar">
-          <div class="brand-logo">
-            <span class="logo-diamond">◆</span>
-            <div>
-              <h1>Broken Brain <span class="brand-brain" role="img" aria-label="мозг">🧠</span></h1>
-              <p class="subtitle">Викторина на скорость, память и сообразительность</p>
-            </div>
-          </div>
-          <div class="topbar-actions">
-            <button class="btn btn-ghost btn-sm" id="btn-open-builder">🛠️ Конструктор паков (.json)</button>
-            <button class="btn-icon" id="btn-mute-home" title="Звук">${sound.muted ? '🔇' : '🔊'}</button>
-          </div>
-        </header>
-
-        <main class="home-grid ${hasInviteCode ? 'invite-focus' : ''}">
-          <section class="glass-panel join-panel ${hasInviteCode ? 'highlighted-invite' : ''}">
-            <div class="panel-tag">${hasInviteCode ? '🎉 Вас позвали в игру!' : '📱 Для друзей (с телефона или ПК)'}</div>
-            <h2>Войти в комнату</h2>
-            <p class="panel-desc">Введите код комнаты от ведущего (или откройте его ссылку) и жмите кнопку ответа со своего экрана.</p>
-
-            <div class="form-stack">
-              <label>
-                <span>Код комнаты</span>
-                <input type="text" maxlength="8" class="code-input" data-keep-focus="joinCode" id="inp-join-code"
-                  placeholder="K7M4P" value="${escapeHtml(this.drafts.joinCode)}">
-              </label>
-
-              <label>
-                <span>Ваш никнейм</span>
-                <input type="text" maxlength="20" data-keep-focus="playerName" id="inp-player-name"
-                  placeholder="Как вас подписать?" value="${escapeHtml(this.profile.name)}">
-              </label>
-
-              <div>
-                <span class="field-label">Выберите аватарку</span>
-                <div class="avatar-picker">
-                  ${AVATARS.map((av) => `
-                    <button type="button" class="avatar-btn ${this.profile.avatar === av ? 'selected' : ''}" data-pick-avatar="${escapeHtml(av)}" aria-label="${AVATAR_META[av]?.name || 'Аватар'}" title="${AVATAR_META[av]?.name || 'Аватар'}">${avatarMarkup(av, 'avatar-picker-image')}</button>
-                  `).join('')}
-                </div>
-              </div>
-
-              <label class="checkbox-row">
-                <input type="checkbox" id="chk-spectator" ${this.isSpectator ? 'checked' : ''}>
-                <span>Зайти просто посмотреть (зритель)</span>
-              </label>
-
-              <button class="btn btn-primary btn-lg full-w" id="btn-join-room">
-                🚀 Влететь в комнату
-              </button>
-            </div>
-          </section>
-
-          <section class="glass-panel host-setup-panel">
-            <div class="panel-tag">🎙️ Для ведущего</div>
-            <h2>Создать комнату</h2>
-            <p class="panel-desc">Выберите пакет вопросов из папки <code>packs/</code>, создайте комнату и киньте ссылку друзьям в Discord / Telegram.</p>
-
-            <div class="packs-section-head">
-              <span class="field-label">Пакеты вопросов (${this.repoPacks.length})</span>
-              <button class="btn-link" id="btn-upload-custom-json">📂 Загрузить свой .json</button>
-            </div>
-
-            ${this.customUploadedPack ? `
-              <div class="custom-pack-active-card">
-                <div>
-                  <strong>📦 ${escapeHtml(this.customUploadedPack.title)}</strong>
-                  <div class="muted-sm">Автор: ${escapeHtml(this.customUploadedPack.author || 'Свой файл')} · Раундов: ${this.customUploadedPack.rounds?.length || 0}</div>
-                </div>
-                <button class="btn-tiny" id="btn-clear-custom-pack">Сбросить</button>
-              </div>
-            ` : ''}
-
-            <div class="pack-cards-list">
-              ${this.repoPacks.map((pk) => {
-                const isSel = !this.customUploadedPack && this.selectedPackMeta?.id === pk.id;
-                return `
-                  <div class="pack-card ${isSel ? 'selected' : ''}" data-select-pack="${escapeHtml(pk.id)}">
-                    <div class="pack-card-top">
-                      <strong>${escapeHtml(pk.title)}</strong>
-                      <span class="pack-badge">${escapeHtml(pk.duration || '30 мин')}</span>
-                    </div>
-                    <p class="pack-desc">${escapeHtml(pk.description || '')}</p>
-                    <div class="pack-meta-row">
-                      <span>📊 ${escapeHtml(pk.difficulty || 'Лёгкая')}</span>
-                      <span>❓ Вопросов: ${pk.questionsCount || '—'}</span>
-                    </div>
-                    ${Array.isArray(pk.tags) ? `
-                      <div class="pack-tags">
-                        ${pk.tags.map((t) => `<span class="mini-tag">${escapeHtml(t)}</span>`).join('')}
-                      </div>
-                    ` : ''}
-                  </div>
-                `;
-              }).join('')}
-            </div>
-
-            <button class="btn btn-gold btn-lg full-w" id="btn-create-room">
-              ✨ Создать комнату и получить ссылку
-            </button>
-          </section>
-        </main>
-
-        <footer class="home-footer">
-          <div class="rules-pills">
-            <span>🕶️ Модификатор «Ничего личного» (обнуление очков!)</span>
-            <span>🖼️ Мемы и «Откуда этот кадр?»</span>
-            <span>🔊 «Угадай звук»</span>
-            <span>🐈 Кот в мешке & 🔨 Аукцион</span>
-            <span>⏱️ Комфортный таймер 30 сек</span>
-          </div>
-        </footer>
+    const view = this.homeView || 'menu';
+    const safeColor = /^#[0-9a-f]{6}$/i.test(this.profile.color || '') ? this.profile.color : '#f5c451';
+    const displayName = escapeHtml((this.profile.name || '').trim() || 'Ваш никнейм');
+    const selectedAvatar = this.profile.avatar;
+    const profilePreview = `
+      <div class="profile-preview-frame" style="--profile-accent:${safeColor}">
+        <div class="profile-preview-avatar">${avatarMarkup(selectedAvatar, 'profile-preview-image')}</div>
+        <div class="profile-preview-copy">
+          <span class="profile-preview-kicker">ВАШ ИГРОВОЙ ПРОФИЛЬ</span>
+          <strong id="profile-preview-name">${displayName}</strong>
+          <span class="profile-preview-score">● 12 450 очков</span>
+        </div>
       </div>
     `;
+    const topbar = `
+      <header class="home-topbar">
+        <div class="brand-logo">
+          <span class="logo-diamond">◆</span>
+          <div><h1>Broken Brain <span class="brand-brain" role="img" aria-label="мозг">🧠</span></h1>
+            <p class="subtitle">Викторина, где здравый смысл — необязательный участник</p></div>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn btn-ghost btn-sm" id="btn-open-profile">⚙️ Профиль</button>
+          <button class="btn-icon" id="btn-mute-home" title="Звук">${sound.muted ? '🔇' : '🔊'}</button>
+        </div>
+      </header>
+    `;
+    let content = '';
+
+    if (view === 'menu') {
+      content = `
+        <section class="game-menu-hero glass-panel">
+          <div class="game-menu-copy">
+            <div class="panel-tag">🎮 ВЫБЕРИ СВОЮ РОЛЬ</div>
+            <h2>Собирай друзей.<br><span>Разрушай логику.</span></h2>
+            <p class="panel-desc">Один ведёт игру, остальные спорят, жмут на кнопку и доказывают, что «так тоже можно».</p>
+            ${this.drafts.joinCode ? `<div class="invite-banner">🔗 Вас позвали в комнату <strong>${escapeHtml(this.drafts.joinCode)}</strong></div>` : ''}
+            <button class="btn btn-gold btn-lg menu-play-button" id="btn-menu-play">▶ Играть</button>
+            <button class="btn btn-ghost menu-builder-link" id="btn-open-builder">🛠️ Собрать свой пак вопросов</button>
+          </div>
+          <div class="game-menu-side">
+            ${profilePreview}
+            <button class="btn btn-secondary full-w" id="btn-menu-profile">✏️ Настроить профиль</button>
+            <div class="menu-feature-list">
+              <span>🎯 12 тем — 6 выстрелов</span><span>🧠 Абсурд приветствуется</span><span>📱 Друзья играют со своих устройств</span>
+            </div>
+          </div>
+          <div class="hero-orbit orbit-one">🦝</div><div class="hero-orbit orbit-two">🐧</div><div class="hero-orbit orbit-three">🎯</div>
+        </section>
+        <footer class="home-footer"><div class="rules-pills"><span>🎙️ Ведущий создаёт комнату</span><span>📲 Игроки заходят по ссылке или коду</span><span>🎨 Свой аватар, ник и цвет рамки</span></div></footer>
+      `;
+    } else if (view === 'role') {
+      content = `
+        <section class="home-flow-panel glass-panel">
+          <button class="btn btn-ghost btn-sm home-back-button" data-home-view="menu">← В меню</button>
+          <div class="panel-tag">🎮 НОВАЯ ПАРТИЯ</div><h2>Как будем играть?</h2>
+          <p class="panel-desc">Создай комнату и веди игру или подключись к друзьям по коду.</p>
+          <div class="role-choice-grid">
+            <button class="role-choice-card" data-home-view="host"><span class="role-choice-icon">🎙️</span><strong>Я — хост</strong><span>Выберу пак и создам комнату для друзей</span><b>Создать комнату →</b></button>
+            <button class="role-choice-card" data-home-view="player"><span class="role-choice-icon">🎯</span><strong>Я — игрок</strong><span>Введу код комнаты и присоединюсь к игре</span><b>Войти в комнату →</b></button>
+          </div>
+        </section>
+      `;
+    } else if (view === 'settings') {
+      content = `
+        <section class="home-flow-panel glass-panel profile-settings-panel">
+          <button class="btn btn-ghost btn-sm home-back-button" id="btn-profile-back">← Назад</button>
+          <div class="panel-tag">🎨 ПЕРСОНАЛИЗАЦИЯ</div><h2>Настройки профиля</h2>
+          <p class="panel-desc">Эти данные сохраняются в этом браузере и подставляются, когда вы входите как игрок.</p>
+          <div class="profile-editor-layout">
+            <div class="profile-editor-controls">
+              <label class="profile-name-field"><span>Никнейм</span><input type="text" maxlength="20" id="inp-profile-name" data-keep-focus="profileName" placeholder="Например, Капитан Хаос" value="${escapeHtml(this.profile.name)}"></label>
+              <div><span class="field-label">Аватар</span><div class="avatar-picker profile-avatar-picker">
+                ${AVATARS.map((av) => `<button type="button" class="avatar-btn ${selectedAvatar === av ? 'selected' : ''}" data-pick-avatar="${escapeHtml(av)}" aria-label="${AVATAR_META[av]?.name || 'Аватар'}" title="${AVATAR_META[av]?.name || 'Аватар'}">${avatarMarkup(av, 'avatar-picker-image')}</button>`).join('')}
+              </div></div>
+              <div class="profile-color-control"><div><span class="field-label">Цвет рамки</span><div class="profile-color-swatches">${COLORS.map((color) => `<button type="button" class="profile-color-swatch ${safeColor.toLowerCase() === color.toLowerCase() ? 'selected' : ''}" data-profile-color="${color}" style="--swatch-color:${color}" aria-label="Цвет ${color}" title="${color}"></button>`).join('')}</div></div>
+                <label class="custom-color-label">Свой цвет<input type="color" id="inp-profile-color" value="${safeColor}" aria-label="Выбрать свой цвет рамки"></label></div>
+              <button class="btn btn-gold btn-lg" id="btn-profile-done">Готово</button>
+            </div>
+            <aside class="profile-preview-pane"><span class="field-label">ПРЕДПРОСМОТР · ТАК ВАС УВИДЯТ</span>${profilePreview}<div class="profile-preview-caption">Рамка игрока и карточка счёта будут выделены выбранным цветом.</div></aside>
+          </div>
+        </section>
+      `;
+    } else if (view === 'player') {
+      content = `
+        <section class="home-flow-panel glass-panel">
+          <button class="btn btn-ghost btn-sm home-back-button" data-home-view="role">← Выбор роли</button>
+          <div class="panel-tag">🎯 ПОДКЛЮЧЕНИЕ К ИГРЕ</div><h2>Войти как игрок</h2>
+          <p class="panel-desc">Откройте приглашение от хоста или введите код комнаты.</p>
+          <div class="player-entry-layout"><div class="player-entry-form form-stack">
+            <label><span>Код комнаты</span><input type="text" maxlength="8" class="code-input" id="inp-join-code" data-keep-focus="joinCode" placeholder="K7M4P" value="${escapeHtml(this.drafts.joinCode)}"></label>
+            <label class="checkbox-row"><input type="checkbox" id="chk-spectator" ${this.isSpectator ? 'checked' : ''}><span>Зайти просто посмотреть (зритель)</span></label>
+            <button class="btn btn-primary btn-lg full-w" id="btn-join-room">🚀 Влететь в комнату</button>
+          </div><div class="player-profile-summary">${profilePreview}<button class="btn btn-secondary full-w" id="btn-player-profile">✏️ Изменить профиль</button><p class="muted-sm">${this.profile.name.trim() ? 'Профиль готов к игре.' : 'Сначала укажите никнейм в настройках.'}</p></div></div>
+        </section>
+      `;
+    } else {
+      content = `
+        <section class="home-flow-panel glass-panel host-setup-panel">
+          <button class="btn btn-ghost btn-sm home-back-button" data-home-view="role">← Выбор роли</button>
+          <div class="panel-tag">🎙️ СОЗДАНИЕ КОМНАТЫ</div><h2>Я — ведущий</h2>
+          <p class="panel-desc">Выбери набор вопросов. После создания комнаты появится ссылка для друзей.</p>
+          <div class="packs-section-head"><span class="field-label">Пакеты вопросов (${this.repoPacks.length})</span><button class="btn-link" id="btn-upload-custom-json">📂 Загрузить свой .json</button></div>
+          ${this.customUploadedPack ? `<div class="custom-pack-active-card"><div><strong>📦 ${escapeHtml(this.customUploadedPack.title)}</strong><div class="muted-sm">Автор: ${escapeHtml(this.customUploadedPack.author || 'Свой файл')} · Раундов: ${this.customUploadedPack.rounds?.length || 0}</div></div><button class="btn-tiny" id="btn-clear-custom-pack">Сбросить</button></div>` : ''}
+          <div class="pack-cards-list">${this.repoPacks.map((pk) => {
+            const isSel = !this.customUploadedPack && this.selectedPackMeta?.id === pk.id;
+            return `<button type="button" class="pack-card ${isSel ? 'selected' : ''}" data-select-pack="${escapeHtml(pk.id)}"><span class="pack-card-top"><strong>${escapeHtml(pk.title)}</strong><span class="pack-badge">${escapeHtml(pk.duration || '30 мин')}</span></span><span class="pack-desc">${escapeHtml(pk.description || '')}</span><span class="pack-meta-row"><span>📊 ${escapeHtml(pk.difficulty || 'Лёгкая')}</span><span>❓ Вопросов: ${pk.questionsCount || '—'}</span></span></button>`;
+          }).join('')}</div>
+          <div class="host-profile-row">${profilePreview}<button class="btn btn-secondary" id="btn-host-profile">✏️ Профиль игрока</button></div>
+          <button class="btn btn-gold btn-lg full-w" id="btn-create-room">✨ Создать комнату и получить ссылку</button>
+        </section>
+      `;
+    }
+
+    return `<div class="home-page home-view-${view}">${topbar}<main class="home-content">${content}</main></div>`;
   }
 
   _bindHomeEvents() {
@@ -1172,65 +1175,85 @@ class SvoyaIgraApp {
       if (muted) this.qAudio.pause();
       this.render();
     });
-
-    document.getElementById('btn-open-builder')?.addEventListener('click', () => {
-      this.packBuilder.open();
+    document.getElementById('btn-open-profile')?.addEventListener('click', () => {
+      this.homeReturnView = this.homeView || 'menu';
+      this.homeView = 'settings'; this.render();
     });
-
-    const codeInp = document.getElementById('inp-join-code');
-    codeInp?.addEventListener('input', () => {
-      this.drafts.joinCode = codeInp.value.toUpperCase();
+    document.getElementById('btn-menu-profile')?.addEventListener('click', () => {
+      this.homeReturnView = 'menu'; this.homeView = 'settings'; this.render();
     });
-
-    const nameInp = document.getElementById('inp-player-name');
-    nameInp?.addEventListener('input', () => {
-      this.profile.name = nameInp.value;
+    document.getElementById('btn-player-profile')?.addEventListener('click', () => {
+      this.homeReturnView = 'player'; this.homeView = 'settings'; this.render();
     });
-
-    document.querySelectorAll('[data-pick-avatar]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        this.profile.avatar = btn.dataset.pickAvatar;
+    document.getElementById('btn-host-profile')?.addEventListener('click', () => {
+      this.homeReturnView = 'host'; this.homeView = 'settings'; this.render();
+    });
+    document.getElementById('btn-profile-back')?.addEventListener('click', () => {
+      this.homeView = this.homeReturnView || 'menu'; this.render();
+    });
+    document.getElementById('btn-profile-done')?.addEventListener('click', () => {
+      this.homeView = this.homeReturnView || 'menu'; this.render();
+    });
+    document.getElementById('btn-menu-play')?.addEventListener('click', () => {
+      this.homeView = 'role'; this.render();
+    });
+    document.querySelectorAll('[data-home-view]').forEach((button) => {
+      button.addEventListener('click', () => {
+        this.homeView = button.dataset.homeView;
         this.render();
       });
     });
+    document.getElementById('btn-open-builder')?.addEventListener('click', () => this.packBuilder.open());
 
-    document.getElementById('chk-spectator')?.addEventListener('change', (e) => {
-      this.isSpectator = e.target.checked;
+    const codeInp = document.getElementById('inp-join-code');
+    codeInp?.addEventListener('input', () => { this.drafts.joinCode = codeInp.value.toUpperCase(); });
+    codeInp?.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') this._joinRoomAsPlayer(this.drafts.joinCode);
     });
+    document.getElementById('chk-spectator')?.addEventListener('change', (event) => { this.isSpectator = event.target.checked; });
+    document.getElementById('btn-join-room')?.addEventListener('click', () => this._joinRoomAsPlayer(this.drafts.joinCode));
 
-    document.getElementById('btn-join-room')?.addEventListener('click', () => {
-      this._joinRoomAsPlayer(this.drafts.joinCode);
+    const profileName = document.getElementById('inp-profile-name');
+    profileName?.addEventListener('input', () => {
+      this.profile.name = profileName.value;
+      localStorage.setItem('si_player_name', this.profile.name);
+      document.querySelectorAll('#profile-preview-name').forEach((node) => {
+        node.textContent = this.profile.name.trim() || 'Ваш никнейм';
+      });
     });
-
-    codeInp?.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') this._joinRoomAsPlayer(this.drafts.joinCode);
+    document.querySelectorAll('[data-pick-avatar]').forEach((button) => {
+      button.addEventListener('click', () => {
+        this.profile.avatar = button.dataset.pickAvatar;
+        localStorage.setItem('si_player_avatar', this.profile.avatar);
+        this.render();
+      });
     });
-    nameInp?.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') this._joinRoomAsPlayer(this.drafts.joinCode);
-    });
+    const applyProfileColor = (color) => {
+      if (!/^#[0-9a-f]{6}$/i.test(color || '')) return;
+      this.profile.color = color;
+      localStorage.setItem('si_player_color', color);
+      document.querySelectorAll('.profile-preview-frame').forEach((node) => node.style.setProperty('--profile-accent', color));
+      const picker = document.getElementById('inp-profile-color');
+      if (picker) picker.value = color;
+      document.querySelectorAll('[data-profile-color]').forEach((node) => node.classList.toggle('selected', node.dataset.profileColor.toLowerCase() === color.toLowerCase()));
+    };
+    document.getElementById('inp-profile-color')?.addEventListener('input', (event) => applyProfileColor(event.target.value));
+    document.querySelectorAll('[data-profile-color]').forEach((button) => button.addEventListener('click', () => applyProfileColor(button.dataset.profileColor)));
 
     document.querySelectorAll('[data-select-pack]').forEach((card) => {
       card.addEventListener('click', () => {
-        const id = card.dataset.selectPack;
-        this.selectedPackMeta = this.repoPacks.find((p) => p.id === id) || null;
+        this.selectedPackMeta = this.repoPacks.find((pack) => pack.id === card.dataset.selectPack) || null;
         this.customUploadedPack = null;
         this.render();
       });
     });
-
     document.getElementById('btn-clear-custom-pack')?.addEventListener('click', () => {
       this.customUploadedPack = null;
       this.selectedPackMeta = this.repoPacks[0] || null;
       this.render();
     });
-
-    document.getElementById('btn-upload-custom-json')?.addEventListener('click', () => {
-      this._promptUploadJsonFile();
-    });
-
-    document.getElementById('btn-create-room')?.addEventListener('click', () => {
-      this._createHostRoom();
-    });
+    document.getElementById('btn-upload-custom-json')?.addEventListener('click', () => this._promptUploadJsonFile());
+    document.getElementById('btn-create-room')?.addEventListener('click', () => this._createHostRoom());
   }
 
   _promptUploadJsonFile() {

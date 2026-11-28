@@ -3320,3 +3320,121 @@ input:focus, select:focus, textarea:focus {
 @media (prefers-reduced-motion: reduce) {
   .target-last-shot, .target-impact { animation: none !important; }
 }
+
+/* Главное меню и редактор профиля */
+.home-page { max-width: 1160px; }
+.home-content { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.game-menu-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, .8fr);
+  gap: clamp(22px, 5vw, 64px);
+  align-items: center;
+  min-height: 460px;
+  overflow: hidden;
+  isolation: isolate;
+  padding: clamp(28px, 5vw, 64px);
+  background: radial-gradient(circle at 8% 0%, rgba(92,145,210,.2), transparent 38%), linear-gradient(135deg, rgba(17,31,53,.98), rgba(7,14,27,.98));
+  border-color: rgba(92,145,210,.34);
+}
+.game-menu-copy, .game-menu-side { position: relative; z-index: 1; }
+.game-menu-copy h2 { margin: 14px 0; font-size: clamp(2.2rem, 6vw, 4.4rem); line-height: .98; letter-spacing: -.045em; }
+.game-menu-copy h2 span { color: var(--gold); }
+.game-menu-copy .panel-desc { max-width: 520px; font-size: 1.03rem; }
+.menu-play-button { min-width: 220px; margin: 12px 14px 0 0; box-shadow: 0 12px 32px rgba(92,145,210,.24); }
+.menu-builder-link { margin-top: 12px; }
+.invite-banner { display: inline-flex; gap: 8px; margin: 0 0 8px; padding: 9px 13px; border: 1px solid rgba(92,145,210,.42); border-radius: 12px; color: #dceafe; background: rgba(92,145,210,.1); }
+.game-menu-side { display: flex; flex-direction: column; gap: 13px; max-width: 380px; width: 100%; justify-self: end; }
+.profile-preview-frame {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  min-height: 112px;
+  padding: 18px;
+  border: 2px solid var(--profile-accent, #f5c451);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(25,39,63,.98), rgba(10,18,32,.98));
+  box-shadow: 0 0 26px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.025);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.profile-preview-avatar { flex: 0 0 auto; display: grid; width: 72px; height: 72px; place-items: center; border: 3px solid var(--profile-accent, #f5c451); border-radius: 50%; box-shadow: 0 0 16px rgba(0,0,0,.35); }
+.profile-preview-image { width: 62px; height: 62px; border-radius: 50%; object-fit: cover; }
+.profile-preview-copy { display: flex; min-width: 0; flex-direction: column; gap: 5px; }
+.profile-preview-kicker { color: #9db4d5; font: 800 .63rem 'JetBrains Mono', monospace; letter-spacing: .1em; }
+.profile-preview-copy strong { overflow: hidden; color: #f7f9ff; font-size: 1.15rem; text-overflow: ellipsis; white-space: nowrap; }
+.profile-preview-score { color: var(--profile-accent, #f5c451); font: 700 .82rem 'JetBrains Mono', monospace; }
+.menu-feature-list { display: grid; gap: 8px; padding: 10px 4px; color: #b7c8df; font-size: .88rem; }
+.hero-orbit { position: absolute; z-index: 0; display: grid; width: 58px; height: 58px; place-items: center; border: 1px solid rgba(92,145,210,.3); border-radius: 50%; background: rgba(15,30,52,.75); box-shadow: 0 10px 30px rgba(0,0,0,.24); font-size: 1.8rem; }
+.orbit-one { top: 9%; right: 41%; transform: rotate(-12deg); }
+.orbit-two { bottom: 9%; left: 43%; transform: rotate(9deg); }
+.orbit-three { top: 18%; right: 6%; font-size: 1.4rem; }
+.home-footer { padding: 8px 2px; }
+.home-flow-panel { width: min(980px, 100%); margin: 0 auto; }
+.home-back-button { margin-bottom: 15px; }
+.role-choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; margin-top: 24px; }
+.role-choice-card {
+  display: flex; min-height: 230px; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 10px;
+  padding: 24px; border: 1px solid rgba(92,145,210,.28); border-radius: 18px; color: #eaf1fb; text-align: left;
+  background: linear-gradient(145deg, rgba(23,39,64,.96), rgba(10,18,32,.98)); cursor: pointer;
+  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+}
+.role-choice-card:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 14px 34px rgba(0,0,0,.25); }
+.role-choice-icon { font-size: 2.2rem; }
+.role-choice-card strong { font-size: 1.35rem; }
+.role-choice-card span:not(.role-choice-icon) { color: #aebfd8; line-height: 1.45; }
+.role-choice-card b { margin-top: auto; color: var(--gold); }
+.profile-editor-layout { display: grid; grid-template-columns: minmax(0,1.15fr) minmax(260px,.85fr); gap: 28px; align-items: start; margin-top: 22px; }
+.profile-editor-controls { display: flex; flex-direction: column; gap: 20px; }
+.profile-name-field > span { display: block; margin-bottom: 7px; color: #e5edf9; font-size: .88rem; font-weight: 700; }
+.profile-avatar-picker { grid-template-columns: repeat(6, minmax(42px,1fr)); max-width: 520px; }
+.profile-avatar-picker .avatar-btn { min-height: 58px; }
+.profile-avatar-picker .avatar-picker-image { width: 42px; height: 42px; }
+.profile-color-control { display: flex; align-items: end; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.profile-color-swatches { display: flex; flex-wrap: wrap; gap: 9px; }
+.profile-color-swatch { width: 30px; height: 30px; padding: 0; border: 2px solid rgba(255,255,255,.25); border-radius: 50%; background: var(--swatch-color); cursor: pointer; box-shadow: inset 0 0 0 2px rgba(0,0,0,.22); }
+.profile-color-swatch.selected { outline: 2px solid #fff; outline-offset: 2px; transform: scale(1.06); }
+.custom-color-label { display: flex; align-items: center; gap: 9px; color: #cbd8eb; font-size: .8rem; font-weight: 700; }
+.custom-color-label input[type="color"] { width: 44px; height: 38px; padding: 3px; border: 1px solid rgba(92,145,210,.4); border-radius: 10px; background: #101a2c; cursor: pointer; }
+.profile-preview-pane { position: sticky; top: 18px; display: flex; flex-direction: column; gap: 12px; padding: 18px; border: 1px solid rgba(92,145,210,.2); border-radius: 16px; background: rgba(4,10,20,.36); }
+.profile-preview-caption { color: #8fa6c5; font-size: .82rem; line-height: 1.45; }
+.player-entry-layout { display: grid; grid-template-columns: minmax(0,1fr) minmax(260px,.8fr); gap: 28px; align-items: center; margin-top: 22px; }
+.player-entry-form { max-width: 480px; }
+.player-profile-summary { display: flex; flex-direction: column; gap: 12px; }
+.player-profile-summary .muted-sm { margin: 0; }
+.host-profile-row { display: flex; align-items: center; gap: 12px; margin: 4px 0 18px; }
+.host-profile-row .profile-preview-frame { max-width: 390px; }
+.pack-card { display: block; width: 100%; color: #edf4ff; font: inherit; text-align: left; }
+.pack-card-top, .pack-meta-row { display: flex; justify-content: space-between; gap: 10px; }
+.pack-meta-row { color: #9fb3ce; font-size: .82rem; }
+.pack-card .pack-desc { display: block; }
+
+/* Цветная рамка участника по его профилю остаётся видимой даже в активной фазе */
+.player-podium { border: 2px solid var(--p-color, #83b5f1); border-left-width: 5px; }
+.player-podium.choosing, .player-podium.answering, .player-podium.zeroed-flash { border-color: var(--p-color, #83b5f1); }
+.player-podium.choosing { box-shadow: 0 0 0 2px rgba(245,196,81,.62), 0 0 20px rgba(92,145,210,.26); }
+.player-podium.answering { box-shadow: 0 0 0 2px rgba(34,197,94,.76), 0 0 26px rgba(34,197,94,.38); }
+.player-podium.zeroed-flash { box-shadow: 0 0 0 2px rgba(244,63,94,.76), 0 0 24px rgba(244,63,94,.38); }
+
+@media (max-width: 760px) {
+  .home-page { padding: 15px 12px 24px; gap: 16px; }
+  .game-menu-hero { grid-template-columns: 1fr; min-height: unset; padding: 26px 20px; }
+  .game-menu-side { justify-self: stretch; max-width: none; }
+  .hero-orbit { opacity: .35; }
+  .orbit-one { right: 8%; top: 4%; }
+  .orbit-two { display: none; }
+  .orbit-three { right: 28%; top: 5%; }
+  .role-choice-grid, .profile-editor-layout, .player-entry-layout { grid-template-columns: 1fr; }
+  .role-choice-card { min-height: 185px; }
+  .profile-preview-pane { position: static; }
+  .host-profile-row { align-items: stretch; flex-direction: column; }
+  .host-profile-row .profile-preview-frame { max-width: none; }
+}
+@media (max-width: 430px) {
+  .topbar-actions { width: 100%; justify-content: flex-end; }
+  .profile-avatar-picker { grid-template-columns: repeat(4, minmax(48px,1fr)); }
+  .profile-color-control { align-items: flex-start; flex-direction: column; }
+  .profile-preview-frame { gap: 11px; padding: 13px; }
+  .profile-preview-avatar { width: 60px; height: 60px; }
+  .profile-preview-image { width: 50px; height: 50px; }
+}
