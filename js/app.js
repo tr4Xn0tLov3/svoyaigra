@@ -112,8 +112,10 @@ class SvoyaIgraApp {
     this.categoryShotTracker = null;
     this.categoryExplosions = new Map();
     this.categoryExplosionTimers = new Map();
-    this.categoryExplosionAsset = new Image();
-    this.categoryExplosionAsset.src = './packs/media/vfx/category-explosion.png';
+    // Fetch once, then create a fresh Blob URL for every hit so one-shot APNG playback restarts per target.
+    this.categoryExplosionAssetPromise = fetch(new URL('../packs/media/vfx/category-explosion.png', import.meta.url))
+      .then((response) => response.ok ? response.blob() : null)
+      .catch(() => null);
 
     // Локальное состояние пакостей у жертвы (оттирание грязи и увороты убегающей кнопки)
     this.curseQuestionKey = null;
@@ -1587,9 +1589,9 @@ class SvoyaIgraApp {
                     <span class="target-label">${escapeHtml(theme.name)}</span>
                     <span class="target-state">${hit ? 'ПОПАДАНИЕ' : 'МИШЕНЬ'}</span>
                   </span>
-                  ${exploding ? `
+                  ${exploding && activeExplosion.objectUrl ? `
                     <span class="category-vfx-overlay" aria-hidden="true">
-                      <img src="./packs/media/vfx/category-explosion.png" alt="" class="category-explosion-vfx">
+                      <img src="${activeExplosion.objectUrl}" alt="" class="category-explosion-vfx">
                     </span>
                   ` : ''}
                 </button>
@@ -1618,8 +1620,12 @@ class SvoyaIgraApp {
     const selectedCount = selected.length;
     const previous = this.categoryShotTracker;
 
+    const releaseExplosionAsset = (explosion) => {
+      if (explosion?.objectUrl?.startsWith('blob:')) URL.revokeObjectURL(explosion.objectUrl);
+    };
     const clearExplosions = () => {
       for (const timer of this.categoryExplosionTimers.values()) clearTimeout(timer);
+      for (const explosion of this.categoryExplosions.values()) releaseExplosionAsset(explosion);
       this.categoryExplosionTimers.clear();
       this.categoryExplosions.clear();
     };
@@ -1638,12 +1644,23 @@ class SvoyaIgraApp {
     if (newHit) {
       const themeIndex = selection.lastShotThemeIndex;
       clearTimeout(this.categoryExplosionTimers.get(themeIndex));
-      const explosion = { roundIndex, shotSeq, themeIndex };
+      const priorExplosion = this.categoryExplosions.get(themeIndex);
+      releaseExplosionAsset(priorExplosion);
+      const explosion = { roundIndex, shotSeq, themeIndex, objectUrl: null };
       this.categoryExplosions.set(themeIndex, explosion);
+      this.categoryExplosionAssetPromise.then((assetBlob) => {
+        if (this.categoryExplosions.get(themeIndex) !== explosion) return;
+        // A unique Blob URL forces browsers to restart this one-shot APNG on every hit.
+        explosion.objectUrl = assetBlob && typeof URL.createObjectURL === 'function'
+          ? URL.createObjectURL(assetBlob)
+          : `./packs/media/vfx/category-explosion.png?shot=${roundIndex}-${shotSeq}`;
+        this.render();
+      });
       const timer = setTimeout(() => {
         if (this.categoryExplosions.get(themeIndex) !== explosion) return;
         this.categoryExplosions.delete(themeIndex);
         this.categoryExplosionTimers.delete(themeIndex);
+        releaseExplosionAsset(explosion);
         this.render();
       }, 980);
       this.categoryExplosionTimers.set(themeIndex, timer);
@@ -1654,6 +1671,7 @@ class SvoyaIgraApp {
           clearTimeout(this.categoryExplosionTimers.get(themeIndex));
           this.categoryExplosionTimers.delete(themeIndex);
           this.categoryExplosions.delete(themeIndex);
+          releaseExplosionAsset(explosion);
         }
       }
     }
