@@ -15,6 +15,15 @@ export const AVATARS = [
   './packs/media/avatars/animal-shark.jpg'
 ];
 export const COLORS = ['#f5c451', '#ef4444', '#22c55e', '#ea580c', '#ec4899', '#a855f7', '#eab308', '#84cc16'];
+export const FRAME_STYLES = [
+  { id: 'classic', label: 'Классика', icon: '◉' },
+  { id: 'banknote', label: 'Купюры', icon: '₽' },
+  { id: 'neon', label: 'Неон', icon: 'ϟ' },
+  { id: 'gold', label: 'Золото', icon: '✦' },
+  { id: 'fire', label: 'Огонь', icon: '🔥' },
+  { id: 'ice', label: 'Лёд', icon: '❄' },
+  { id: 'galaxy', label: 'Космос', icon: '✧' }
+];
 
 // Базовый шаг цены вопроса по уровням (Уровень 1 = от 100, Уровень 2 = от 500, Уровень 3 = от 1000)
 export function getComebackBaseUnit(roundIndex) {
@@ -327,7 +336,7 @@ export class GameEngine {
 
   // --- Управление игроками ---
 
-  handlePlayerJoin(playerId, { name, avatar, color, isSpectator }) {
+  handlePlayerJoin(playerId, { name, avatar, color, frame, isSpectator }) {
     if (isSpectator) {
       this._emit();
       return;
@@ -340,6 +349,7 @@ export class GameEngine {
         existing.name = cleanName;
         if (avatar) existing.avatar = avatar;
         if (color) existing.color = color;
+        if (FRAME_STYLES.some((style) => style.id === frame)) existing.frame = frame;
       }
     } else {
       const idx = this.state.players.length;
@@ -348,6 +358,7 @@ export class GameEngine {
         name: cleanName,
         avatar: avatar || AVATARS[idx % AVATARS.length],
         color: color || COLORS[idx % COLORS.length],
+        frame: FRAME_STYLES.some((style) => style.id === frame) ? frame : 'classic',
         score: 0,
         online: true,
         hints: this._makeInitialHints(),

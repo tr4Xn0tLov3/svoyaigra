@@ -2,7 +2,7 @@
 
 import { sound } from './audio.js';
 import { HostNetwork, PlayerNetwork, generateRoomCode, generateHostToken } from './network.js';
-import { GameEngine, AVATARS, COLORS, MODIFIER_CATALOG } from './state.js';
+import { GameEngine, AVATARS, COLORS, FRAME_STYLES, MODIFIER_CATALOG } from './state.js';
 import { PackBuilderModal } from './editor.js';
 
 function escapeHtml(str) {
@@ -45,6 +45,10 @@ function formatScore(num) {
   return n.toLocaleString('ru-RU');
 }
 
+function safeFrameId(frameId) {
+  return FRAME_STYLES.some((frame) => frame.id === frameId) ? frameId : 'classic';
+}
+
 function getTabPlayerId() {
   let id = sessionStorage.getItem('si_tab_player_id');
   if (!id) {
@@ -63,10 +67,12 @@ class SvoyaIgraApp {
 
     const savedAvatar = localStorage.getItem('si_player_avatar');
     const savedColor = localStorage.getItem('si_player_color');
+    const savedFrame = localStorage.getItem('si_player_frame');
     this.profile = {
       name: localStorage.getItem('si_player_name') || '',
       avatar: AVATARS.includes(savedAvatar) ? savedAvatar : AVATARS[Math.floor(Math.random() * AVATARS.length)],
-      color: /^#[0-9a-f]{6}$/i.test(savedColor || '') ? savedColor : COLORS[Math.floor(Math.random() * COLORS.length)]
+      color: /^#[0-9a-f]{6}$/i.test(savedColor || '') ? savedColor : COLORS[Math.floor(Math.random() * COLORS.length)],
+      frame: safeFrameId(savedFrame)
     };
     this.homeView = 'menu';
     this.homeReturnView = 'menu';
@@ -189,6 +195,7 @@ class SvoyaIgraApp {
           this.profile.name = parsed.name || this.profile.name;
           this.profile.avatar = AVATARS.includes(parsed.avatar) ? parsed.avatar : this.profile.avatar;
           this.profile.color = parsed.color || this.profile.color;
+          this.profile.frame = safeFrameId(parsed.frame || this.profile.frame);
           this.isSpectator = Boolean(parsed.isSpectator);
           this._joinRoomAsPlayer(parsed.roomCode);
           this._startSmoothTimerLoop();
@@ -635,6 +642,7 @@ class SvoyaIgraApp {
           name: msg.name,
           avatar: msg.avatar,
           color: msg.color,
+          frame: msg.frame,
           isSpectator: msg.isSpectator
         });
         break;
@@ -696,12 +704,14 @@ class SvoyaIgraApp {
     localStorage.setItem('si_player_name', this.profile.name.trim());
     localStorage.setItem('si_player_avatar', this.profile.avatar);
     localStorage.setItem('si_player_color', this.profile.color);
+    localStorage.setItem('si_player_frame', safeFrameId(this.profile.frame));
 
     sessionStorage.setItem('si_active_player_session', JSON.stringify({
       roomCode: code,
       name: this.profile.name.trim(),
       avatar: this.profile.avatar,
       color: this.profile.color,
+      frame: safeFrameId(this.profile.frame),
       isSpectator: this.isSpectator
     }));
 
@@ -723,6 +733,7 @@ class SvoyaIgraApp {
       name: this.profile.name.trim() || 'Зритель',
       avatar: this.profile.avatar,
       color: this.profile.color,
+      frame: safeFrameId(this.profile.frame),
       isSpectator: this.isSpectator
     });
 
@@ -1078,8 +1089,9 @@ class SvoyaIgraApp {
     const view = this.homeView || 'menu';
     const safeColor = /^#[0-9a-f]{6}$/i.test(this.profile.color || '') ? this.profile.color : '#f5c451';
     const selectedAvatar = this.profile.avatar;
+    const selectedFrame = safeFrameId(this.profile.frame);
     const profilePreview = `
-      <div class="profile-preview-frame profile-preview-3d-frame" style="--profile-accent:${safeColor}">
+      <div class="profile-preview-frame profile-preview-3d-frame frame-style-${selectedFrame}" data-frame-style="${selectedFrame}" style="--profile-accent:${safeColor}">
         <div class="profile-preview-stage-shell" data-avatar-stages-container>
           <div class="podium-avatar-stage profile-avatar-stage" data-avatar-stage data-player-id="profile-preview"
             data-avatar="${escapeHtml(selectedAvatar)}" data-color="${safeColor}" data-score="0" data-answering="false" data-rotatable="true">
@@ -1151,11 +1163,12 @@ class SvoyaIgraApp {
               <div><span class="field-label">Аватар</span><div class="avatar-picker profile-avatar-picker">
                 ${AVATARS.map((av) => `<button type="button" class="avatar-btn ${selectedAvatar === av ? 'selected' : ''}" data-pick-avatar="${escapeHtml(av)}" aria-label="${AVATAR_META[av]?.name || 'Аватар'}" title="${AVATAR_META[av]?.name || 'Аватар'}">${avatarMarkup(av, 'avatar-picker-image')}</button>`).join('')}
               </div></div>
+              <div class="profile-frame-style-control"><span class="field-label">Стиль рамки</span><div class="profile-frame-style-options">${FRAME_STYLES.map((frame) => `<button type="button" class="profile-frame-style-option ${selectedFrame === frame.id ? 'selected' : ''}" data-profile-frame="${frame.id}" aria-pressed="${selectedFrame === frame.id}"><span aria-hidden="true">${frame.icon}</span><strong>${frame.label}</strong></button>`).join('')}</div></div>
               <div class="profile-color-control"><div><span class="field-label">Цвет рамки</span><div class="profile-color-swatches">${COLORS.map((color) => `<button type="button" class="profile-color-swatch ${safeColor.toLowerCase() === color.toLowerCase() ? 'selected' : ''}" data-profile-color="${color}" style="--swatch-color:${color}" aria-label="Цвет ${color}" title="${color}"></button>`).join('')}</div></div>
                 <label class="custom-color-label">Свой цвет<input type="color" id="inp-profile-color" value="${safeColor}" aria-label="Выбрать свой цвет рамки"></label></div>
               <button class="btn btn-gold btn-lg" id="btn-profile-done">Готово</button>
             </div>
-            <aside class="profile-preview-pane"><span class="field-label">ПРЕДПРОСМОТР · ТАК ВАС УВИДЯТ</span>${profilePreview}<div class="profile-preview-caption">Потяни фигурку, чтобы осмотреть её со всех сторон. Цвет рамки обновляется сразу.</div></aside>
+            <aside class="profile-preview-pane"><span class="field-label">ПРЕДПРОСМОТР · ТАК ВАС УВИДЯТ</span>${profilePreview}<div class="profile-preview-caption">Потяни фигурку, чтобы осмотреть её со всех сторон. Стиль и цвет рамки обновляются сразу.</div></aside>
           </div>
         </section>
       `;
@@ -1246,6 +1259,21 @@ class SvoyaIgraApp {
         this.render();
       });
     });
+    document.querySelectorAll('[data-profile-frame]').forEach((button) => button.addEventListener('click', () => {
+      const frame = safeFrameId(button.dataset.profileFrame);
+      this.profile.frame = frame;
+      localStorage.setItem('si_player_frame', frame);
+      document.querySelectorAll('.profile-preview-frame').forEach((node) => {
+        FRAME_STYLES.forEach((style) => node.classList.remove(`frame-style-${style.id}`));
+        node.classList.add(`frame-style-${frame}`);
+        node.dataset.frameStyle = frame;
+      });
+      document.querySelectorAll('[data-profile-frame]').forEach((node) => {
+        const selected = node.dataset.profileFrame === frame;
+        node.classList.toggle('selected', selected);
+        node.setAttribute('aria-pressed', String(selected));
+      });
+    }));
     const applyProfileColor = (color) => {
       if (!/^#[0-9a-f]{6}$/i.test(color || '')) return;
       this.profile.color = color;
@@ -2756,8 +2784,9 @@ class SvoyaIgraApp {
           const totalHintsLeft = p.hints ? ((p.hints.clue || 0) + (p.hints.letters || 0) + (p.hints.shield || 0)) : 0;
           const hasShieldOnQ = Boolean(v.questionView?.hints?.shieldUsedBy?.includes(p.id) && rt?.substate !== 'revealed');
           const playerColor = /^#[0-9a-f]{6}$/i.test(p.color || '') ? p.color : '#f5c451';
+          const playerFrame = safeFrameId(p.frame);
           return `
-            <div class="player-podium ${isAnswering ? 'answering' : ''} ${isChooser ? 'choosing' : ''} ${wasJustZeroed || activeCurseOnPlayer ? 'zeroed-flash' : ''} ${isMe ? 'me' : ''} ${!p.online ? 'offline' : ''}"
+            <div class="player-podium frame-style-${playerFrame} ${isAnswering ? 'answering' : ''} ${isChooser ? 'choosing' : ''} ${wasJustZeroed || activeCurseOnPlayer ? 'zeroed-flash' : ''} ${isMe ? 'me' : ''} ${!p.online ? 'offline' : ''}"
               style="--p-color: ${playerColor}">
               <div class="podium-avatar-stage" data-avatar-stage data-player-id="${escapeHtml(p.id)}"
                 data-avatar="${escapeHtml(p.avatar || '')}" data-color="${playerColor}" data-score="${Number(p.score) || 0}"
