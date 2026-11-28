@@ -3075,7 +3075,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 
-/* Выбор пяти категорий: рулетка-мишень с визуальным попаданием */
+/* Выбор 6 тем из набора: рулетка-мишень с визуальным попаданием */
 .category-select-screen {
   width: min(1120px, 100%);
   margin: 0 auto;
@@ -3128,6 +3128,11 @@ input:focus, select:focus, textarea:focus {
     repeating-conic-gradient(from -7deg, rgba(92, 145, 210, 0.12) 0deg 1deg, transparent 1deg 22.5deg),
     radial-gradient(circle, #101d33 0 50%, #0a1426 72%, #08101e 100%);
   box-shadow: inset 0 0 0 10px rgba(92, 145, 210, 0.035), inset 0 0 34px rgba(92, 145, 210, 0.12), 0 0 40px rgba(0, 0, 0, 0.24);
+}
+.category-wheel-shell.category-wheel-many {
+  background: radial-gradient(circle at center, rgba(92, 145, 210, 0.13) 0 22%, transparent 22.3%),
+    repeating-conic-gradient(from -90deg, rgba(92, 145, 210, 0.12) 0deg 1deg, transparent 1deg 29deg),
+    radial-gradient(circle, #101d33 0 50%, #0a1426 72%, #08101e 100%);
 }
 .category-wheel-shell::before,
 .category-wheel-shell::after {
@@ -3185,6 +3190,14 @@ input:focus, select:focus, textarea:focus {
   box-shadow: 0 7px 20px rgba(0, 0, 0, 0.32);
   transition: border-color 150ms ease, background 150ms ease, box-shadow 150ms ease, transform 150ms ease;
 }
+.category-targets.category-targets-many .category-target {
+  width: clamp(82px, 14vw, 112px);
+  min-height: 72px;
+  padding: 6px 8px;
+}
+.category-targets.category-targets-many .target-art { width: 26px; height: 26px; }
+.category-targets.category-targets-many .target-rings { font-size: 1.8rem; }
+.category-targets.category-targets-many .target-label { font-size: clamp(0.62rem, 1.15vw, 0.76rem); }
 .category-target:not(:disabled):hover { transform: translate(-50%, -50%) scale(1.055); border-color: var(--gold); box-shadow: 0 0 18px rgba(92, 145, 210, 0.32); }
 .category-target:disabled:not(.target-hit) { opacity: 0.62; cursor: default; }
 .category-target.target-hit {
@@ -3294,6 +3307,7 @@ input:focus, select:focus, textarea:focus {
   .category-wheel-hub { position: relative; left: auto; top: auto; margin: 0 auto 14px; width: 86px; }
   .category-targets { position: relative; inset: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
   .category-target { position: relative; inset: auto; left: auto; top: auto; transform: none; width: 100%; min-height: 94px; padding: 7px; }
+  .category-targets.category-targets-many .category-target { width: 100%; min-height: 94px; }
   .category-target.target-exploding { min-height: 112px; }
   .category-vfx-overlay { width: min(180px, 55vw); }
   .category-target:not(:disabled):hover { transform: scale(1.025); }

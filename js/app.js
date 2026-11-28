@@ -1544,7 +1544,7 @@ class SvoyaIgraApp {
           <div>
             <div class="panel-tag">🎯 ПОДГОТОВКА ${escapeHtml(selection.roundName)}</div>
             <h2>Выстрели по ${required} категориям</h2>
-            <p>${turnCaption} ${isHost ? 'Игроки и ведущий стреляют по очереди; промах не меняет порядок.' : ''}</p>
+            <p>${turnCaption} На табло ${selection.themes.length} тем — нужно выбрать ${required}. ${isHost ? 'Игроки и ведущий стреляют по очереди; промах не меняет порядок.' : ''}</p>
             ${isHost ? `
               <div class="category-starter-picker">
                 <label for="sel-category-starter">Первый стрелок:</label>
@@ -1558,14 +1558,14 @@ class SvoyaIgraApp {
           <div class="category-hit-counter"><strong>${count}</strong><span>из ${required}</span></div>
         </header>
 
-        <div class="category-wheel-shell">
+        <div class="category-wheel-shell ${selection.themes.length > 8 ? 'category-wheel-many' : ''}">
           <div class="category-wheel-dial" aria-hidden="true"></div>
           <div class="category-wheel-hub">
             <span class="hub-crosshair">⌖</span>
             <strong>${count}/${required}</strong>
             <small>попаданий</small>
           </div>
-          <div class="category-targets">
+          <div class="category-targets ${selection.themes.length > 8 ? 'category-targets-many' : ''}">
             ${selection.themes.map((theme, index) => {
               const angle = (-90 + (360 * index) / Math.max(1, selection.themes.length)) * Math.PI / 180;
               const left = 50 + Math.cos(angle) * 37;
@@ -1601,7 +1601,7 @@ class SvoyaIgraApp {
         </div>
 
         <footer class="category-select-actions">
-          <div class="category-select-note">${count < required ? `Осталось выбрать: ${required - count}` : 'Пять категорий готовы к игре!'}</div>
+          <div class="category-select-note">${count < required ? `Осталось выбрать: ${required - count}` : 'Шесть тем готовы к игре!'}</div>
           ${isHost ? `
             <div class="category-action-buttons">
               <button type="button" class="btn btn-secondary" id="btn-undo-category-shot" ${canUndo ? '' : 'disabled'}>↶ Отменить выстрел</button>
