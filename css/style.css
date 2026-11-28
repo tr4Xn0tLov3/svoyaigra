@@ -3530,3 +3530,11 @@ input:focus, select:focus, textarea:focus {
 .profile-preview-frame.frame-style-fire,.player-podium.frame-style-fire { border:3px double var(--p-color,var(--profile-accent,#ff642e)); box-shadow:0 0 14px color-mix(in srgb,var(--p-color,var(--profile-accent,#ff642e)) 55%,transparent),0 0 30px rgba(246,81,31,.18),inset 0 0 18px rgba(246,81,31,.1); }
 .profile-preview-frame.frame-style-ice,.player-podium.frame-style-ice { border:3px groove var(--p-color,var(--profile-accent,#8be5ff)); box-shadow:0 0 12px color-mix(in srgb,var(--p-color,var(--profile-accent,#8be5ff)) 48%,transparent),inset 0 0 0 1px rgba(224,250,255,.55),inset 0 0 20px rgba(99,201,255,.1); }
 .profile-preview-frame.frame-style-galaxy,.player-podium.frame-style-galaxy { border:3px double var(--p-color,var(--profile-accent,#b477ff)); box-shadow:0 0 0 1px rgba(199,118,255,.65),0 0 18px color-mix(in srgb,var(--p-color,var(--profile-accent,#b477ff)) 45%,transparent),inset 0 0 18px rgba(99,70,190,.15); }
+
+/* The supplied fire GIF sits only on the upper arc; the 3D portrait stays untouched. */
+.player-podium.leader-fire-active { overflow:visible; }
+.player-podium .leader-flame-top { position:absolute; z-index:1; top:calc(36% - 175px); left:50%; display:block; width:150px; height:175px; object-fit:contain; transform:translateX(-50%); pointer-events:none; filter:drop-shadow(0 0 8px rgba(255,104,22,.45)); }
+@media (max-width:700px) { .player-podium .leader-flame-top { top:calc(36% - 170px); width:146px; height:170px; } }
+@media (prefers-reduced-motion:reduce) {
+  .player-podium .leader-flame-top { content:url('../packs/media/ui/leader-fire-top-still.png'); }
+}

@@ -2770,6 +2770,12 @@ class SvoyaIgraApp {
     }
 
     const rt = v.questionView?.runtime;
+    const standings = v.players.map((player) => ({ id: player.id, score: Number(player.score) || 0 }))
+      .sort((a, b) => b.score - a.score);
+    const leader = standings[0];
+    const runnerUpScore = standings[1]?.score ?? 0;
+    // Fire is a playful badge for a clear lead, not just being one point ahead.
+    const fireLeaderId = leader && leader.score > 0 && leader.score - runnerUpScore >= 1000 ? leader.id : null;
     return `
       <div class="podiums-row">
         ${v.players.map((p) => {
@@ -2786,7 +2792,7 @@ class SvoyaIgraApp {
           const playerColor = /^#[0-9a-f]{6}$/i.test(p.color || '') ? p.color : '#f5c451';
           const playerFrame = safeFrameId(p.frame);
           return `
-            <div class="player-podium frame-style-${playerFrame} ${isAnswering ? 'answering' : ''} ${isChooser ? 'choosing' : ''} ${wasJustZeroed || activeCurseOnPlayer ? 'zeroed-flash' : ''} ${isMe ? 'me' : ''} ${!p.online ? 'offline' : ''}"
+            <div class="player-podium frame-style-${playerFrame} ${fireLeaderId === p.id ? 'leader-fire-active' : ''} ${isAnswering ? 'answering' : ''} ${isChooser ? 'choosing' : ''} ${wasJustZeroed || activeCurseOnPlayer ? 'zeroed-flash' : ''} ${isMe ? 'me' : ''} ${!p.online ? 'offline' : ''}"
               style="--p-color: ${playerColor}">
               <div class="podium-avatar-stage" data-avatar-stage data-player-id="${escapeHtml(p.id)}"
                 data-avatar="${escapeHtml(p.avatar || '')}" data-color="${playerColor}" data-score="${Number(p.score) || 0}"
@@ -2795,6 +2801,7 @@ class SvoyaIgraApp {
                 ${avatarMarkup(p.avatar, 'avatar-3d-fallback')}
                 <span class="online-dot ${p.online ? 'on' : 'off'}" title="${p.online ? 'Онлайн' : 'Оффлайн'}"></span>
               </div>
+              ${fireLeaderId === p.id ? '<img class="leader-flame-top" src="./packs/media/ui/leader-fire-top.gif" alt="" aria-hidden="true" title="Огненная дуга лидера">' : ''}
               <div class="podium-info-overlay">
                 <div class="podium-name">
                   ${isChooser ? `<span class="chooser-crown" title="Выбирает вопрос">👑</span> ` : ''}
