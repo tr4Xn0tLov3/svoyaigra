@@ -1004,6 +1004,7 @@ class SvoyaIgraApp {
     }
 
     this._animateScoreValues();
+    this._syncPlayerAvatarStages();
 
     if (activeDataKey) {
       const restored = this.root.querySelector(`[data-keep-focus="${activeDataKey}"]`);
@@ -1014,6 +1015,28 @@ class SvoyaIgraApp {
         }
       }
     }
+  }
+
+  _syncPlayerAvatarStages() {
+    const row = this.root.querySelector('.podiums-row');
+    if (!row) {
+      this.avatarStageManager?.sync(null);
+      return;
+    }
+    if (!this.avatarStageManagerPromise) {
+      this.avatarStageManagerPromise = import('./avatars3d.js')
+        .then(({ AvatarStageManager }) => {
+          this.avatarStageManager = new AvatarStageManager();
+          return this.avatarStageManager;
+        })
+        .catch((error) => {
+          console.warn('Не удалось загрузить 3D-сцену аватаров:', error);
+          return null;
+        });
+    }
+    this.avatarStageManagerPromise.then((manager) => {
+      if (manager) manager.sync(this.root.querySelector('.podiums-row'));
+    });
   }
 
   _animateScoreValues() {
@@ -1069,12 +1092,11 @@ class SvoyaIgraApp {
     const topbar = `
       <header class="home-topbar">
         <div class="brand-logo">
-          <span class="logo-diamond">◆</span>
           <div><h1>Broken Brain <span class="brand-brain" role="img" aria-label="мозг">🧠</span></h1>
             <p class="subtitle">Викторина, где здравый смысл — необязательный участник</p></div>
         </div>
         <div class="topbar-actions">
-          <button class="btn btn-ghost btn-sm" id="btn-open-profile">⚙️ Профиль</button>
+          <button class="btn btn-ghost btn-sm" id="btn-open-profile">⚙️ Настройки</button>
           <button class="btn-icon" id="btn-mute-home" title="Звук">${sound.muted ? '🔇' : '🔊'}</button>
         </div>
       </header>
@@ -1093,8 +1115,10 @@ class SvoyaIgraApp {
             <button class="btn btn-ghost menu-builder-link" id="btn-open-builder">🛠️ Собрать свой пак вопросов</button>
           </div>
           <div class="game-menu-side">
-            ${profilePreview}
-            <button class="btn btn-secondary full-w" id="btn-menu-profile">✏️ Настроить профиль</button>
+            <div class="game-menu-art" aria-hidden="true">
+              <img src="./packs/media/images/absurd/job-capybara-hr.jpg" alt="">
+              <div class="game-menu-art-badge">КОМАНДА ХАОСА <span>★ 12 тем · 6 выстрелов</span></div>
+            </div>
             <div class="menu-feature-list">
               <span>🎯 12 тем — 6 выстрелов</span><span>🧠 Абсурд приветствуется</span><span>📱 Друзья играют со своих устройств</span>
             </div>
@@ -1178,9 +1202,6 @@ class SvoyaIgraApp {
     document.getElementById('btn-open-profile')?.addEventListener('click', () => {
       this.homeReturnView = this.homeView || 'menu';
       this.homeView = 'settings'; this.render();
-    });
-    document.getElementById('btn-menu-profile')?.addEventListener('click', () => {
-      this.homeReturnView = 'menu'; this.homeView = 'settings'; this.render();
     });
     document.getElementById('btn-player-profile')?.addEventListener('click', () => {
       this.homeReturnView = 'player'; this.homeView = 'settings'; this.render();
@@ -2735,25 +2756,32 @@ class SvoyaIgraApp {
           const showHintsCount = v.settings?.hintsMode === 'standard' || v.settings?.hintsMode === 'generous';
           const totalHintsLeft = p.hints ? ((p.hints.clue || 0) + (p.hints.letters || 0) + (p.hints.shield || 0)) : 0;
           const hasShieldOnQ = Boolean(v.questionView?.hints?.shieldUsedBy?.includes(p.id) && rt?.substate !== 'revealed');
+          const playerColor = /^#[0-9a-f]{6}$/i.test(p.color || '') ? p.color : '#f5c451';
           return `
             <div class="player-podium ${isAnswering ? 'answering' : ''} ${isChooser ? 'choosing' : ''} ${wasJustZeroed || activeCurseOnPlayer ? 'zeroed-flash' : ''} ${isMe ? 'me' : ''} ${!p.online ? 'offline' : ''}"
-              style="--p-color: ${escapeHtml(p.color || '#f5c451')}">
-              <div class="podium-left-avatar">
-                <span class="podium-avatar">${avatarMarkup(p.avatar, 'podium-avatar-image')}</span>
+              style="--p-color: ${playerColor}">
+              <div class="podium-avatar-stage" data-avatar-stage data-player-id="${escapeHtml(p.id)}"
+                data-avatar="${escapeHtml(p.avatar || '')}" data-color="${playerColor}" data-score="${Number(p.score) || 0}"
+                data-answering="${isAnswering ? 'true' : 'false'}">
+                <div class="podium-stage-glow" aria-hidden="true"></div>
+                ${avatarMarkup(p.avatar, 'avatar-3d-fallback')}
                 <span class="online-dot ${p.online ? 'on' : 'off'}" title="${p.online ? 'Онлайн' : 'Оффлайн'}"></span>
               </div>
-              <div class="podium-mid-info">
+              <div class="podium-info-overlay">
                 <div class="podium-name">
                   ${isChooser ? `<span class="chooser-crown" title="Выбирает вопрос">👑</span> ` : ''}
                   ${escapeHtml(p.name)}${isMe ? ' (Вы)' : ''}
                 </div>
-                <div class="podium-score ${p.score < 0 ? 'negative' : ''}">
-                  <span class="score-value" data-score-player="${escapeHtml(p.id)}" data-score-value="${Number(p.score) || 0}">${formatScore(p.score)}</span>
-                  ${showHintsCount ? `<span class="hints-left-pill" title="Осталось подсказок: 💡${p.hints?.clue || 0} · 🔤${p.hints?.letters || 0} · 🛡️${p.hints?.shield || 0}">💡${totalHintsLeft}</span>` : ''}
-                  ${hasShieldOnQ ? `<span class="hints-left-pill shield-on" title="Страховка от минуса активна на этом вопросе">🛡️</span>` : ''}
-                  ${wasJustZeroed ? `<span class="zeroed-pill">💥!</span>` : ''}
-                  ${curseIcon ? `<span class="zeroed-pill" title="Под действием модификатора">${curseIcon}</span>` : ''}
-                  ${isLocked ? `<span class="miss-badge" title="Кнопка заблокирована / уже отвечал">✕</span>` : ''}
+                <div class="podium-score-card" aria-label="Счёт игрока">
+                  <span class="podium-score-label">СЧЁТ</span>
+                  <div class="podium-score ${p.score < 0 ? 'negative' : ''}">
+                    <span class="score-value" data-score-player="${escapeHtml(p.id)}" data-score-value="${Number(p.score) || 0}">${formatScore(p.score)}</span>
+                    ${showHintsCount ? `<span class="hints-left-pill" title="Осталось подсказок: 💡${p.hints?.clue || 0} · 🔤${p.hints?.letters || 0} · 🛡️${p.hints?.shield || 0}">💡${totalHintsLeft}</span>` : ''}
+                    ${hasShieldOnQ ? `<span class="hints-left-pill shield-on" title="Страховка от минуса активна на этом вопросе">🛡️</span>` : ''}
+                    ${wasJustZeroed ? `<span class="zeroed-pill">💥!</span>` : ''}
+                    ${curseIcon ? `<span class="zeroed-pill" title="Под действием модификатора">${curseIcon}</span>` : ''}
+                    ${isLocked ? `<span class="miss-badge" title="Кнопка заблокирована / уже отвечал">✕</span>` : ''}
+                  </div>
                 </div>
               </div>
             </div>

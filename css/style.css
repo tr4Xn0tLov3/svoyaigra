@@ -3438,3 +3438,59 @@ input:focus, select:focus, textarea:focus {
   .profile-preview-avatar { width: 60px; height: 60px; }
   .profile-preview-image { width: 50px; height: 50px; }
 }
+
+/* Main menu art replaces the redundant profile card; profile lives in Settings. */
+.game-menu-side { max-width: 440px; }
+.game-menu-art {
+  position: relative; min-height: 300px; overflow: hidden; border: 1px solid rgba(92,145,210,.42); border-radius: 22px;
+  background: #101a2d; box-shadow: 0 20px 48px rgba(0,0,0,.35), 0 0 28px rgba(92,145,210,.12);
+}
+.game-menu-art::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg,transparent 42%,rgba(5,10,18,.84) 100%),linear-gradient(90deg,rgba(5,10,18,.1),transparent 65%); }
+.game-menu-art img { display:block; width:100%; height:100%; min-height:300px; object-fit:cover; object-position:center; filter:saturate(1.04) contrast(1.02); }
+.game-menu-art-badge { position:absolute; z-index:1; left:18px; right:18px; bottom:16px; display:flex; flex-direction:column; gap:5px; color:#f7f9ff; font:900 .9rem 'JetBrains Mono',monospace; letter-spacing:.08em; text-shadow:0 2px 12px #000; }
+.game-menu-art-badge span { color:var(--gold); font-size:.75rem; letter-spacing:.04em; }
+
+/* One shared Three.js canvas renders every standing player avatar in its own viewport. */
+.podiums-row {
+  position:relative; display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));
+  align-items:stretch; gap:14px; width:100%; max-width:1360px; margin:0 auto; isolation:isolate;
+}
+.player-avatars-canvas { position:absolute; inset:0; z-index:2; display:block; width:100%; height:100%; pointer-events:none; }
+.player-avatars-canvas.avatar-3d-unavailable { display:none; }
+.player-podium {
+  position:relative; display:block; min-width:0; max-width:none; min-height:330px; overflow:hidden; padding:0;
+  border:2px solid var(--p-color,#83b5f1); border-left-width:5px; border-radius:18px;
+  background:radial-gradient(ellipse at 50% 38%,rgba(68,105,151,.28),transparent 60%),linear-gradient(155deg,#17243a,#0c1422 80%);
+  box-shadow:0 14px 36px rgba(0,0,0,.28); transition:transform .22s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.player-podium::before { content:''; position:absolute; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse at 50% 92%,color-mix(in srgb,var(--p-color) 20%,transparent),transparent 48%); }
+.podium-avatar-stage { position:absolute; z-index:3; inset:0 0 52px; min-height:250px; pointer-events:none; }
+.podium-stage-glow { position:absolute; left:50%; bottom:3%; width:74%; height:42%; transform:translateX(-50%); border-radius:50%; background:radial-gradient(ellipse,rgba(95,145,211,.15),transparent 70%); }
+.avatar-3d-fallback { position:absolute; z-index:4; left:50%; top:43%; width:88px; height:88px; transform:translate(-50%,-50%); border:3px solid var(--p-color); box-shadow:0 0 28px color-mix(in srgb,var(--p-color) 38%,transparent); transition:opacity .2s ease; }
+.podium-avatar-stage.avatar-3d-ready .avatar-3d-fallback { opacity:0; }
+.podium-avatar-stage .online-dot { z-index:5; top:14px; right:14px; bottom:auto; left:auto; }
+.podium-info-overlay { position:absolute; z-index:5; right:12px; bottom:11px; left:14px; display:flex; align-items:flex-end; justify-content:space-between; gap:8px; }
+.player-podium .podium-name { max-width:56%; overflow:hidden; color:#eef4ff; font-size:.9rem; line-height:1.2; font-weight:850; text-overflow:ellipsis; text-shadow:0 2px 9px #050914; }
+.player-podium .podium-score-card { display:flex; min-width:92px; flex-direction:column; align-items:flex-end; gap:2px; padding:7px 10px; border:1px solid color-mix(in srgb,var(--p-color) 78%,transparent); border-radius:12px; background:rgba(5,10,18,.86); box-shadow:0 7px 18px rgba(0,0,0,.24); }
+.podium-score-label { color:#9db1ce; font:800 .56rem 'JetBrains Mono',monospace; letter-spacing:.14em; }
+.player-podium .podium-score { display:flex; align-items:center; justify-content:flex-end; gap:5px; margin:0; color:var(--p-color); font:900 clamp(1rem,1.6vw,1.3rem) 'JetBrains Mono',monospace; }
+.player-podium .podium-score .score-value { color:inherit; }
+.player-podium .podium-score.negative { color:#f87171; }
+.player-podium .podium-score .hints-left-pill { font-size:.68rem; }
+.player-podium.choosing { border-color:var(--p-color); box-shadow:0 0 0 2px rgba(245,196,81,.65),0 16px 38px rgba(0,0,0,.32); }
+.player-podium.answering { transform:translateY(-4px) scale(1.01); border-color:var(--p-color); box-shadow:0 0 0 2px rgba(34,197,94,.75),0 0 30px rgba(34,197,94,.26); }
+.player-podium.zeroed-flash { border-color:var(--p-color); box-shadow:0 0 0 2px rgba(244,63,94,.78),0 0 30px rgba(244,63,94,.24); }
+.player-podium.offline { opacity:.65; }
+@media (max-width:700px) {
+  .podiums-row { grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr)); gap:10px; }
+  .player-podium { min-height:300px; }
+  .podium-avatar-stage { min-height:225px; }
+  .podium-info-overlay { right:8px; bottom:8px; left:10px; }
+  .player-podium .podium-name { font-size:.78rem; }
+  .player-podium .podium-score-card { min-width:78px; padding:6px 7px; }
+}
+@media (max-width:430px) {
+  .podiums-row { grid-template-columns:1fr; }
+  .player-podium { min-height:320px; }
+  .game-menu-art, .game-menu-art img { min-height:230px; }
+}
