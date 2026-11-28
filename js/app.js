@@ -2,7 +2,7 @@
 
 import { sound } from './audio.js';
 import { HostNetwork, PlayerNetwork, generateRoomCode, generateHostToken } from './network.js';
-import { GameEngine, AVATARS, COLORS, FRAME_STYLES, MODIFIER_CATALOG } from './state.js';
+import { GameEngine, AVATARS, COLORS, FRAME_STYLES, MODIFIER_CATALOG, SCORE_ZERO_VFX_DURATION_MS } from './state.js';
 import { PackBuilderModal } from './editor.js';
 
 function escapeHtml(str) {
@@ -93,6 +93,11 @@ class SvoyaIgraApp {
     this.lastPlayedSoundSeq = 0;
     this.lastBannerTs = 0;
     this.lastAnimatedQuestionKey = null;
+    this.lastZeroOutVfxKey = '';
+    this.scoreZeroVfxOverlay = null;
+    this.scoreZeroVfxTimers = [];
+    this.scoreZeroVfxBlobUrl = null;
+    this.scoreZeroBlastAssetPromise = null;
 
     // Постоянный аудиоплеер для вопросов «Угадай звук» (не сбивается при ререндере DOM!)
     this.qAudio = new Audio();
@@ -547,6 +552,7 @@ class SvoyaIgraApp {
       this.engine.settings = { ...this.engine.settings, ...(restore.settings || {}) };
       this.engine.state = restore.state;
       this.engine.state.roomCode = roomCode;
+      this.engine.resumePendingZeroOut();
       this.selectedPackMeta = this.repoPacks.find((p) => p.id === restore.pack.id) || this.selectedPackMeta;
       this.engine.onChange = () => this._onHostEngineChange();
     } else {
@@ -631,6 +637,83 @@ class SvoyaIgraApp {
     }
 
     this.render();
+    this._syncScoreZeroVfx(this.view);
+  }
+
+  _syncScoreZeroVfx(view) {
+    const event = view?.zeroOutEvent;
+    if (!event || !Number.isFinite(Number(event.seq))) return;
+    const eventKey = `${event.seq}:${event.ts || ''}`;
+    if (eventKey === this.lastZeroOutVfxKey) return;
+    this.lastZeroOutVfxKey = eventKey;
+    const ageMs = Date.now() - Number(event.ts || 0);
+    if (ageMs < -1000 || ageMs > 5000) return;
+
+    for (const timer of this.scoreZeroVfxTimers) clearTimeout(timer);
+    this.scoreZeroVfxTimers = [];
+    this.scoreZeroVfxOverlay?.remove();
+    if (this.scoreZeroVfxBlobUrl) URL.revokeObjectURL(this.scoreZeroVfxBlobUrl);
+    this.scoreZeroVfxBlobUrl = null;
+    this.scoreZeroBlastAssetPromise ||= fetch(new URL('../packs/media/vfx/score-zero-blast.gif', import.meta.url))
+      .then((response) => response.ok ? response.blob() : null)
+      .catch(() => null);
+    const blastAssetPromise = this.scoreZeroBlastAssetPromise;
+
+    const victimStage = [...this.root.querySelectorAll('[data-avatar-stage]')]
+      .find((stage) => stage.dataset.playerId === event.targetId);
+    const targetRect = victimStage?.getBoundingClientRect();
+    const targetX = targetRect ? targetRect.left + targetRect.width * 0.5 : window.innerWidth * 0.56;
+    const targetY = targetRect ? targetRect.top + targetRect.height * 0.43 : window.innerHeight * 0.45;
+    const flightWidth = Math.min(Math.max(window.innerWidth * 1.6, 600), 1900);
+    const flightHeight = flightWidth * 628 / 1500;
+    const impactX = 0.60;
+    const impactY = 0.43;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'score-zero-vfx';
+    overlay.setAttribute('aria-hidden', 'true');
+    const projectile = document.createElement('img');
+    projectile.className = 'score-zero-projectile';
+    projectile.alt = '';
+    projectile.src = `./packs/media/vfx/score-zero-projectile.gif?shot=${encodeURIComponent(eventKey)}`;
+    projectile.style.width = `${flightWidth}px`;
+    projectile.style.left = `${targetX - flightWidth * impactX}px`;
+    projectile.style.top = `${targetY - flightHeight * impactY}px`;
+    overlay.appendChild(projectile);
+    document.body.appendChild(overlay);
+    this.scoreZeroVfxOverlay = overlay;
+
+    const safetyTimer = setTimeout(() => {
+      if (this.scoreZeroVfxOverlay !== overlay) return;
+      this.scoreZeroVfxOverlay = null;
+      if (this.scoreZeroVfxBlobUrl) URL.revokeObjectURL(this.scoreZeroVfxBlobUrl);
+      this.scoreZeroVfxBlobUrl = null;
+      overlay.remove();
+    }, 7000);
+    const impactTimer = setTimeout(() => {
+      if (this.scoreZeroVfxOverlay !== overlay || !overlay.isConnected) return;
+      blastAssetPromise.then((assetBlob) => {
+        if (this.scoreZeroVfxOverlay !== overlay || !overlay.isConnected) return;
+        clearTimeout(safetyTimer);
+        overlay.classList.add('is-impact');
+        const blast = document.createElement('img');
+        blast.className = 'score-zero-blast';
+        blast.alt = '';
+        this.scoreZeroVfxBlobUrl = assetBlob && typeof URL.createObjectURL === 'function'
+          ? URL.createObjectURL(assetBlob)
+          : null;
+        blast.src = this.scoreZeroVfxBlobUrl || './packs/media/vfx/score-zero-blast.gif';
+        overlay.replaceChildren(blast);
+        const clearTimer = setTimeout(() => {
+          if (this.scoreZeroVfxOverlay === overlay) this.scoreZeroVfxOverlay = null;
+          if (this.scoreZeroVfxBlobUrl) URL.revokeObjectURL(this.scoreZeroVfxBlobUrl);
+          this.scoreZeroVfxBlobUrl = null;
+          overlay.remove();
+        }, 1120);
+        this.scoreZeroVfxTimers.push(clearTimer);
+      });
+    }, 660);
+    this.scoreZeroVfxTimers.push(impactTimer, safetyTimer);
   }
 
   _handlePlayerActionOnHost(playerId, msg) {
@@ -770,6 +853,7 @@ class SvoyaIgraApp {
     }
 
     this.render();
+    this._syncScoreZeroVfx(this.view);
   }
 
   _leaveRoom() {
@@ -1808,11 +1892,16 @@ class SvoyaIgraApp {
   _renderNothingPersonalStage(v) {
     const ms = v.modifierState;
     if (!ms) return '';
+    if (ms.kind === 'nothing_personal') {
+      this.scoreZeroBlastAssetPromise ||= fetch(new URL('../packs/media/vfx/score-zero-blast.gif', import.meta.url))
+        .then((response) => response.ok ? response.blob() : null)
+        .catch(() => null);
+    }
     const meta = MODIFIER_CATALOG[ms.kind] || MODIFIER_CATALOG.nothing_personal;
     const isHost = this.role === 'host';
     const actor = v.players.find((p) => p.id === ms.actorId);
     const isMyChoice = this.role === 'player' && !this.isSpectator && ms.actorId === this.playerId;
-    const canDecide = isHost || isMyChoice;
+    const canDecide = (isHost || isMyChoice) && !ms.resolving;
 
     const targetList = meta.allowSelf
       ? v.players
@@ -1856,7 +1945,9 @@ class SvoyaIgraApp {
             : escapeHtml(meta.desc)}
         </p>
 
-        ${canDecide ? `
+        ${ms.resolving ? `
+          <div class="waiting-note np-pulse">🔥 Снаряд уже летит к жертве. Счёт обнулится после взрыва.</div>
+        ` : canDecide ? `
           <div class="target-players-grid">
             ${targetList.map((p) => `
               <button type="button" class="target-player-btn np-victim-btn" data-np-target="${escapeHtml(p.id)}">

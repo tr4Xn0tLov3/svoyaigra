@@ -15,6 +15,7 @@ export const AVATARS = [
   './packs/media/avatars/animal-shark.jpg'
 ];
 export const COLORS = ['#f5c451', '#ef4444', '#22c55e', '#ea580c', '#ec4899', '#a855f7', '#eab308', '#84cc16'];
+export const SCORE_ZERO_VFX_DURATION_MS = 1620;
 export const FRAME_STYLES = [
   { id: 'classic', label: 'Классика', icon: '◉' },
   { id: 'banknote', label: 'Купюры', icon: '₽' },
@@ -136,6 +137,7 @@ export class GameEngine {
     };
 
     this.state = this._createInitialState();
+    this.pendingZeroOutTimer = null;
     this._tickInterval = setInterval(() => this._onTick(), 200);
     this._lastTickSecondBeep = null;
   }
@@ -172,6 +174,8 @@ export class GameEngine {
       },
 
       lastZeroedPlayerId: null,
+      zeroOutEvent: null,
+      pendingZeroOut: null,
       eventBanner: null,
       soundSeq: 0,
       lastSound: null
@@ -180,6 +184,38 @@ export class GameEngine {
 
   destroy() {
     clearInterval(this._tickInterval);
+    clearTimeout(this.pendingZeroOutTimer);
+  }
+
+  _schedulePendingZeroOut(seq, delayMs) {
+    clearTimeout(this.pendingZeroOutTimer);
+    this.pendingZeroOutTimer = setTimeout(() => {
+      this.pendingZeroOutTimer = null;
+      this._finishPendingZeroOut(seq);
+    }, Math.max(0, delayMs));
+  }
+
+  resumePendingZeroOut() {
+    const pending = this.state.pendingZeroOut;
+    if (pending) this._schedulePendingZeroOut(pending.seq, Number(pending.finishAt) - Date.now());
+  }
+
+  _finishPendingZeroOut(seq) {
+    const pending = this.state.pendingZeroOut;
+    if (!pending || pending.seq !== seq) return;
+    const victim = this.state.players.find((player) => player.id === pending.targetId);
+    const actor = this.state.players.find((player) => player.id === pending.actorId);
+    if (victim) {
+      victim.score = 0;
+      victim.stats.wasZeroed = (victim.stats.wasZeroed || 0) + 1;
+      this.state.lastZeroedPlayerId = victim.id;
+      if (actor) actor.stats.zeroedOthers = (actor.stats.zeroedOthers || 0) + 1;
+    }
+    this.state.pendingZeroOut = null;
+    this.state.modifierState = null;
+    this._banner(`🕶️ Ничего личного! ${pending.actorName} обнулил счёт ${pending.targetName} (было ${pending.oldScore} → 0)!`, 'red');
+    this._sound('effectApplied');
+    this._proceedToCellQuestion(true);
   }
 
   setPack(packData) {
@@ -613,7 +649,7 @@ export class GameEngine {
   }
 
   resolveNothingPersonal(callerId, targetPlayerId) {
-    if (this.state.phase !== 'nothing_personal' || !this.state.modifierState) return;
+    if (this.state.phase !== 'nothing_personal' || !this.state.modifierState || this.state.pendingZeroOut) return;
     const { kind, actorId } = this.state.modifierState;
     const meta = MODIFIER_CATALOG[kind] || MODIFIER_CATALOG.nothing_personal;
     if (callerId !== '__host__' && callerId !== actorId) return;
@@ -633,11 +669,24 @@ export class GameEngine {
 
       if (kind === 'nothing_personal') {
         const oldScore = victim.score;
-        victim.score = 0;
-        victim.stats.wasZeroed = (victim.stats.wasZeroed || 0) + 1;
-        if (actor) actor.stats.zeroedOthers = (actor.stats.zeroedOthers || 0) + 1;
-        this.state.lastZeroedPlayerId = victim.id;
-        this._banner(`🕶️ Ничего личного! ${actorName} обнулил счёт ${victim.name} (было ${oldScore} → 0)!`, 'red');
+        const seq = (this.state.zeroOutEvent?.seq || 0) + 1;
+        const startedAt = Date.now();
+        const finishAt = startedAt + SCORE_ZERO_VFX_DURATION_MS;
+        this.state.pendingZeroOut = {
+          seq,
+          targetId: victim.id,
+          actorId: actorId || null,
+          actorName,
+          targetName: victim.name,
+          oldScore,
+          finishAt
+        };
+        this.state.modifierState = { ...this.state.modifierState, resolving: true, targetId: victim.id };
+        this.state.zeroOutEvent = { seq, targetId: victim.id, actorId: actorId || null, ts: startedAt, finishAt };
+        this._banner(`🕶️ Ничего личного! Снаряд летит к ${victim.name}…`, 'red');
+        this._emit();
+        this._schedulePendingZeroOut(seq, finishAt - Date.now());
+        return;
       } else if (kind === 'score_steal') {
         const minSteal = Math.max(100, Math.round((this.state.activeCell?.nominalCost || 200) * 0.4 / 50) * 50);
         const amount = victim.score > 0
@@ -1978,6 +2027,7 @@ export class GameEngine {
       players: s.players,
       chooserId: s.chooserId,
       lastZeroedPlayerId: s.lastZeroedPlayerId,
+      zeroOutEvent: s.zeroOutEvent,
       board: currentRoundBoard,
       modifierState: s.modifierState,
       activeCurse: s.activeCurse,
