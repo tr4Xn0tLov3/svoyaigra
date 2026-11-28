@@ -1,0 +1,25 @@
+# Кадры для категории «Откуда этот кадр?» — современные фильмы и мультфильмы
+
+Все 15 картинок в этой подборке относятся к произведениям 2010 года и новее. Это локальные уменьшенные/перекодированные превью для короткого вопроса на распознавание фильма; они не заменяют просмотр фильма. В паке указаны исходные страницы и киностудии. Использование предполагается как трансформативная иллюстрация к викторине (fair use/fair dealing); это не лицензия и не гарантия законности публикации во всех странах. Перед публичным коммерческим запуском проверьте применимое право и при необходимости замените активы лицензированными пресс-кадрами.
+
+| Фильм | Студия/правообладатель | Источник найденного изображения | Локальный файл |
+|---|---|---|---|
+| Inception (2010) | Christopher Nolan | [https://screenrant.com/inception-best-scenes-ranked/](https://screenrant.com/inception-best-scenes-ranked/) | `modern-film-inception.jpg` |
+| Frozen / «Холодное сердце» (2013) | Walt Disney Animation Studios | [https://pinterest.com/ideas/frozen-2013-movie-still-elsa-ice-palace/899307510781](https://pinterest.com/ideas/frozen-2013-movie-still-elsa-ice-palace/899307510781) | `modern-film-frozen.jpg` |
+| Interstellar / «Интерстеллар» (2014) | Warner Bros. Pictures / Paramount Pictures | [https://www.bgr.com/2064206/christopher-nolan-interstellar-scientific-breakthrough-black-hole/](https://www.bgr.com/2064206/christopher-nolan-interstellar-scientific-breakthrough-black-hole/) | `modern-film-interstellar.jpg` |
+| Mad Max: Fury Road / «Безумный Макс: Дорога ярости» (2015) | Warner Bros. Pictures | [https://www.slashgear.com/1762830/mad-max-war-rig-what-truck-used-make-vehicle-fury-road-furisosa/](https://www.slashgear.com/1762830/mad-max-war-rig-what-truck-used-make-vehicle-fury-road-furisosa/) | `modern-film-mad-max.jpg` |
+| Coco / «Тайна Коко» (2017) | Pixar Animation Studios / Walt Disney Pictures | [https://wallpapers.com/wallpapers/coco-animation-marigold-bridge-an085iwu9bpiind3.html](https://wallpapers.com/wallpapers/coco-animation-marigold-bridge-an085iwu9bpiind3.html) | `modern-film-coco.jpg` |
+| Spider-Man: Into the Spider-Verse / «Человек-паук: Через вселенные» (2018) | Sony Pictures Animation | [https://www.businessinsider.com/spider-verse-miles-breaking-glass-theory-2019-2](https://www.businessinsider.com/spider-verse-miles-breaking-glass-theory-2019-2) | `modern-film-spider-verse.jpg` |
+| Parasite / «Паразиты» (2019) | CJ Entertainment | [https://shot.cafe/movie/parasite-2019-262/flood](https://shot.cafe/movie/parasite-2019-262/flood) | `modern-film-parasite.jpg` |
+| Dune / «Дюна» (2021) | Warner Bros. Pictures / Legendary Pictures | [https://www.theverge.com/2021/7/22/22587655/dune-new-trailer-hbo-max-warner-bros-sandworm](https://www.theverge.com/2021/7/22/22587655/dune-new-trailer-hbo-max-warner-bros-sandworm) | `modern-film-dune.jpg` |
+| Puss in Boots: The Last Wish / «Кот в сапогах 2: Последнее желание» (2022) | DreamWorks Animation | [https://collider.com/puss-in-boots-the-last-wish-wolf-villain/](https://collider.com/puss-in-boots-the-last-wish-wolf-villain/) | `modern-film-puss.jpg` |
+| Everything Everywhere All at Once / «Всё везде и сразу» (2022) | A24 | [https://www.killyourdarlings.com.au/article/everything-everywhere-all-at-once-wants-us-to-get-weird/](https://www.killyourdarlings.com.au/article/everything-everywhere-all-at-once-wants-us-to-get-weird/) | `modern-film-everything.jpg` |
+| Barbie / «Барби» (2023) | Warner Bros. Pictures | [https://genery.io/title/barbie-2023](https://genery.io/title/barbie-2023) | `modern-film-barbie.jpg` |
+| Oppenheimer / «Оппенгеймер» (2023) | Universal Pictures | [https://www.pinterest.com/ideas/oppenheimer-explosion/929409940541/](https://www.pinterest.com/ideas/oppenheimer-explosion/929409940541/) | `modern-film-oppenheimer.jpg` |
+| Encanto / «Энканто» (2021) | Walt Disney Animation Studios | [https://www.travelandleisure.com/culture-design/tv-movies/where-to-find-disneys-inspiration-for-encanto-in-colombia](https://www.travelandleisure.com/culture-design/tv-movies/where-to-find-disneys-inspiration-for-encanto-in-colombia) | `modern-film-encanto.jpg` |
+| Avengers: Endgame / «Мстители: Финал» (2019) | Marvel Studios | [https://screenrant.com/avengers-endgame-portal-scene-thanos-plot-hole-explainer/](https://screenrant.com/avengers-endgame-portal-scene-thanos-plot-hole-explainer/) | `modern-film-endgame.jpg` |
+| The Mitchells vs. the Machines / «Митчеллы против машин» (2021) | Sony Pictures Animation | [https://theunderscene.com/2021/04/28/the-mitchells-vs-the-machines-review](https://theunderscene.com/2021/04/28/the-mitchells-vs-the-machines-review) | `modern-film-mitchells.jpg` |
+
+## Редакционный контекст
+
+Вопросы используют изображения только для того, чтобы игроки назвали фильм. Каждый кадр и каждый `rotationGroup` уникальны: движок выбирает пять разных групп для одной доски, поэтому один и тот же фильм не повторяется на доске. Источники картинок — публикации/страницы, где найден соответствующий визуальный материал; они не обязательно являются правообладателями.

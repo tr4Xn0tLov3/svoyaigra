@@ -1,5 +1,5 @@
 // Встроенный визуальный конструктор JSON-паков для репозитория GitHub
-import { MODIFIER_CATALOG, MODIFIER_IDS, getComebackBaseUnit } from './state.js';
+import { MODIFIER_CATALOG, MODIFIER_IDS, getComebackBaseUnit } from './state.js?v=profile-color-only-20261128';
 
 function makeEmptyTheme(name, rIdx) {
   const base = getComebackBaseUnit(rIdx);

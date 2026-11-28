@@ -539,142 +539,245 @@
           "questions": [
             {
               "cost": 100,
-              "text": "Чей уютный домик под корнями дерева и самодельные таблички с рожицами изображены на этом кадре?",
-              "image": "./packs/media/images/frame-shrek-swamp.jpg",
-              "hint": "Зелёный великан-огр, который больше всего на свете ценит покой на своём родном болоте.",
-              "answer": "«Шрек» (болото Шрека)",
-              "comment": "Оскароносный мультфильм студии DreamWorks 2001 года.",
-              "rotationId": "r0-t4-base-0"
+              "text": "В каком фильме команда оказывается в отеле, где коридор буквально вращается вокруг дерущихся людей?",
+              "image": "./packs/media/images/modern-film-inception.jpg",
+              "hint": "Команда погружается в многоуровневые сны и пытается внедрить чужую идею.",
+              "answer": "«Начало» (Inception)",
+              "comment": "Знаменитая сцена с вращающимся коридором.",
+              "rotationId": "r0-t4-modern-inception",
+              "rotationGroup": "modern-film-inception",
+              "imageSourceUrl": "https://screenrant.com/inception-best-scenes-ranked/",
+              "imageCredit": "Inception (2010); source page: https://screenrant.com/inception-best-scenes-ranked/; fair-use quiz excerpt."
             },
             {
               "cost": 200,
-              "text": "Из какого знаменитого новогоднего фильма этот кадр с испуганным мальчиком?",
-              "image": "./packs/media/images/frame-home-alone.png",
-              "hint": "Вся семья улетела на Рождество в Париж, забыв младшего сына в огромном особняке.",
-              "answer": "«Один дома» (Home Alone)",
-              "comment": "Маколей Калкин в роли Кевина Маккаллистера.",
-              "rotationId": "r0-t4-base-1"
+              "text": "Из какого мультфильма этот ледяной дворец, который героиня возводит вдали от королевства?",
+              "image": "./packs/media/images/modern-film-frozen.jpg",
+              "hint": "Её сестра Анна отправилась на поиски вместе с Кристоффом и снеговиком Олафом.",
+              "answer": "«Холодное сердце» (Frozen)",
+              "comment": "Анимационный фильм Disney 2013 года.",
+              "rotationId": "r0-t4-modern-frozen",
+              "rotationGroup": "modern-film-frozen",
+              "imageSourceUrl": "https://pinterest.com/ideas/frozen-2013-movie-still-elsa-ice-palace/899307510781",
+              "imageCredit": "Frozen / «Холодное сердце» (2013); source page: https://pinterest.com/ideas/frozen-2013-movie-still-elsa-ice-palace/899307510781; fair-use quiz excerpt."
             },
             {
               "cost": 300,
-              "text": "Из какого легендарного мультфильма Disney 1994 года этот торжественный кадр на Скале Предков?",
-              "image": "./packs/media/images/frame-lion-king.jpg",
-              "hint": "Африканская саванна, песня Circle of Life и маленький наследник Муфасы.",
-              "answer": "«Король Лев» (The Lion King)",
-              "comment": "Рафики поднимает новорождённого Симбу над саванной.",
-              "rotationId": "r0-t4-base-2"
+              "text": "Из какого фильма этот космический объект Gargantua, рядом с которым время ведёт себя совсем иначе?",
+              "image": "./packs/media/images/modern-film-interstellar.jpg",
+              "hint": "Экипаж ищет новый дом для человечества, а на Земле остались дети главного героя.",
+              "answer": "«Интерстеллар» (Interstellar)",
+              "comment": "Научно-фантастическая драма Кристофера Нолана.",
+              "rotationId": "r0-t4-modern-interstellar",
+              "rotationGroup": "modern-film-interstellar",
+              "imageSourceUrl": "https://www.bgr.com/2064206/christopher-nolan-interstellar-scientific-breakthrough-black-hole/",
+              "imageCredit": "Interstellar / «Интерстеллар» (2014); source page: https://www.bgr.com/2064206/christopher-nolan-interstellar-scientific-breakthrough-black-hole/; fair-use quiz excerpt."
             },
             {
               "cost": 400,
-              "text": "Чей подводный дом-ананас изображён на этом кадре? Назовите мультсериал!",
-              "image": "./packs/media/images/frame-spongebob.jpg",
-              "hint": "Жёлтый повар «Красти Краба», живущий на дне океана в городке Бикини-Боттом.",
-              "answer": "«Губка Боб Квадратные Штаны» (SpongeBob SquarePants)",
-              "comment": "Бикини-Боттом, дом Спанч Боба и улитки Гэри.",
-              "rotationId": "r0-t4-base-3"
+              "text": "Из какого постапокалиптического боевика этот тяжёлый War Rig мчится через пустыню?",
+              "image": "./packs/media/images/modern-film-mad-max.jpg",
+              "hint": "Макс объединяется с Фуриосой, чтобы уйти от тирана Несмертного Джо.",
+              "answer": "«Безумный Макс: Дорога ярости» (Mad Max: Fury Road)",
+              "comment": "Фильм Джорджа Миллера 2015 года.",
+              "rotationId": "r0-t4-modern-mad-max",
+              "rotationGroup": "modern-film-mad-max",
+              "imageSourceUrl": "https://www.slashgear.com/1762830/mad-max-war-rig-what-truck-used-make-vehicle-fury-road-furisosa/",
+              "imageCredit": "Mad Max: Fury Road / «Безумный Макс: Дорога ярости» (2015); source page: https://www.slashgear.com/1762830/mad-max-war-rig-what-truck-used-make-vehicle-fury-road-furisosa/; fair-use quiz excerpt."
             },
             {
               "cost": 500,
-              "modifier": "nothing_personal",
-              "text": "Из какого фильма Джеймса Кэмерона (1997) эта культовая сцена на носу корабля?",
-              "image": "./packs/media/images/frame-titanic.jpg",
-              "hint": "Океанский лайнер 1912 года, песня Селин Дион и фраза «Я король мира!».",
-              "answer": "«Титаник»",
-              "comment": "Джек (Леонардо Ди Каприо) и Роза (Кейт Уинслет).",
-              "rotationId": "r0-t4-base-4"
+              "text": "Из какого мультфильма мост из лепестков соединяет мир живых и Страну Мёртвых?",
+              "image": "./packs/media/images/modern-film-coco.jpg",
+              "hint": "Юный музыкант Мигель оказывается в стране предков в ночь праздника.",
+              "answer": "«Тайна Коко» (Coco)",
+              "comment": "Мультфильм Pixar о семье, музыке и памяти.",
+              "rotationId": "r0-t4-modern-coco",
+              "rotationGroup": "modern-film-coco",
+              "imageSourceUrl": "https://wallpapers.com/wallpapers/coco-animation-marigold-bridge-an085iwu9bpiind3.html",
+              "imageCredit": "Coco / «Тайна Коко» (2017); source page: https://wallpapers.com/wallpapers/coco-animation-marigold-bridge-an085iwu9bpiind3.html; fair-use quiz excerpt."
             }
           ],
           "questionPool": [
             {
               "cost": 100,
-              "text": "Чей уютный домик под корнями дерева и самодельные таблички с рожицами изображены на этом кадре?",
-              "image": "./packs/media/images/frame-shrek-swamp.jpg",
-              "hint": "Зелёный великан-огр, который больше всего на свете ценит покой на своём родном болоте.",
-              "answer": "«Шрек» (болото Шрека)",
-              "comment": "Оскароносный мультфильм студии DreamWorks 2001 года.",
-              "rotationId": "r0-t4-base-0"
+              "text": "В каком фильме команда оказывается в отеле, где коридор буквально вращается вокруг дерущихся людей?",
+              "image": "./packs/media/images/modern-film-inception.jpg",
+              "hint": "Команда погружается в многоуровневые сны и пытается внедрить чужую идею.",
+              "answer": "«Начало» (Inception)",
+              "comment": "Знаменитая сцена с вращающимся коридором.",
+              "rotationId": "r0-t4-modern-inception",
+              "rotationGroup": "modern-film-inception",
+              "imageSourceUrl": "https://screenrant.com/inception-best-scenes-ranked/",
+              "imageCredit": "Inception (2010); source page: https://screenrant.com/inception-best-scenes-ranked/; fair-use quiz excerpt."
             },
             {
               "cost": 200,
-              "text": "Из какого знаменитого новогоднего фильма этот кадр с испуганным мальчиком?",
-              "image": "./packs/media/images/frame-home-alone.png",
-              "hint": "Вся семья улетела на Рождество в Париж, забыв младшего сына в огромном особняке.",
-              "answer": "«Один дома» (Home Alone)",
-              "comment": "Маколей Калкин в роли Кевина Маккаллистера.",
-              "rotationId": "r0-t4-base-1"
+              "text": "Из какого мультфильма этот ледяной дворец, который героиня возводит вдали от королевства?",
+              "image": "./packs/media/images/modern-film-frozen.jpg",
+              "hint": "Её сестра Анна отправилась на поиски вместе с Кристоффом и снеговиком Олафом.",
+              "answer": "«Холодное сердце» (Frozen)",
+              "comment": "Анимационный фильм Disney 2013 года.",
+              "rotationId": "r0-t4-modern-frozen",
+              "rotationGroup": "modern-film-frozen",
+              "imageSourceUrl": "https://pinterest.com/ideas/frozen-2013-movie-still-elsa-ice-palace/899307510781",
+              "imageCredit": "Frozen / «Холодное сердце» (2013); source page: https://pinterest.com/ideas/frozen-2013-movie-still-elsa-ice-palace/899307510781; fair-use quiz excerpt."
             },
             {
               "cost": 300,
-              "text": "Из какого легендарного мультфильма Disney 1994 года этот торжественный кадр на Скале Предков?",
-              "image": "./packs/media/images/frame-lion-king.jpg",
-              "hint": "Африканская саванна, песня Circle of Life и маленький наследник Муфасы.",
-              "answer": "«Король Лев» (The Lion King)",
-              "comment": "Рафики поднимает новорождённого Симбу над саванной.",
-              "rotationId": "r0-t4-base-2"
+              "text": "Из какого фильма этот космический объект Gargantua, рядом с которым время ведёт себя совсем иначе?",
+              "image": "./packs/media/images/modern-film-interstellar.jpg",
+              "hint": "Экипаж ищет новый дом для человечества, а на Земле остались дети главного героя.",
+              "answer": "«Интерстеллар» (Interstellar)",
+              "comment": "Научно-фантастическая драма Кристофера Нолана.",
+              "rotationId": "r0-t4-modern-interstellar",
+              "rotationGroup": "modern-film-interstellar",
+              "imageSourceUrl": "https://www.bgr.com/2064206/christopher-nolan-interstellar-scientific-breakthrough-black-hole/",
+              "imageCredit": "Interstellar / «Интерстеллар» (2014); source page: https://www.bgr.com/2064206/christopher-nolan-interstellar-scientific-breakthrough-black-hole/; fair-use quiz excerpt."
             },
             {
               "cost": 400,
-              "text": "Чей подводный дом-ананас изображён на этом кадре? Назовите мультсериал!",
-              "image": "./packs/media/images/frame-spongebob.jpg",
-              "hint": "Жёлтый повар «Красти Краба», живущий на дне океана в городке Бикини-Боттом.",
-              "answer": "«Губка Боб Квадратные Штаны» (SpongeBob SquarePants)",
-              "comment": "Бикини-Боттом, дом Спанч Боба и улитки Гэри.",
-              "rotationId": "r0-t4-base-3"
+              "text": "Из какого постапокалиптического боевика этот тяжёлый War Rig мчится через пустыню?",
+              "image": "./packs/media/images/modern-film-mad-max.jpg",
+              "hint": "Макс объединяется с Фуриосой, чтобы уйти от тирана Несмертного Джо.",
+              "answer": "«Безумный Макс: Дорога ярости» (Mad Max: Fury Road)",
+              "comment": "Фильм Джорджа Миллера 2015 года.",
+              "rotationId": "r0-t4-modern-mad-max",
+              "rotationGroup": "modern-film-mad-max",
+              "imageSourceUrl": "https://www.slashgear.com/1762830/mad-max-war-rig-what-truck-used-make-vehicle-fury-road-furisosa/",
+              "imageCredit": "Mad Max: Fury Road / «Безумный Макс: Дорога ярости» (2015); source page: https://www.slashgear.com/1762830/mad-max-war-rig-what-truck-used-make-vehicle-fury-road-furisosa/; fair-use quiz excerpt."
             },
             {
               "cost": 500,
-              "modifier": "nothing_personal",
-              "text": "Из какого фильма Джеймса Кэмерона (1997) эта культовая сцена на носу корабля?",
-              "image": "./packs/media/images/frame-titanic.jpg",
-              "hint": "Океанский лайнер 1912 года, песня Селин Дион и фраза «Я король мира!».",
-              "answer": "«Титаник»",
-              "comment": "Джек (Леонардо Ди Каприо) и Роза (Кейт Уинслет).",
-              "rotationId": "r0-t4-base-4"
+              "text": "Из какого мультфильма мост из лепестков соединяет мир живых и Страну Мёртвых?",
+              "image": "./packs/media/images/modern-film-coco.jpg",
+              "hint": "Юный музыкант Мигель оказывается в стране предков в ночь праздника.",
+              "answer": "«Тайна Коко» (Coco)",
+              "comment": "Мультфильм Pixar о семье, музыке и памяти.",
+              "rotationId": "r0-t4-modern-coco",
+              "rotationGroup": "modern-film-coco",
+              "imageSourceUrl": "https://wallpapers.com/wallpapers/coco-animation-marigold-bridge-an085iwu9bpiind3.html",
+              "imageCredit": "Coco / «Тайна Коко» (2017); source page: https://wallpapers.com/wallpapers/coco-animation-marigold-bridge-an085iwu9bpiind3.html; fair-use quiz excerpt."
             },
             {
-              "rotationId": "r0-t4-alt-1",
-              "text": "Как зовут осла, который становится спутником Шрека?",
-              "answer": "Осёл (Donkey)",
-              "hint": "Подсказка: осёл — его громкий спутник.",
-              "comment": "Фильм DreamWorks вышел в 2001 году.",
-              "cost": 100,
-              "image": "./packs/media/images/frame-shrek-swamp.jpg"
+              "cost": 600,
+              "text": "Как называется мультфильм, в котором Майлз Моралес делает свой первый прыжок в костюме Человека-паука?",
+              "image": "./packs/media/images/modern-film-spider-verse.jpg",
+              "hint": "В одну историю попали пауки из нескольких измерений; стиль фильма смешивает комикс и анимацию.",
+              "answer": "«Человек-паук: Через вселенные» (Spider-Man: Into the Spider-Verse)",
+              "comment": "Анимационный фильм Sony 2018 года.",
+              "rotationId": "r0-t4-modern-spider-verse",
+              "rotationGroup": "modern-film-spider-verse",
+              "imageSourceUrl": "https://www.businessinsider.com/spider-verse-miles-breaking-glass-theory-2019-2",
+              "imageCredit": "Spider-Man: Into the Spider-Verse / «Человек-паук: Через вселенные» (2018); source page: https://www.businessinsider.com/spider-verse-miles-breaking-glass-theory-2019-2; fair-use quiz excerpt."
             },
             {
-              "rotationId": "r0-t4-alt-2",
-              "text": "Как зовут мальчика, оставшегося дома одного на Рождество?",
-              "answer": "Кевин Маккаллистер (Kevin McCallister)",
-              "hint": "Подсказка: фамилия семьи — Маккаллистер.",
-              "comment": "Комедия Криса Коламбуса вышла в 1990 году.",
-              "cost": 200,
-              "image": "./packs/media/images/frame-home-alone.png"
+              "cost": 700,
+              "text": "Из какого фильма эта сцена наводнения, которое затапливает дом семьи Ким?",
+              "image": "./packs/media/images/modern-film-parasite.jpg",
+              "hint": "Две семьи с очень разным достатком оказываются связаны хитрым планом трудоустройства.",
+              "answer": "«Паразиты» (Parasite)",
+              "comment": "Фильм Пон Джун-хо получил «Оскар» за лучший фильм.",
+              "rotationId": "r0-t4-modern-parasite",
+              "rotationGroup": "modern-film-parasite",
+              "imageSourceUrl": "https://shot.cafe/movie/parasite-2019-262/flood",
+              "imageCredit": "Parasite / «Паразиты» (2019); source page: https://shot.cafe/movie/parasite-2019-262/flood; fair-use quiz excerpt."
             },
             {
-              "rotationId": "r0-t4-alt-3",
-              "text": "Как зовут отца Симбы?",
-              "answer": "Муфаса (Mufasa)",
-              "hint": "Подсказка: его отец — Муфаса.",
-              "comment": "Анимационный фильм Disney вышел в 1994 году.",
-              "cost": 300,
-              "image": "./packs/media/images/frame-lion-king.jpg"
+              "cost": 800,
+              "text": "В каком фантастическом фильме из песка поднимается гигантский червь на планете Арракис?",
+              "image": "./packs/media/images/modern-film-dune.jpg",
+              "hint": "Пол Атрейдес прибывает в пустынный мир, где добывают ценнейшую пряность.",
+              "answer": "«Дюна» (Dune, 2021)",
+              "comment": "Экранизация романа Фрэнка Герберта.",
+              "rotationId": "r0-t4-modern-dune",
+              "rotationGroup": "modern-film-dune",
+              "imageSourceUrl": "https://www.theverge.com/2021/7/22/22587655/dune-new-trailer-hbo-max-warner-bros-sandworm",
+              "imageCredit": "Dune / «Дюна» (2021); source page: https://www.theverge.com/2021/7/22/22587655/dune-new-trailer-hbo-max-warner-bros-sandworm; fair-use quiz excerpt."
             },
             {
-              "rotationId": "r0-t4-alt-4",
-              "text": "Как называется подводный город, где живёт Губка Боб?",
-              "answer": "Бикини-Боттом (Bikini Bottom)",
-              "hint": "Подсказка: его сосед — осьминог Сквидвард.",
-              "comment": "Сериал Nickelodeon стартовал в 1999 году.",
-              "cost": 400,
-              "image": "./packs/media/images/frame-spongebob.jpg"
+              "cost": 900,
+              "text": "Из какого мультфильма появился этот волк с красными глазами, преследующий кота в сапогах?",
+              "image": "./packs/media/images/modern-film-puss.jpg",
+              "hint": "У героя осталась лишь одна жизнь, и он отправляется на поиски исполнения желания.",
+              "answer": "«Кот в сапогах 2: Последнее желание» (Puss in Boots: The Last Wish)",
+              "comment": "Мультфильм DreamWorks 2022 года.",
+              "rotationId": "r0-t4-modern-puss",
+              "rotationGroup": "modern-film-puss",
+              "imageSourceUrl": "https://collider.com/puss-in-boots-the-last-wish-wolf-villain/",
+              "imageCredit": "Puss in Boots: The Last Wish / «Кот в сапогах 2: Последнее желание» (2022); source page: https://collider.com/puss-in-boots-the-last-wish-wolf-villain/; fair-use quiz excerpt."
             },
             {
-              "rotationId": "r0-t4-alt-5",
-              "text": "Как зовут героя Леонардо Ди Каприо в «Титанике»?",
-              "answer": "Джек Доусон (Jack Dawson)",
-              "hint": "Подсказка: это название реального лайнера.",
-              "comment": "Фильм вышел в 1997 году.",
-              "cost": 500,
-              "image": "./packs/media/images/frame-titanic.jpg"
+              "cost": 1000,
+              "text": "Из какого фильма эта тихая сцена с двумя камнями на краю обрыва среди безумных прыжков по вселенным?",
+              "image": "./packs/media/images/modern-film-everything.jpg",
+              "hint": "Эвелин внезапно получает возможность связаться со своими версиями в параллельных мирах.",
+              "answer": "«Всё везде и сразу» (Everything Everywhere All at Once)",
+              "comment": "Фантастическая комедия студии A24.",
+              "rotationId": "r0-t4-modern-everything",
+              "rotationGroup": "modern-film-everything",
+              "imageSourceUrl": "https://www.killyourdarlings.com.au/article/everything-everywhere-all-at-once-wants-us-to-get-weird/",
+              "imageCredit": "Everything Everywhere All at Once / «Всё везде и сразу» (2022); source page: https://www.killyourdarlings.com.au/article/everything-everywhere-all-at-once-wants-us-to-get-weird/; fair-use quiz excerpt."
+            },
+            {
+              "cost": 1100,
+              "text": "Из какого фильма эта героиня в ярком розовом образе живёт в идеальном пастельном мире?",
+              "image": "./packs/media/images/modern-film-barbie.jpg",
+              "hint": "Барби и Кен покидают свой игрушечный мир и попадают в реальный.",
+              "answer": "«Барби» (Barbie, 2023)",
+              "comment": "Фильм Греты Гервиг.",
+              "rotationId": "r0-t4-modern-barbie",
+              "rotationGroup": "modern-film-barbie",
+              "imageSourceUrl": "https://genery.io/title/barbie-2023",
+              "imageCredit": "Barbie / «Барби» (2023); source page: https://genery.io/title/barbie-2023; fair-use quiz excerpt."
+            },
+            {
+              "cost": 1200,
+              "text": "Как называется фильм о физике, который возглавил Манхэттенский проект и создал первую атомную бомбу?",
+              "image": "./packs/media/images/modern-film-oppenheimer.jpg",
+              "hint": "Режиссёр — Кристофер Нолан; в главной роли Киллиан Мёрфи.",
+              "answer": "«Оппенгеймер» (Oppenheimer)",
+              "comment": "Историческая драма 2023 года.",
+              "rotationId": "r0-t4-modern-oppenheimer",
+              "rotationGroup": "modern-film-oppenheimer",
+              "imageSourceUrl": "https://www.pinterest.com/ideas/oppenheimer-explosion/929409940541/",
+              "imageCredit": "Oppenheimer / «Оппенгеймер» (2023); source page: https://www.pinterest.com/ideas/oppenheimer-explosion/929409940541/; fair-use quiz excerpt."
+            },
+            {
+              "cost": 1300,
+              "text": "Из какого мультфильма этот дом, который оживает и помогает семье Мадригаль?",
+              "image": "./packs/media/images/modern-film-encanto.jpg",
+              "hint": "Мирабель — единственная в своей семье, кто не получил волшебный дар.",
+              "answer": "«Энканто» (Encanto)",
+              "comment": "Мультфильм Disney 2021 года.",
+              "rotationId": "r0-t4-modern-encanto",
+              "rotationGroup": "modern-film-encanto",
+              "imageSourceUrl": "https://www.travelandleisure.com/culture-design/tv-movies/where-to-find-disneys-inspiration-for-encanto-in-colombia",
+              "imageCredit": "Encanto / «Энканто» (2021); source page: https://www.travelandleisure.com/culture-design/tv-movies/where-to-find-disneys-inspiration-for-encanto-in-colombia; fair-use quiz excerpt."
+            },
+            {
+              "cost": 1400,
+              "text": "Из какого супергеройского фильма этот момент, когда на поле боя открываются порталы?",
+              "image": "./packs/media/images/modern-film-endgame.jpg",
+              "hint": "Команда Мстителей готовится к финальной битве с Таносом.",
+              "answer": "«Мстители: Финал» (Avengers: Endgame)",
+              "comment": "Фильм Marvel Studios 2019 года.",
+              "rotationId": "r0-t4-modern-endgame",
+              "rotationGroup": "modern-film-endgame",
+              "imageSourceUrl": "https://screenrant.com/avengers-endgame-portal-scene-thanos-plot-hole-explainer/",
+              "imageCredit": "Avengers: Endgame / «Мстители: Финал» (2019); source page: https://screenrant.com/avengers-endgame-portal-scene-thanos-plot-hole-explainer/; fair-use quiz excerpt."
+            },
+            {
+              "cost": 1500,
+              "text": "Из какого мультфильма эта обычная семья пытается спасти мир от восстания роботов?",
+              "image": "./packs/media/images/modern-film-mitchells.jpg",
+              "hint": "Путешествие Митчеллов неожиданно превращается в битву с умными устройствами.",
+              "answer": "«Митчеллы против машин» (The Mitchells vs. the Machines)",
+              "comment": "Анимационная комедия Sony Pictures Animation.",
+              "rotationId": "r0-t4-modern-mitchells",
+              "rotationGroup": "modern-film-mitchells",
+              "imageSourceUrl": "https://theunderscene.com/2021/04/28/the-mitchells-vs-the-machines-review",
+              "imageCredit": "The Mitchells vs. the Machines / «Митчеллы против машин» (2021); source page: https://theunderscene.com/2021/04/28/the-mitchells-vs-the-machines-review; fair-use quiz excerpt."
             }
           ]
         },
@@ -1794,7 +1897,8 @@
               "hint": "Волшебная почта школы чародейства и волшебства Хогвартс.",
               "answer": "«Гарри Поттер»",
               "comment": "Сову Гарри подарил Рубеус Хагрид на одиннадцатый день рождения.",
-              "rotationId": "r1-t4-base-0"
+              "rotationId": "r1-t4-base-0",
+              "rotationGroup": "frame-hedwig"
             },
             {
               "cost": 1000,
@@ -1803,7 +1907,8 @@
               "hint": "Киану Ривз, кожаные плащи, уклонение от пуль в слоу-мо и зелёный цифровой дождь.",
               "answer": "«Матрица» (The Matrix)",
               "comment": "Морфеус предлагает Нео узнать, насколько глубока кроличья нора.",
-              "rotationId": "r1-t4-base-1"
+              "rotationId": "r1-t4-base-1",
+              "rotationGroup": "frame-matrix"
             },
             {
               "cost": 1500,
@@ -1812,7 +1917,8 @@
               "hint": "Улица Гроув-стрит, зелёные цвета банды и вымышленный штат в солнечной Калифорнии.",
               "answer": "GTA: San Andreas (Grand Theft Auto: San Andreas)",
               "comment": "Карл «CJ» Джонсон возвращается в родной Лос-Сантос.",
-              "rotationId": "r1-t4-base-2"
+              "rotationId": "r1-t4-base-2",
+              "rotationGroup": "frame-gta-sa"
             },
             {
               "cost": 2000,
@@ -1821,7 +1927,8 @@
               "hint": "Герой под псевдонимом Хайзенберг и крик «Йоу, мистер Уайт, да это же наука!».",
               "answer": "«Во все тяжкие» (Breaking Bad)",
               "comment": "Уолтер Уайт и Джесси Пинкман в пустыне Нью-Мексико.",
-              "rotationId": "r1-t4-base-3"
+              "rotationId": "r1-t4-base-3",
+              "rotationGroup": "frame-breaking-bad"
             },
             {
               "cost": 2500,
@@ -1830,7 +1937,8 @@
               "hint": "Пятая часть «Древних Свитков», северная провинция нордов, драконы и крик «Фус Ро Да!».",
               "answer": "The Elder Scrolls V: Skyrim («Скайрим»)",
               "comment": "Самое мемное вступление в истории компьютерных игр.",
-              "rotationId": "r1-t4-base-4"
+              "rotationId": "r1-t4-base-4",
+              "rotationGroup": "frame-skyrim-wagon"
             }
           ],
           "questionPool": [
@@ -1841,7 +1949,8 @@
               "hint": "Волшебная почта школы чародейства и волшебства Хогвартс.",
               "answer": "«Гарри Поттер»",
               "comment": "Сову Гарри подарил Рубеус Хагрид на одиннадцатый день рождения.",
-              "rotationId": "r1-t4-base-0"
+              "rotationId": "r1-t4-base-0",
+              "rotationGroup": "frame-hedwig"
             },
             {
               "cost": 1000,
@@ -1850,7 +1959,8 @@
               "hint": "Киану Ривз, кожаные плащи, уклонение от пуль в слоу-мо и зелёный цифровой дождь.",
               "answer": "«Матрица» (The Matrix)",
               "comment": "Морфеус предлагает Нео узнать, насколько глубока кроличья нора.",
-              "rotationId": "r1-t4-base-1"
+              "rotationId": "r1-t4-base-1",
+              "rotationGroup": "frame-matrix"
             },
             {
               "cost": 1500,
@@ -1859,7 +1969,8 @@
               "hint": "Улица Гроув-стрит, зелёные цвета банды и вымышленный штат в солнечной Калифорнии.",
               "answer": "GTA: San Andreas (Grand Theft Auto: San Andreas)",
               "comment": "Карл «CJ» Джонсон возвращается в родной Лос-Сантос.",
-              "rotationId": "r1-t4-base-2"
+              "rotationId": "r1-t4-base-2",
+              "rotationGroup": "frame-gta-sa"
             },
             {
               "cost": 2000,
@@ -1868,7 +1979,8 @@
               "hint": "Герой под псевдонимом Хайзенберг и крик «Йоу, мистер Уайт, да это же наука!».",
               "answer": "«Во все тяжкие» (Breaking Bad)",
               "comment": "Уолтер Уайт и Джесси Пинкман в пустыне Нью-Мексико.",
-              "rotationId": "r1-t4-base-3"
+              "rotationId": "r1-t4-base-3",
+              "rotationGroup": "frame-breaking-bad"
             },
             {
               "cost": 2500,
@@ -1877,7 +1989,8 @@
               "hint": "Пятая часть «Древних Свитков», северная провинция нордов, драконы и крик «Фус Ро Да!».",
               "answer": "The Elder Scrolls V: Skyrim («Скайрим»)",
               "comment": "Самое мемное вступление в истории компьютерных игр.",
-              "rotationId": "r1-t4-base-4"
+              "rotationId": "r1-t4-base-4",
+              "rotationGroup": "frame-skyrim-wagon"
             },
             {
               "rotationId": "r1-t4-alt-1",
@@ -1886,7 +1999,8 @@
               "hint": "Подсказка: его сову зовут Букля.",
               "comment": "Серия основана на книгах Джоан Роулинг.",
               "cost": 500,
-              "image": "./packs/media/images/frame-hedwig.jpg"
+              "image": "./packs/media/images/frame-hedwig.jpg",
+              "rotationGroup": "frame-hedwig"
             },
             {
               "rotationId": "r1-t4-alt-2",
@@ -1895,7 +2009,8 @@
               "hint": "Подсказка: режиссёры — сёстры Вачовски.",
               "comment": "Первый фильм вышел в 1999 году.",
               "cost": 1000,
-              "image": "./packs/media/images/frame-matrix.jpg"
+              "image": "./packs/media/images/frame-matrix.jpg",
+              "rotationGroup": "frame-matrix"
             },
             {
               "rotationId": "r1-t4-alt-3",
@@ -1904,7 +2019,8 @@
               "hint": "Подсказка: его сокращённо зовут Си-Джей.",
               "comment": "Игра Rockstar вышла в 2004 году.",
               "cost": 1500,
-              "image": "./packs/media/images/frame-gta-sa.jpg"
+              "image": "./packs/media/images/frame-gta-sa.jpg",
+              "rotationGroup": "frame-gta-sa"
             },
             {
               "rotationId": "r1-t4-alt-4",
@@ -1913,7 +2029,8 @@
               "hint": "Подсказка: его напарник — Джесси Пинкман.",
               "comment": "Сериал создал Винс Гиллиган.",
               "cost": 2000,
-              "image": "./packs/media/images/frame-breaking-bad.jpg"
+              "image": "./packs/media/images/frame-breaking-bad.jpg",
+              "rotationGroup": "frame-breaking-bad"
             },
             {
               "rotationId": "r1-t4-alt-5",
@@ -1922,7 +2039,8 @@
               "hint": "Подсказка: драконы и крики — ключевые элементы игры.",
               "comment": "Игра Bethesda вышла в 2011 году.",
               "cost": 2500,
-              "image": "./packs/media/images/frame-skyrim-wagon.webp"
+              "image": "./packs/media/images/frame-skyrim-wagon.webp",
+              "rotationGroup": "frame-skyrim-wagon"
             }
           ]
         },
@@ -3027,7 +3145,8 @@
               "hint": "Герой Джонни Деппа с корабля «Чёрная жемчужина», который всегда поправляет: «Капитан!..».",
               "answer": "Капитан Джек Воробей («Пираты Карибского моря»)",
               "comment": "Капитан! Капитан Джек Воробей в исполнении Джонни Деппа.",
-              "rotationId": "r2-t3-base-0"
+              "rotationId": "r2-t3-base-0",
+              "rotationGroup": "frame-jack-sparrow"
             },
             {
               "cost": 2000,
@@ -3036,7 +3155,8 @@
               "hint": "Кубический мир из блоков земли, алмазной кирки и шипящего зелёного вредителя построек.",
               "answer": "Minecraft (Крипер / Creeper)",
               "comment": "Крипер появился случайно, когда Маркус Перссон перепутал длину и высоту модели свиньи!",
-              "rotationId": "r2-t3-base-1"
+              "rotationId": "r2-t3-base-1",
+              "rotationGroup": "frame-minecraft-creeper"
             },
             {
               "cost": 3000,
@@ -3046,7 +3166,8 @@
               "hint": "Смертельные детские соревнования ради 45,6 миллиарда вон и кукла «Тише едешь — дальше будешь».",
               "answer": "«Игра в кальмара» (Squid Game)",
               "comment": "Круг — рабочие, треугольник — солдаты, квадрат — управляющие.",
-              "rotationId": "r2-t3-base-2"
+              "rotationId": "r2-t3-base-2",
+              "rotationGroup": "frame-squid-game"
             },
             {
               "cost": 4000,
@@ -3055,7 +3176,8 @@
               "hint": "Народ На'ви, летающие горы Аллилуйя и слово из 6 букв, которым в соцсетях называют юзерпик.",
               "answer": "«Аватар» (Avatar)",
               "comment": "Джейк Салли и Нейтири из народа На'ви.",
-              "rotationId": "r2-t3-base-3"
+              "rotationId": "r2-t3-base-3",
+              "rotationGroup": "frame-avatar"
             },
             {
               "cost": 5000,
@@ -3065,7 +3187,8 @@
               "hint": "Мэттью Макконахи, органная музыка Ханса Циммера и планета с гигантскими волнами, где 1 час равен 7 годам на Земле.",
               "answer": "«Интерстеллар» (Interstellar)",
               "comment": "Расчёты для рендера чёрной дыры делал нобелевский лауреат по физике Кип Торн!",
-              "rotationId": "r2-t3-base-4"
+              "rotationId": "r2-t3-base-4",
+              "rotationGroup": "frame-interstellar"
             }
           ],
           "questionPool": [
@@ -3076,7 +3199,8 @@
               "hint": "Герой Джонни Деппа с корабля «Чёрная жемчужина», который всегда поправляет: «Капитан!..».",
               "answer": "Капитан Джек Воробей («Пираты Карибского моря»)",
               "comment": "Капитан! Капитан Джек Воробей в исполнении Джонни Деппа.",
-              "rotationId": "r2-t3-base-0"
+              "rotationId": "r2-t3-base-0",
+              "rotationGroup": "frame-jack-sparrow"
             },
             {
               "cost": 2000,
@@ -3085,7 +3209,8 @@
               "hint": "Кубический мир из блоков земли, алмазной кирки и шипящего зелёного вредителя построек.",
               "answer": "Minecraft (Крипер / Creeper)",
               "comment": "Крипер появился случайно, когда Маркус Перссон перепутал длину и высоту модели свиньи!",
-              "rotationId": "r2-t3-base-1"
+              "rotationId": "r2-t3-base-1",
+              "rotationGroup": "frame-minecraft-creeper"
             },
             {
               "cost": 3000,
@@ -3095,7 +3220,8 @@
               "hint": "Смертельные детские соревнования ради 45,6 миллиарда вон и кукла «Тише едешь — дальше будешь».",
               "answer": "«Игра в кальмара» (Squid Game)",
               "comment": "Круг — рабочие, треугольник — солдаты, квадрат — управляющие.",
-              "rotationId": "r2-t3-base-2"
+              "rotationId": "r2-t3-base-2",
+              "rotationGroup": "frame-squid-game"
             },
             {
               "cost": 4000,
@@ -3104,7 +3230,8 @@
               "hint": "Народ На'ви, летающие горы Аллилуйя и слово из 6 букв, которым в соцсетях называют юзерпик.",
               "answer": "«Аватар» (Avatar)",
               "comment": "Джейк Салли и Нейтири из народа На'ви.",
-              "rotationId": "r2-t3-base-3"
+              "rotationId": "r2-t3-base-3",
+              "rotationGroup": "frame-avatar"
             },
             {
               "cost": 5000,
@@ -3114,7 +3241,8 @@
               "hint": "Мэттью Макконахи, органная музыка Ханса Циммера и планета с гигантскими волнами, где 1 час равен 7 годам на Земле.",
               "answer": "«Интерстеллар» (Interstellar)",
               "comment": "Расчёты для рендера чёрной дыры делал нобелевский лауреат по физике Кип Торн!",
-              "rotationId": "r2-t3-base-4"
+              "rotationId": "r2-t3-base-4",
+              "rotationGroup": "frame-interstellar"
             },
             {
               "rotationId": "r2-t3-alt-1",
@@ -3123,7 +3251,8 @@
               "hint": "Подсказка: его корабль называется «Чёрная жемчужина».",
               "comment": "Первая часть серии вышла в 2003 году.",
               "cost": 1000,
-              "image": "./packs/media/images/frame-jack-sparrow.jpg"
+              "image": "./packs/media/images/frame-jack-sparrow.jpg",
+              "rotationGroup": "frame-jack-sparrow"
             },
             {
               "rotationId": "r2-t3-alt-2",
@@ -3132,7 +3261,8 @@
               "hint": "Подсказка: персонаж стал символом игры Mojang.",
               "comment": "Крипер появился из ошибки при создании модели свиньи.",
               "cost": 2000,
-              "image": "./packs/media/images/frame-minecraft-creeper.png"
+              "image": "./packs/media/images/frame-minecraft-creeper.png",
+              "rotationGroup": "frame-minecraft-creeper"
             },
             {
               "rotationId": "r2-t3-alt-3",
@@ -3141,7 +3271,8 @@
               "hint": "Подсказка: надзиратели носят розовое, а маски — геометрические знаки.",
               "comment": "Сериал создал Хван Дон-хёк.",
               "cost": 3000,
-              "image": "./packs/media/images/frame-squid-game.jpg"
+              "image": "./packs/media/images/frame-squid-game.jpg",
+              "rotationGroup": "frame-squid-game"
             },
             {
               "rotationId": "r2-t3-alt-4",
@@ -3150,7 +3281,8 @@
               "hint": "Подсказка: это спутник газового гиганта Полемус.",
               "comment": "Фильм вышел в 2009 году.",
               "cost": 4000,
-              "image": "./packs/media/images/frame-avatar.jpg"
+              "image": "./packs/media/images/frame-avatar.jpg",
+              "rotationGroup": "frame-avatar"
             },
             {
               "rotationId": "r2-t3-alt-5",
@@ -3159,7 +3291,8 @@
               "hint": "Подсказка: фильм Кристофера Нолана, а ключевая планета — Миллер.",
               "comment": "Фильм вышел в 2014 году.",
               "cost": 5000,
-              "image": "./packs/media/images/frame-interstellar.jpg"
+              "image": "./packs/media/images/frame-interstellar.jpg",
+              "rotationGroup": "frame-interstellar"
             }
           ]
         },
