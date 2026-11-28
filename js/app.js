@@ -1024,7 +1024,7 @@ class SvoyaIgraApp {
       return;
     }
     if (!this.avatarStageManagerPromise) {
-      this.avatarStageManagerPromise = import('./avatars3d.js?v=animal-detail-rotation-20261128')
+      this.avatarStageManagerPromise = import('./avatars3d.js?v=avatar-color-fix-20261128')
         .then(({ AvatarStageManager }) => {
           this.avatarStageManager = new AvatarStageManager();
           return this.avatarStageManager;

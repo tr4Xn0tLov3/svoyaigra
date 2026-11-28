@@ -1,4 +1,4 @@
-import * as THREE from './vendor/three.module.min.js?v=animal-detail-rotation-20261128';
+import * as THREE from './vendor/three.module.min.js?v=avatar-color-fix-20261128';
 
 // Hand-built, species-specific silhouettes and markings inspired by the game's expressive animal portraits.
 const SPECIES = {
@@ -26,8 +26,17 @@ function sphere(parent, mat, position, scale, segments = 32) {
   mesh.position.set(...position); mesh.scale.set(...scale); mesh.castShadow=true; mesh.receiveShadow=true; parent.add(mesh); return mesh;
 }
 function outlinedSphere(parent,mat,position,scale,ink,segments=32,expand=1.055) {
-  sphere(parent,ink,position,scale.map((v)=>v*expand),segments);
+  // A larger opaque shell in front of the coloured mesh hides the whole surface.
+  // BackSide keeps the dark material as a silhouette rim instead of a black fill.
+  const outline=new THREE.MeshBasicMaterial({color:ink.color.clone(),side:THREE.BackSide});
+  sphere(parent,outline,position,scale.map((v)=>v*expand),segments);
   return sphere(parent,mat,position,scale,segments);
+}
+function outlinedCapsule(parent,mat,position,radius,length,rotationZ,ink) {
+  const outline=new THREE.MeshBasicMaterial({color:ink.color.clone(),side:THREE.BackSide});
+  const shell=capsule(parent,outline,position,radius*1.08,length*1.04,rotationZ);
+  const mesh=capsule(parent,mat,position,radius,length,rotationZ);
+  return {shell,mesh};
 }
 function capsule(parent,mat,position,radius,length,rotationZ=0) {
   const mesh=new THREE.Mesh(new THREE.CapsuleGeometry(radius,length,8,20),mat);
@@ -46,13 +55,11 @@ function addEar(head,type,side,fur,inner,ink) {
   const x=side*.49;
   if(type==='none') return;
   if(type==='elephant') {
-    const outer=sphere(head,ink,[side*.68,-.08,-.03],[.48,.52,.15],32); outer.rotation.z=side*-.25;
-    const ear=sphere(head,fur,[side*.68,-.08,.02],[.44,.48,.14],32); ear.rotation.z=side*-.25;
+    const ear=outlinedSphere(head,fur,[side*.68,-.08,.02],[.44,.48,.14],ink,32,1.08); ear.rotation.z=side*-.25;
     const inset=sphere(head,inner,[side*.70,-.08,.15],[.31,.36,.045],28); inset.rotation.z=side*-.25; return;
   }
   if(type==='floppy') {
-    const outer=sphere(head,ink,[side*.59,.27,.01],[.27,.45,.15],32); outer.rotation.z=side*-.72;
-    const ear=sphere(head,fur,[side*.59,.27,.06],[.235,.41,.13],32); ear.rotation.z=side*-.72;
+    const ear=outlinedSphere(head,fur,[side*.59,.27,.06],[.235,.41,.13],ink,32,1.08); ear.rotation.z=side*-.72;
     const inset=sphere(head,inner,[side*.62,.27,.17],[.13,.30,.045],24); inset.rotation.z=side*-.72; return;
   }
   if(type==='point'||type==='long'||type==='tuft'||type==='horns'||type==='fin') {
@@ -68,10 +75,9 @@ function addEar(head,type,side,fur,inner,ink) {
     }
     return;
   }
-  const outer=sphere(head,ink,[x,.38,-.01],[.26,.24,.17],28);
-  const ear=sphere(head,fur,[x,.38,.02],[.23,.21,.15],28);
+  const ear=outlinedSphere(head,fur,[x,.38,.02],[.23,.21,.15],ink,28,1.08);
   sphere(head,inner,[x,.38,.15],[.12,.12,.04],24);
-  outer.rotation.z=side*.08; ear.rotation.z=side*.08;
+  ear.rotation.z=side*.08;
 }
 
 function addMuzzle(head,kind,light,dark,ink,species) {
@@ -257,12 +263,11 @@ function addCharacter(speciesKey,accentColor) {
 
   const tail=addTail(body,cfg.tail,fur,light,ink);
   // Species-specific silhouette: no shared torso template beyond the rig.
-  capsule(body,dark,[-.23,.53,0],.16,.43,.02); capsule(body,dark,[.23,.53,0],.16,.43,-.02);
+  outlinedCapsule(body,dark,[-.23,.53,0],.16,.43,.02,ink); outlinedCapsule(body,dark,[.23,.53,0],.16,.43,-.02,ink);
   const shoe=material(key==='penguin'?'#d68c36':cfg.dark,.45);
   outlinedSphere(body,shoe,[-.24,.27,.16],[.25,.13,.35],ink,24,1.06); outlinedSphere(body,shoe,[.24,.27,.16],[.25,.13,.35],ink,24,1.06);
   const scale=cfg.body;
-  sphere(body,ink,[0,1.40,-.01],scale.map(v=>v*1.05),36);
-  sphere(body,fur,[0,1.40,0],scale,40);
+  outlinedSphere(body,fur,[0,1.40,0],scale,ink,40,1.045);
   addBelly(body,key,fur,light,ink,dark);
 
   // Markings echo each portrait instead of giving every animal the same shirt and belly.
@@ -293,18 +298,16 @@ function addCharacter(speciesKey,accentColor) {
   const leftArm=new THREE.Group(); leftArm.position.set(-.55,1.84,.02); body.add(leftArm);
   const rightArm=new THREE.Group(); rightArm.position.set(.55,1.84,.02); body.add(rightArm);
   const armWidth=key==='gorilla'?.22:.17;
-  capsule(leftArm,ink,[-.04,-.26,0],armWidth*1.12,.48,-.33); capsule(leftArm,fur,[-.04,-.26,.02],armWidth,.45,-.33);
-  capsule(rightArm,ink,[.04,-.26,0],armWidth*1.12,.48,.33); capsule(rightArm,fur,[.04,-.26,.02],armWidth,.45,.33);
+  outlinedCapsule(leftArm,fur,[-.04,-.26,.02],armWidth,.45,-.33,ink);
+  outlinedCapsule(rightArm,fur,[.04,-.26,.02],armWidth,.45,.33,ink);
   outlinedSphere(leftArm,light,[-.12,-.54,.06],[.18,.16,.16],ink,22,1.06); outlinedSphere(rightArm,light,[.12,-.54,.06],[.18,.16,.16],ink,22,1.06);
   if(key==='eagle') for(const side of [-1,1]) for(let i=0;i<3;i++) { const f=sphere(side<0?leftArm:rightArm,light,[side*.03,-.10-i*.11,.12],[.13,.12,.05],18); f.rotation.z=side*.3; }
   if(key==='penguin') { leftArm.scale.set(1.0,1.12,.75); rightArm.scale.set(1.0,1.12,.75); }
 
   // Head is its own pivot so gaze, nods and mouse-follow are truly articulated.
-  capsule(body,ink,[0,2.07,-.02],.25,.22);
-  capsule(body,light,[0,2.07,.015],.21,.18);
+  outlinedCapsule(body,light,[0,2.07,.015],.21,.18,0,ink);
   const head=new THREE.Group(); head.position.set(0,2.66,0); head.scale.set(1.06,1.06,1.05); body.add(head);
-  sphere(head,ink,[0,0,-.015],[.82,.77,.70],40);
-  sphere(head,fur,[0,0,0],[.77,.72,.66],44);
+  outlinedSphere(head,fur,[0,0,0],[.77,.72,.66],ink,44,1.06);
   addEar(head,cfg.ears,-1,fur,inner,ink); addEar(head,cfg.ears,1,fur,inner,ink);
 
   // Hair tufts, fur marks and brows give each silhouette a distinct expression.
