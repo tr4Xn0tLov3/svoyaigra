@@ -1,4 +1,4 @@
-import * as THREE from './vendor/three.module.min.js';
+import * as THREE from './vendor/three.module.min.js?v=3dprofile-20261128';
 
 const SPECIES = {
   cat: { fur: '#7f899b', light: '#e5d8ce', inner: '#e997a5', ears: 'point', tail: 'curl', muzzle: 'cat' },

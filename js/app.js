@@ -1024,7 +1024,7 @@ class SvoyaIgraApp {
       return;
     }
     if (!this.avatarStageManagerPromise) {
-      this.avatarStageManagerPromise = import('./avatars3d.js')
+      this.avatarStageManagerPromise = import('./avatars3d.js?v=3dprofile-20261128')
         .then(({ AvatarStageManager }) => {
           this.avatarStageManager = new AvatarStageManager();
           return this.avatarStageManager;
