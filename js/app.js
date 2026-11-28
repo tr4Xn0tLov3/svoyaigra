@@ -1018,7 +1018,7 @@ class SvoyaIgraApp {
   }
 
   _syncPlayerAvatarStages() {
-    const row = this.root.querySelector('.podiums-row');
+    const row = this.root.querySelector('.podiums-row, [data-avatar-stages-container]');
     if (!row) {
       this.avatarStageManager?.sync(null);
       return;
@@ -1035,7 +1035,7 @@ class SvoyaIgraApp {
         });
     }
     this.avatarStageManagerPromise.then((manager) => {
-      if (manager) manager.sync(this.root.querySelector('.podiums-row'));
+      if (manager) manager.sync(this.root.querySelector('.podiums-row, [data-avatar-stages-container]'));
     });
   }
 
@@ -1080,13 +1080,19 @@ class SvoyaIgraApp {
     const displayName = escapeHtml((this.profile.name || '').trim() || 'Ваш никнейм');
     const selectedAvatar = this.profile.avatar;
     const profilePreview = `
-      <div class="profile-preview-frame" style="--profile-accent:${safeColor}">
-        <div class="profile-preview-avatar">${avatarMarkup(selectedAvatar, 'profile-preview-image')}</div>
-        <div class="profile-preview-copy">
-          <span class="profile-preview-kicker">ВАШ ИГРОВОЙ ПРОФИЛЬ</span>
-          <strong id="profile-preview-name">${displayName}</strong>
-          <span class="profile-preview-score">● 12 450 очков</span>
+      <div class="profile-preview-frame profile-preview-3d-frame" style="--profile-accent:${safeColor}">
+        <div class="profile-preview-stage-shell" data-avatar-stages-container>
+          <div class="podium-avatar-stage profile-avatar-stage" data-avatar-stage data-player-id="profile-preview"
+            data-avatar="${escapeHtml(selectedAvatar)}" data-color="${safeColor}" data-score="12450" data-answering="false">
+            <div class="podium-stage-glow" aria-hidden="true"></div>
+            ${avatarMarkup(selectedAvatar, 'avatar-3d-fallback')}
+          </div>
         </div>
+        <div class="profile-preview-copy">
+          <span class="profile-preview-kicker">ПРЕДПРОСМОТР ПРОФИЛЯ</span>
+          <strong id="profile-preview-name">${displayName}</strong>
+        </div>
+        <div class="profile-preview-scorebox"><span>СЧЁТ</span><strong class="profile-preview-score">12 450</strong></div>
       </div>
     `;
     const topbar = `
@@ -1254,6 +1260,8 @@ class SvoyaIgraApp {
       this.profile.color = color;
       localStorage.setItem('si_player_color', color);
       document.querySelectorAll('.profile-preview-frame').forEach((node) => node.style.setProperty('--profile-accent', color));
+      document.querySelectorAll('[data-player-id="profile-preview"]').forEach((node) => { node.dataset.color = color; });
+      if (document.querySelector('[data-player-id="profile-preview"]')) this._syncPlayerAvatarStages();
       const picker = document.getElementById('inp-profile-color');
       if (picker) picker.value = color;
       document.querySelectorAll('[data-profile-color]').forEach((node) => node.classList.toggle('selected', node.dataset.profileColor.toLowerCase() === color.toLowerCase()));
